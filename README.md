@@ -1,9 +1,10 @@
 # Futurewars API
 
+Futurewars is a text-based game modeled on the old Tradewars 2002 BBS game.
+
+THIS IS HEAVY ALPHA. NOT YET USABLE.
+
 # v1 Initial Feature Set
 * User authentication
 * Ability to create a player
-* Ability to see current location and move to others
-
-## Players
-User passwords are currently unencrypted. This is obviously a terrible way to do things, currently done this way to avoid implementing low priority funcitonality.
+* Ability to see current location and move to other locations in space
