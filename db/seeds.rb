@@ -5,3 +5,13 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+# Create Federation Space (zones 1-10)
+Sector.create(id: 1, name: "Federation Homeworld")
+PlanetType.create(name:"Oceanic", class: "O")
+PlanetType.create(name:"Glacial", class: "C")
+PlanetType.create(name:"Volcanic", class: "H")
+PlanetType.create(name:"Mountainous", class: "L")
+PlanetType.create(name:"Earth-Type", class: "M")
+PlanetType.create(name:"Desert Wasteland", class: "K")
+PlanetType.create(name:"Gaseous", class: "V")

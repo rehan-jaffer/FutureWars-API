@@ -1,24 +1,9 @@
-# README
+# Futurewars API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# v1 Initial Feature Set
+* User authentication
+* Ability to create a player
+* Ability to see current location and move to others
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Players
+User passwords are currently unencrypted. This is obviously a terrible way to do things, currently done this way to avoid implementing low priority funcitonality.

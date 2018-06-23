@@ -1,0 +1,14 @@
+defaults:
+  credits: 10000
+  turns: 300
+  fighters: 100
+  exp: 0
+  holds: 20
+  colonists: 100
+  ore: 10000
+  equipment: 20000
+  organics: 50000
+  colonists: 1000
+  planet_types: ["M", "K", "O", "L", "C", "H", "U"]
+  planet_ratio: 0.8
+  initial_sector: 0
