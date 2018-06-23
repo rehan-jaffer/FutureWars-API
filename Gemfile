@@ -5,6 +5,17 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+gem 'simplecov', require: false, group: :test
+gem 'simple_command'
+gem 'jwt'
+gem 'bcrypt'
+gem 'rspec-rails'
+gem 'capybara'
+gem 'guard'
+gem 'guard-rspec'
+group :test do
+  gem 'factory_girl_rails'
+end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.6'
