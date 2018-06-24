@@ -1,0 +1,23 @@
+require 'pp'
+
+class PlanetNamer
+
+  PREFIXES = %w[Esel Tele Telo Ril Os Charo Clau Para Kara Bana Ora Osir Pezo Huza Gen Nov Xon Adul Res Acu Mira Cura Lira Cli Kor Kal Zor Tun Aus Ger Swe Fre Rwa Nor Mex Arj Vene Mada Japa Jeso Blii Elis Rus Geor Plu Inter Zamb Tanza Mora]
+  SUFFIXES = %w[jor isia keth lis del ma na ba is tos tiz cus izus nova nuva zone zed dros iran oliv via ugua enzar pex xor rica esta bien ensia ania]
+  POSTS = %w[V Prime K1 K2 K3 K4 K5 I II III IV Alpha Beta Delta Epsilon Gamma Omega X Z]
+  
+  def self.generate()
+    PREFIXES.map do |prefix|
+      SUFFIXES.map { |suffix| prefix + suffix }.map do |name|
+        name += extra_word
+        name
+      end
+    end.flatten
+  end
+
+  def self.extra_word
+    return " " + POSTS[rand * (POSTS.size - 1)] if rand > 0.5
+    ""
+  end
+end
+
