@@ -1,16 +1,13 @@
 namespace :universe do
-  task create: :environment do
-    0.upto(1000) do |_i|
-      has_planet = true
-      # initial_state = { ore: MAX_ORE * rand(), equipment: MAX_EQUIPMENT * rand(), organics: MAX_ORGANICS * rand(), colonists: MAX_COLONISTS * rand() }
-      if has_planet
-        Sector.create(planet_type_id: 0,
-                      ore: 0, organics: 0,
-                      equipment: 0, colonists: 0, planet_name: 'lollerfest')
-      else
-        Sector.create
-      end
-      # add_neighbours(i)
+  task recreate: :environment do
+    Sector.delete_all
+    0.upto(1000) do |i|
+      Sector.spawn(i, true)
+    end
+    sectors = Sector.all
+    sector_list = sectors.map(&:id)
+    sectors.each do |sector|
+      Sector.create_warps(sector.id, sector_list)
     end
   end
 end
