@@ -13,7 +13,6 @@ class PlanetNamer
     PREFIXES.map do |prefix|
       SUFFIXES.map { |suffix| prefix + suffix }.map do |name|
         name += extra_word
-        name
       end
     end.flatten
   end
