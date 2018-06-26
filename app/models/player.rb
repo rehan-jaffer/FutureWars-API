@@ -4,13 +4,22 @@ class Player < ApplicationRecord
   validates :ship_name, presence: true, format: /\A[a-zA-Z0-9 \-_]+\z/
   validates :username, format: /\A[a-zA-Z0-9 ]+\z/
 
-  def can_move?(origin, dest)
-    return false unless turns > 0
-
-    return false unless Sector.is_connected?(origin, dest)
-
-    return false unless current_sector == origin
-
-    true
+  def view
+    {
+      username: username,
+      turns: turns,
+      credits: credits,
+      current_sector: current_sector,
+      fighters: fighters,
+      colonists: colonists,
+      ore: ore,
+      equipment: equipment,
+      organics: organics
+    }
   end
+
+  def move!(origin, destination)
+    MovePlayer.call(id, origin, destination).success?
+  end
+
 end
