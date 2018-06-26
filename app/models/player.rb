@@ -21,5 +21,4 @@ class Player < ApplicationRecord
   def move!(origin, destination)
     MovePlayer.call(id, origin, destination).success?
   end
-
 end
