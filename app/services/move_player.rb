@@ -8,20 +8,16 @@ class MovePlayer
   end
 
   def call
-    unless Sector.is_connected?(@origin, @dest)
-      errors.add(:player, 'These parts of space are not connected')
-    end
 
+    errors.add(:player, 'These parts of space are not connected') unless Sector.is_connected?(@origin, @dest)
     errors.add(:player, 'You have no turns left') unless @player.turns > 0
+    errors.add(:player, 'You are not in that sector mate') unless @player.current_sector == @origin
 
-    unless @player.current_sector == @origin
-      errors.add(:player, 'You are not in that sector mate')
-    end
+    @player.turns -= 1
+    @player.current_sector = @dest
+    @player.save
 
-    if !errors.empty?
-      return nil
-    else
-      return @player.turns
-    end
+    return @player.turns if errors.empty?
+    nil
   end
 end
