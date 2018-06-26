@@ -6,4 +6,13 @@ class Api::PlayerController < ApplicationController
   def status
     render json: { status: 'idling' }
   end
+
+  def move
+    result = MovePlayer.call(current_user.id, origin: dest)
+    if result.success?
+      render json: 'OK'
+    else
+      render json: errors
+    end
+  end
 end
