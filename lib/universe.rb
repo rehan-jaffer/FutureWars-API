@@ -26,12 +26,11 @@ class Universe
     warp_function ||= ->(_x) { (rand * 5).round }
 
     size.times { |i| Sector.spawn(i, (rand < planet_ratio)) }
-    
+
     sector_list = Sector.all.map(&:id)
 
     sector_list.each do |sector|
       Sector.create_warps(sector, sector_list, warp_function)
     end
-  
   end
 end
