@@ -8,7 +8,6 @@ end
 gem 'simplecov', require: false, group: :test
 gem 'simple_command'
 gem 'jwt'
-gem 'redis-rails'
 gem 'bcrypt'
 gem 'rspec-rails'
 gem 'capybara'
