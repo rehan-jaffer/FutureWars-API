@@ -1,4 +1,6 @@
 class Sector < ApplicationRecord
+  belongs_to :planet_type
+
   def has_planet?
     planet_type_id != nil
   end
@@ -14,7 +16,7 @@ class Sector < ApplicationRecord
     return nil unless has_planet?
     {
       planet_name: planet_name,
-      planet_type: planet_type_id,
+      planet_type: planet_type.name,
       colonists: colonists,
       ore: ore,
       equipment: equipment,
@@ -35,12 +37,12 @@ class Sector < ApplicationRecord
     Warp.create!(origin_id: orig, dest_id: dest)
   end
 
-  def self.is_connected?(origin, dest)
+  def self.connected?(origin, dest)
     Warp.where(origin_id: origin, dest_id: dest)
         .or(Warp.where(dest_id: dest, origin_id: origin)).count > 0
   end
 
-  def self.spawn(_id, with_planet = true)
+  def self.spawn(with_planet = true)
     if with_planet
       Sector.create(planet_type_id: 0, planet_name: PlanetNamer.generate_one, ore: 0, equipment: 0, organics: 0, colonists: 0, fighters: 0)
     else
@@ -49,7 +51,6 @@ class Sector < ApplicationRecord
   end
 
   def self.create_warps(id, id_list, _max_warps = 5, warp_function)
-    warp_function.call
-                 .times { |_| connect(id, id_list[rand * id_list.size]) }
+    warp_function.call(0).times { |_| connect(id, id_list[rand * id_list.size]) }
   end
 end
