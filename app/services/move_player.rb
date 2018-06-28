@@ -8,7 +8,7 @@ class MovePlayer
   end
 
   def call
-    errors.add(:player, 'These parts of space are not connected') unless Sector.is_connected?(@origin, @dest)
+    errors.add(:player, 'These parts of space are not connected') unless Sector.connected?(@origin, @dest)
     errors.add(:player, 'You have no turns left') unless @player.turns > 0
     errors.add(:player, 'You are not in that sector mate') unless @player.current_sector == @origin
 
