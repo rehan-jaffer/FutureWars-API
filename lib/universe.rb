@@ -17,17 +17,20 @@ class Universe
 
   INITIAL_SECTOR = 0
 
+  def self.event(type, resource_id)
+    # dummy function
+  end
+
   def self.destroy
     Warp.destroy_all
     Sector.destroy_all
   end
 
   def self.create(size, planet_ratio = 0.6, warp_function = nil)
+    port_ratio = 0.5
     warp_function ||= ->(_x) { (rand * 5).round }
 
-    size.times { |i| Sector.spawn(i, (rand < planet_ratio)) }
-
-    sector_list = Sector.all.map(&:id)
+    sector_list = (0..size).map { |i| SectorCreator.call((rand < planet_ratio), (rand < port_ratio)).result.id }
 
     sector_list.each do |sector|
       Sector.create_warps(sector, sector_list, warp_function)
