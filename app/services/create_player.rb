@@ -13,16 +13,17 @@ class CreatePlayer
                            ship_type_id: 1,
                            holds: Rails.configuration.game['initial_holds'],
                            turns: Rails.configuration.game['initial_turns'],
-                           current_sector: Rails.configuration.game['initial_sector'],
+                           current_sector: Sector.first.id,
                            fighters: Rails.configuration.game['initial_fighters'],
                            credits: Rails.configuration.game['initial_credits'],
                            password: @password)
 
-    if player.errors
-      errors.add(:create, "Couldn't save")
+    if player.errors.empty?
+      Universe.event(:player_created, player.id)
+      player
     else
-     Universe.event(:player_created, player.id)
-     player
+      errors.add(:create, "Couldn't save")
+      player.errors.each { |error| errors.add(:create, error) }
     end
   end
 end
