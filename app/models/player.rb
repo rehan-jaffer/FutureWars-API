@@ -1,6 +1,8 @@
 class Player < ApplicationRecord
   has_secure_password
 
+  has_one :ship_type
+
   validates :ship_name, presence: true, format: /\A[a-zA-Z0-9 \-_]+\z/
   validates :username, format: /\A[a-zA-Z0-9 ]+\z/
 
