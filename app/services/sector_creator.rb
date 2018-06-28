@@ -1,4 +1,4 @@
-class SectorCreator 
+class SectorCreator
   prepend SimpleCommand
 
   def initialize(with_planet = true, with_port = true)
@@ -7,30 +7,30 @@ class SectorCreator
   end
 
   def call
-    sector_properties = {has_port: false}
-#    if @with_planet
-#      sector_properties[:planet_type_id] = PlanetType.random_id
-#      sector_properties[:planet_name] = PlanetNamer.generate_one
-#s    end
+    sector_properties = { has_port: false }
+    #    if @with_planet
+    #      sector_properties[:planet_type_id] = PlanetType.random_id
+    #      sector_properties[:planet_name] = PlanetNamer.generate_one
+    # s    end
     if @with_port
       port_list = PortType.all.map(&:id)
       sector_properties[:has_port] = true
-      sector_properties[:port_type_id] = port_list[rand*port_list.size]
+      sector_properties[:port_class] = ((rand * 7) + 1).round
+      sector_properties[:port_name] = PlanetNamer.generate_one
     end
     sector = Sector.create(sector_properties)
     puts sector.errors.full_messages
-    unless sector.errors.empty?
+    if sector.errors.empty?
+      return sector
+    else
       errors.add(:save, sector.errors)
       return nil
-    else
-      return sector
     end
   end
 
   private
 
   def trade_setting
-    [nil, "B", "S", "T"][(rand*3).round()]
+    [nil, 'B', 'S', 'T'][(rand * 3).round]
   end
-
 end
