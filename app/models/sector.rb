@@ -1,27 +1,26 @@
+require 'port_trade'
+require 'views/sector_view'
+require 'views/player_view'
+require 'views/port_view'
+require 'views/beacon_view'
+
 class Sector < ApplicationRecord
-  belongs_to :planet_type
+  belongs_to :planet_type, optional: true
 
   def has_planet?
     planet_type_id != nil
   end
 
-  def view
-    {
-      neighbours: Sector.warps(id),
-      planet: planet_view
-    }
+  def has_port?
+    port_class != nil
   end
 
-  def planet_view
-    return nil unless has_planet?
-    {
-      planet_name: planet_name,
-      planet_type: planet_type.name,
-      colonists: colonists,
-      ore: ore,
-      equipment: equipment,
-      fighters: fighters
-    }
+  def view
+    SectorView.render(attributes)
+  end
+
+  def players
+    Player.where(current_sector: id).all
   end
 
   def self.warps(id)
