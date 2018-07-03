@@ -9,12 +9,13 @@ gem 'simplecov', require: false, group: :test
 gem 'simple_command'
 gem 'jwt'
 gem 'bcrypt'
+gem 'redis'
 gem 'rspec-rails'
 gem 'capybara'
 gem 'guard'
 gem 'guard-rspec'
 group :test do
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
