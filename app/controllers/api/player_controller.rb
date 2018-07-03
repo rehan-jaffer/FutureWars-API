@@ -1,4 +1,5 @@
 class Api::PlayerController < ApplicationController
+  
   def stats
     render json: { turns: @current_user.turns }
   end
