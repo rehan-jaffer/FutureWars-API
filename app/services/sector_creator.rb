@@ -15,8 +15,7 @@ class SectorCreator
     if @with_port
       port_list = PortType.all.map(&:id)
       sector_properties[:has_port] = true
-      sector_properties[:port_class] = ((rand * 7) + 1).round
-      sector_properties[:port_name] = PlanetNamer.generate_one
+      sector_properties.merge!(generate_port)
     end
     sector = Sector.create(sector_properties)
     puts sector.errors.full_messages
@@ -30,7 +29,18 @@ class SectorCreator
 
   private
 
-  def trade_setting
-    [nil, 'B', 'S', 'T'][(rand * 3).round]
+  def qty
+    1500 + (rand() * 1000) - 500
   end
+
+  def generate_port
+    {
+      port_class: ((rand * 7) + 1).round,
+      port_name: PlanetNamer.generate_one,
+      ore_qty: qty,
+      organics_qty: qty,
+      equipment_qty: qty
+    }
+  end
+
 end
