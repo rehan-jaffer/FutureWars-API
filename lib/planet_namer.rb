@@ -22,5 +22,3 @@ class PlanetNamer
     ''
   end
 end
-
-puts PlanetNamer.generate_one
