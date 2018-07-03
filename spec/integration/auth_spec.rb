@@ -5,7 +5,7 @@ describe "Authentication API" do
   context "User Login" do
 
     before :all do
-      FactoryGirl.create(:player, username: "testuser", password: "password")
+      FactoryBot.create(:player, username: "testuser", password: "password")
     end
 
     after :all do
@@ -33,7 +33,7 @@ describe "Authentication API" do
   context "User Information" do
 
   before :all do
-    FactoryGirl.create(:player, username: "testuser", password: "password")
+    FactoryBot.create(:player, username: "testuser", password: "password")
     post '/api/auth', params: {username: "testuser", password: "password"}
     json = JSON.parse(response.body)
     @token = json["auth_token"]
