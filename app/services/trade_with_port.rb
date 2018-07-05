@@ -1,5 +1,4 @@
 class TradeWithPort
-
   prepend SimpleCommand
 
   def initialize(sector_id, user_id, commodity, buy_or_sell, qty, price)
@@ -11,8 +10,7 @@ class TradeWithPort
     @price = price
   end
 
-  def call()
-
+  def call
     sector = Sector.find(id)
     player = Player.find(id)
 
@@ -24,12 +22,10 @@ class TradeWithPort
       sector["#{@commodity}_qty"] -= @qty
       player.credits -= (@price * @qty)
       if sector.save && player.save
-        return "success"
+        return 'success'
       else
-        errors.add(:trade, "fail")
+        errors.add(:trade, 'fail')
       end
     end
-
   end
-
 end
