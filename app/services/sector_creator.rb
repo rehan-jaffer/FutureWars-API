@@ -1,13 +1,14 @@
 class SectorCreator
   prepend SimpleCommand
 
-  def initialize(with_planet = true, with_port = true)
+  def initialize(with_planet = true, with_port = true, additional_properties={})
     @with_planet = with_planet
     @with_port = with_port
+    @additional_properties = additional_properties.select { |k,v| k != :id }
   end
 
   def call
-    sector_properties = { has_port: false }
+    sector_properties = @additional_properties.merge({ has_port: false })
     #    if @with_planet
     #      sector_properties[:planet_type_id] = PlanetType.random_id
     #      sector_properties[:planet_name] = PlanetNamer.generate_one

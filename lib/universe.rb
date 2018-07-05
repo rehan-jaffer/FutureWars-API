@@ -27,10 +27,16 @@ class Universe
   end
 
   def self.create(size, planet_ratio = 0.6, warp_function = nil)
+
+    yield
+
     port_ratio = 0.9
     warp_function ||= ->(_x) { (rand * 5).round }
 
-    sector_list = (0..size).map { |_i| SectorCreator.call((rand < planet_ratio), (rand < port_ratio)).result.id }
+    sector_list = (0..size).map { |i|
+        SectorCreator.call((rand < planet_ratio), (rand < port_ratio), $SECTORS[i]).result.id if $SECTORS[i]
+        SectorCreator.call((rand < planet_ratio), (rand < port_ratio)).result.id 
+    }
 
     sector_list.each do |sector|
       Sector.create_warps(sector, sector_list, warp_function)
