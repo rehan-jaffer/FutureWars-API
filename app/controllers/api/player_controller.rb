@@ -1,5 +1,4 @@
 class Api::PlayerController < ApplicationController
-  
   def stats
     render json: { turns: @current_user.turns }
   end
@@ -11,7 +10,7 @@ class Api::PlayerController < ApplicationController
   def move
     result = MovePlayer.call(current_user.id, origin: dest)
     if result.success?
-      render json: 'OK'
+      render json: SectorView.render(Sector.find(dest))
     else
       render json: errors
     end
