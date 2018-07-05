@@ -5,6 +5,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+gem 'shoulda-matchers'
 gem 'mysql2'
 gem 'simplecov', require: false, group: :test
 gem 'simple_command'
@@ -15,6 +16,7 @@ gem 'rspec-rails'
 gem 'capybara'
 gem 'guard'
 gem 'guard-rspec'
+gem 'rack-cors'
 group :test do
   gem 'factory_bot_rails'
 end
