@@ -4,26 +4,30 @@ class SectorCreator
   def initialize(with_planet = true, with_port = true, additional_properties={})
     @with_planet = with_planet
     @with_port = with_port
-    @additional_properties = additional_properties.select { |k,v| k != :id }
+    @additional_properties = additional_properties
   end
 
   def call
     sector_properties = @additional_properties.merge({ has_port: false })
-    #    if @with_planet
-    #      sector_properties[:planet_type_id] = PlanetType.random_id
-    #      sector_properties[:planet_name] = PlanetNamer.generate_one
-    # s    end
+#    if @with_planet
+#          sector_properties[:planet_type_id] = PlanetType.random_id
+#          sector_properties[:planet_name] = PlanetNamer.generate_one
+#    end
     if @with_port
       port_list = PortType.all.map(&:id)
       sector_properties[:has_port] = true
       sector_properties.merge!(generate_port)
     end
-    sector = Sector.create(sector_properties)
-    puts sector.errors.full_messages
-    if sector.errors.empty?
-      return sector
+
+    if sector_properties.has_key?(:id)
+      Sector.find(sector_properties[:id]).destroy
+    end
+
+    new_sector = Sector.create(sector_properties)
+    if new_sector.errors.empty?
+      return new_sector
     else
-      errors.add(:save, sector.errors)
+      errors.add(:save, new_sector.errors)
       return nil
     end
   end

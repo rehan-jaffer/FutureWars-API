@@ -4,6 +4,7 @@ require './lib/universe'
 require 'pp'
 
 Universe.create(10) do
+
   sector 0 do
     set_home_sector
     add_port 'Special'
@@ -25,4 +26,5 @@ Universe.create(10) do
     ore 1500
     organics 1500
   end
+
 end
