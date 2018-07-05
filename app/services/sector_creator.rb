@@ -30,7 +30,7 @@ class SectorCreator
   private
 
   def qty
-    1500 + (rand() * 1000) - 500
+    1500 + (rand * 1000) - 500
   end
 
   def generate_port
@@ -42,5 +42,4 @@ class SectorCreator
       equipment_qty: qty
     }
   end
-
 end
