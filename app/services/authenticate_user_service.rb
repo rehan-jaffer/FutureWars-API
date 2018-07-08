@@ -1,6 +1,6 @@
 require 'jwt'
 
-class AuthenticateUser
+class AuthenticateUserService
   prepend SimpleCommand
   def initialize(username, password)
     @username = username

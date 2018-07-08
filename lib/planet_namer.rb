@@ -9,6 +9,10 @@ class PlanetNamer
     PREFIXES[rand * PREFIXES.size - 1] + SUFFIXES[rand * SUFFIXES.size - 1] + extra_word
   end
 
+  def self.generate(n)
+    1.upto(n).map { |_| PlanetNamer.generate_one }
+  end
+
   def self.generate_all
     PREFIXES.map do |prefix|
       SUFFIXES.map { |suffix| prefix + suffix }.map do |name|

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     end
     namespace :player do
       get 'stats'
+      post 'move'
     end
     namespace :ports do
       get 'query/:id', action: :query

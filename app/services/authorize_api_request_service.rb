@@ -1,6 +1,6 @@
 require './lib/user_auth_json'
 
-class AuthorizeApiRequest
+class AuthorizeApiRequestService
   prepend SimpleCommand
   include UserAuthJson
 

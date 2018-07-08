@@ -1,4 +1,4 @@
-class TradeWithPort
+class TradeWithPortService
   prepend SimpleCommand
 
   def initialize(sector_id, user_id, commodity, buy_or_sell, qty, price)

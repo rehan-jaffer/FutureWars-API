@@ -1,6 +1,6 @@
 require './lib/views/port_trade_view'
 
-class PortQuery
+class PortQueryService
   prepend SimpleCommand
 
   def initialize(id)

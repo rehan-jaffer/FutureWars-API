@@ -1,4 +1,4 @@
-class CreatePlayer
+class CreatePlayerService
   prepend SimpleCommand
 
   def initialize(username, password, ship_name)
@@ -19,7 +19,7 @@ class CreatePlayer
                            password: @password)
 
     if player.errors.empty?
-      Universe.event(:player_created, player.id)
+#      Universe.event(:player_created, player.id)
       player
     else
       errors.add(:create, "Couldn't save")
