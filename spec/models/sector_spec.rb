@@ -1,23 +1,13 @@
 require 'rails_helper'
+require 'support/universe'
+require 'pp'
 
 RSpec.describe Sector, type: :model do
-  describe '#inbound' do
-    before :all do
-      FactoryGirl.create(:sector_with_warps)
-    end
-    it 'returns the correct number of inbound warps' do
-      sector = Sector.last
-      expect(sector.inbound).to eq 3
-    end
+  before :all do
+    create_closed_universe
   end
 
-  describe '#outbound' do
-    before :all do
-      FactoryGirl.create(:sector_with_warps)
-    end
-    it 'returns the correct number of outbound warps' do
-      sector = Sector.last
-      expect(sector.outbound).to eq 3
-    end
+  after :all do
+    Universe.destroy
   end
 end

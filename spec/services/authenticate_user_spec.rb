@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe AuthenticateUser do
+describe AuthenticateUserService do
   before(:all) do
     FactoryBot.create(:player, username: 'testpassword', password: 'password')
   end
