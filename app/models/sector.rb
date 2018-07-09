@@ -3,9 +3,16 @@ require 'views/sector_view'
 require 'views/player_view'
 require 'views/port_view'
 require 'views/beacon_view'
+require 'port'
 
 class Sector < ApplicationRecord
   belongs_to :planet_type, optional: true
+
+  attr_reader :port
+
+  def port
+    @port ||= Port.new(attributes)
+  end
 
   def has_planet?
     planet_type_id != nil
@@ -37,8 +44,8 @@ class Sector < ApplicationRecord
   end
 
   def self.connected?(origin, dest)
-    Warp.where(origin_id: origin, dest_id: dest)
-        .or(Warp.where(dest_id: dest, origin_id: origin)).count > 0
+    (Warp.where(origin_id: origin, dest_id: dest)
+        .or(Warp.where(origin_id: dest, dest_id: origin))).count > 0
   end
 
   def self.spawn(with_planet = true)
