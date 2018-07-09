@@ -6,6 +6,11 @@ class Player < ApplicationRecord
   validates :ship_name, presence: true, format: /\A[a-zA-Z0-9 \-_]+\z/
   validates :username, format: /\A[a-zA-Z0-9 ]+\z/
 
+  def can_trade_at_port?(sector_id)
+    # until implemented, players can trade at all ports
+    true
+  end
+
   def view
     {
       username: username,
