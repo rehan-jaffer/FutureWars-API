@@ -19,6 +19,7 @@ gem 'guard-rspec'
 gem 'rack-cors'
 group :test do
   gem 'factory_bot_rails'
+  gem 'database_cleaner'
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
