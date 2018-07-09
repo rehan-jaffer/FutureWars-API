@@ -6,11 +6,7 @@ class PlanetNamer
   POSTS = %w[V Prime K1 K2 K3 K4 K5 I II III IV Alpha Beta Delta Epsilon Gamma Omega X Z].freeze
 
   def self.generate_one
-    PREFIXES[rand * PREFIXES.size - 1] + SUFFIXES[rand * SUFFIXES.size - 1] + extra_word
-  end
-
-  def self.generate(n)
-    1.upto(n).map { |_| PlanetNamer.generate_one }
+    [[PREFIXES.sample, SUFFIXES.sample].join, POSTS.sample].join(" ")
   end
 
   def self.generate_all
@@ -22,7 +18,7 @@ class PlanetNamer
   end
 
   def self.extra_word
-    return ' ' + POSTS[rand * (POSTS.size - 1)] if rand > 0.5
+    return ' ' + POSTS.sample if rand > 0.5
     ''
   end
 end
