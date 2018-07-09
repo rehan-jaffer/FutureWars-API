@@ -1,30 +1,27 @@
 class TradeWithPortService
   prepend SimpleCommand
 
-  def initialize(sector_id, user_id, commodity, buy_or_sell, qty, price)
+  def initialize(sector_id, player_id, request = {})
     @sector_id = sector_id
-    @user_id = user_id
-    @commodity = commodity
-    @buy_or_sell = buy_or_sell
-    @qty = qty
-    @price = price
+    @player_id = player_id
+    @req = request
   end
 
   def call
-    sector = Sector.find(id)
-    player = Player.find(id)
+    sector = Sector.find(@sector_id)
+    player = Player.find(@player_id)
 
-    success = true
+    req = TradeRequest.new(player: player, sector: sector, request: @req)
+    req.check
 
-    fail = !success
-
-    if success
-      sector["#{@commodity}_qty"] -= @qty
-      player.credits -= (@price * @qty)
+    if req.success?
+#      Perform Transaction Here
+#      sector["#{@commodity}_qty"] -= @qty
+#      player.credits -= (@price * @qty)
       if sector.save && player.save
         return 'success'
       else
-        errors.add(:trade, 'fail')
+        req.errors
       end
     end
   end
