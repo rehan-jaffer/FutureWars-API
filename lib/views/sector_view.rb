@@ -4,7 +4,7 @@ class SectorView
       sector: attributes['id'],
       port: PortView.render(attributes),
       beacon: BeaconView.render(attributes),
-      player: PlayerView.render(attributes),
+      players: PlayerView.render(attributes),
       warps: Sector.warps(attributes['id'])
     }
   end
