@@ -8,11 +8,18 @@ class Api::PlayerController < ApplicationController
   end
 
   def move
-    result = MovePlayer.call(current_user.id, origin: dest)
+    result = MovePlayerService.call(current_user.id, player_params[:id].to_i)
     if result.success?
-      render json: SectorView.render(Sector.find(dest))
+      render json: SectorView.render(Sector.find(current_user.current_sector))
     else
-      render json: errors
+      render json: result.errors, status: 403
     end
   end
+
+  private
+
+  def player_params
+    params.permit(:id)
+  end
+
 end
