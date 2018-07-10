@@ -3,62 +3,61 @@ require './spec/support/auth'
 require './lib/universe_parser.rb'
 
 describe 'Gameplay' do
-
   before(:all) do
     # fixing the value of the seed results in the same universe being created every time meaning predictable testing
     srand(6000)
     Universe.create(10) do
-      sector 0 do
-        add_port 'BBS'
+      sector 1 do
+        add_port 'Special'
         set_home_sector
       end
+      sector 2 do
+        add_port 'BBS'
+      end
     end
-    CreatePlayerService.call("ray", "testpassword", "my ship")
-    @auth = authenticate_user("ray", "testpassword")
-    @sector_map = Sector.all.map { |n| n.warps }
+    CreatePlayerService.call('ray', 'testpassword', 'my ship')
+    @auth = authenticate_user('ray', 'testpassword')
+    @sector_map = Sector.all.map(&:warps)
   end
 
-  describe "Moving between sectors" do
+  describe 'Moving between sectors' do
+    let(:player) { Player.find_by(username: 'ray') }
 
-    let(:player) { Player.find_by_username("ray") }
-
-    it "allows warping between sectors" do
+    it 'allows warping between sectors' do
       expect(player.current_sector).to eq 1
       sector = @sector_map[1].first
-      post '/api/player/move', params: {id: sector}, headers: { 'AUTHORIZATION': @auth['auth_token'] }
+      post '/api/player/move', params: { id: sector }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
       expect(player.reload.current_sector).to eq sector
     end
 
     it "doesn't allow warping between unconnected sectors" do
       expect(player.current_sector).to eq 1
-      post '/api/player/move', params: {id: 0}, headers: { 'AUTHORIZATION': @auth['auth_token'] }
+      post '/api/player/move', params: { id: 0 }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
       expect(player.reload.current_sector).to eq 1
       errors = JSON.parse(response.body)
-      expect(errors).to have_key("errors")
-      expect(errors["errors"]).to include("These parts of space are not connected")
+      expect(errors).to have_key('errors')
+      expect(errors['errors']).to include('These parts of space are not connected')
     end
 
     it "doesn't allow warping to sectors that do not exist" do
-      post '/api/player/move', params: {id: 100000000}, headers: { 'AUTHORIZATION': @auth['auth_token'] }
+      post '/api/player/move', params: { id: 100_000_000 }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
       expect(player.reload.current_sector).to eq 1
       errors = JSON.parse(response.body)
-      expect(errors).to have_key("errors")
-      expect(errors["errors"]).to include("Not a valid sector ID")
+      expect(errors).to have_key('errors')
+      expect(errors['errors']).to include('Not a valid sector ID')
     end
 
     it "doesn't allow warping when the player has no turns left" do
-
       player.turns = 0
       player.save
 
       expect(player.reload.current_sector).to eq 1
-      post '/api/player/move', params: {id: 2}, headers: { 'AUTHORIZATION': @auth['auth_token'] }
+      post '/api/player/move', params: { id: 2 }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
       expect(player.reload.current_sector).to eq 1
       errors = JSON.parse(response.body)
-      expect(errors).to have_key("errors")
-      expect(errors["errors"]).to include("You have no turns left")
+      expect(errors).to have_key('errors')
+      expect(errors['errors']).to include('You have no turns left')
     end
-
   end
 
   describe 'Viewing Current Sector' do
