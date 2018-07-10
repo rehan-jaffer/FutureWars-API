@@ -18,11 +18,7 @@ class Universe
   INITIAL_SECTOR = 0
 
   def self.event(type, resource_id, values)
-
-    if type == :player_move
-      Player.set_explored(resource_id, values[1])
-    end
-
+    Player.set_explored(resource_id, values[1]) if type == :player_move
   end
 
   def self.destroy
@@ -30,16 +26,15 @@ class Universe
     Sector.destroy_all
   end
 
-  def self.create(size, planet_ratio = 0.6, warp_function = nil)
-
-    yield
+  def self.create(size, planet_ratio = 0.6, warp_function = nil, &block)
+    yield if block
 
     port_ratio = 0.9
     warp_function ||= ->(_x) { (rand * 5).round }
 
     sector_list = (0..size).map do |i|
-      SectorCreatorService.call((rand < planet_ratio), (rand < port_ratio), $SECTORS[i]).result.id if $SECTORS[i]
-      SectorCreatorService.call((rand < planet_ratio), (rand < port_ratio)).result.id
+      SectorCreatorService.call($SECTORS[i]).result.id if $SECTORS[i]
+      SectorCreatorService.call.result.id
     end
 
     sector_list.each do |sector|
@@ -47,11 +42,13 @@ class Universe
     end
 
     create_fedspace
+  end
 
+  def self.create_ports(universe_size)
+  
   end
 
   def self.create_fedspace
-
     home_sector = Sector.first
     home_sector.home_sector = true
     home_sector.save
@@ -60,7 +57,5 @@ class Universe
       sector.federation_space = true
       sector.save
     end
-
   end
-
 end
