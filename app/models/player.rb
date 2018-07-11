@@ -11,9 +11,7 @@ class Player < ApplicationRecord
     true
   end
 
-  def ship_type_name
-    ship_type.name
-  end
+  delegate :name, to: :ship_type, prefix: true
 
   def ship
     @ship ||= Ship.new
@@ -23,21 +21,4 @@ class Player < ApplicationRecord
     @rank ||= Rank.new(exp, alignment.to_i)
   end
 
-  def view
-    {
-      username: username,
-      turns: turns,
-      credits: credits,
-      current_sector: current_sector,
-      fighters: fighters,
-      colonists: colonists,
-      ore: ore,
-      equipment: equipment,
-      organics: organics
-    }
-  end
-
-  def move!(origin, destination)
-    MovePlayer.call(id, origin, destination).success?
-  end
 end
