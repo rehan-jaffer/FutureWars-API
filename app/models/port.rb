@@ -1,9 +1,9 @@
-class Port
+class Port < ApplicationRecord
   # this is being re-used from lib/port_trade, remove duplication during refactoring
+  belongs_to :sector
 
-  def initialize(sector_attributes)
-    @sector_attributes = sector_attributes
-    @port_class = PortClass.new(sector_attributes['port_class'])
+  def initialize
+    @port_class = PortClass.new(port_class)
   end
 
   # Nasty function. Add tests and then refactor this
