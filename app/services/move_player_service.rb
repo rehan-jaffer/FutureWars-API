@@ -13,12 +13,14 @@ class MovePlayerService
     errors.add(:errors, 'You have no turns left') unless @player.turns > 0
     errors.add(:errors, 'Not a valid sector ID') unless Sector.exists?(@dest)
 
-    unless errors.key?(:errors)
-      @player.turns -= 1
-      @player.current_sector = @dest
-      @player.save
-      return true
-    end
+    return nil unless errors.empty?
+
+    @player.turns -= 1
+    @player.current_sector = @dest
+    #    @player.update_turns(-1)
+    #    @player.update_current_sector(@dest)
+    @player.save
+    return true
 
     nil
     #    Universe.event(:player_move, @player.id, [@origin, @dest])
