@@ -10,20 +10,18 @@ class CreatePlayerService
   def call
     player = Player.create(username: @username,
                            ship_name: @ship_name,
-                           ship_type_id: 1,
+                           ship_type_id: ShipType.find_by_name('Merchant Cruiser').id,
+                           alignment: 0,
                            holds: Rails.configuration.game['initial_holds'],
                            turns: Rails.configuration.game['initial_turns'],
-                           current_sector: Sector.first.id,
+                           current_sector: Rails.configuration.game['initial_sector'],
                            fighters: Rails.configuration.game['initial_fighters'],
                            credits: Rails.configuration.game['initial_credits'],
                            password: @password)
 
-    if player.errors.empty?
-#      Universe.event(:player_created, player.id)
-      player
-    else
-      errors.add(:create, "Couldn't save")
-      player.errors.each { |error| errors.add(:create, error) }
-    end
+    return player if player.errors.empty?
+    errors.add(:errors, "Couldn't save")
+    player.errors.full_messages.each { |error| errors.add(:errors, error) }
+    nil
   end
 end
