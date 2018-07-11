@@ -6,6 +6,7 @@ describe 'Gameplay' do
   before(:all) do
     # fixing the value of the seed results in the same universe being created every time meaning predictable testing
     srand(6000)
+    ShipType.create!(name: "Merchant Cruiser")
     Universe.create(10) do
       sector 1 do
         add_port 'Special'
@@ -18,6 +19,19 @@ describe 'Gameplay' do
     CreatePlayerService.call('ray', 'testpassword', 'my ship')
     @auth = authenticate_user('ray', 'testpassword')
     @sector_map = Sector.all.map(&:warps)
+  end
+
+  describe 'Player/Game initialisation' do
+    let(:player) { Player.find_by_username('ray') }
+
+    it "puts the player in the initial sector" do
+      expect(player.current_sector).to eq Rails.configuration.game['initial_sector']
+    end
+
+    it "puts the player in a merchant cruiser" do
+      expect(player.ship_type_name).to eq "Merchant Cruiser"
+    end
+
   end
 
   describe 'Moving between sectors' do
