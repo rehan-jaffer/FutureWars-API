@@ -1,5 +1,7 @@
 require './lib/universe/stages/sector_stage'
 require './lib/universe/stages/warp_stage'
+require './lib/universe/stages/port_stage'
+require './lib/universe/stages/destroy_stage'
 
 class UniverseCreator
   def initialize(size)
@@ -12,7 +14,7 @@ class UniverseCreator
   end
 
   def create
-    puts "Creating Universe...let there be light!"
+    puts 'Creating Universe...let there be light!'
     @stages.each do |stage|
       s = stage.new
       s.set_size(@size)
