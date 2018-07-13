@@ -15,15 +15,24 @@ class PortStage
 
     sector_list = Sector.pluck(:id)
 
+    predefined_ports = YAML.load(File.read("./maps/sector.yml"))["Ports"].to_a
+
     ports = 0.upto(@size).map do |_i|
       port_dist.max_by { |_, weight| rand**(1.0 / weight) }.first
     end
 
     ports.each do |port|
-      sector_props = { port_class: port, 
-                       sector_id: sector_list.delete_at(sector_list.length * rand), 
-                       name: PlanetNamer.generate_one }
-      Port.create!(sector_props)
+
+      unless predefined_ports.empty?
+        sector_props = predefined_ports.pop[1]
+      else
+        sector_props = { port_class: port, 
+                       sector_id: sector_list.delete_at(sector_list.length * rand) }
+      end
+ 
+      PortCreatorService.call(sector_props)
     end
+    pp Sector.all
+    pp Port.all
   end
 end

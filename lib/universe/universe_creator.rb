@@ -16,9 +16,17 @@ class UniverseCreator
   def create
     puts 'Creating Universe...let there be light!'
     @stages.each do |stage|
+      puts "Executing #{stage}.."
       s = stage.new
       s.set_size(@size)
       s.exec
     end
   end
 end
+
+u = UniverseCreator.new(10)
+u.add_stage(DestroyStage)
+u.add_stage(SectorStage)
+u.add_stage(PortStage)
+u.add_stage(WarpStage)
+u.create
