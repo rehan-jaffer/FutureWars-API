@@ -12,7 +12,7 @@ class Api::PlayerController < ApplicationController
     if result.success?
       render json: SectorView.render(Sector.find(current_user.current_sector))
     else
-      render json: result.errors, status: 403
+      render json: result.errors, status: :forbidden
     end
   end
 
@@ -21,5 +21,4 @@ class Api::PlayerController < ApplicationController
   def player_params
     params.permit(:id)
   end
-
 end
