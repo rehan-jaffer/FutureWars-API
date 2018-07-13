@@ -4,8 +4,11 @@ describe 'Player API' do
   before :all do
     CreatePlayerService.call('ray', 'testpassword', 'ship name')
     CreatePlayerService.call('ray2', 'testpassword', 'ship name 2')
-    Universe.create(10)
     @auth = authenticate_user('ray2', 'testpassword')
+  end
+
+  after :all do
+    Player.destroy_all
   end
 
   describe 'Visibility of other players' do

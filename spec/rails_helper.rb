@@ -7,6 +7,8 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'simplecov'
+require './lib/universe/universe_creator'
+
 SimpleCov.start
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -61,6 +63,13 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
     load "#{Rails.root}/db/seeds.rb"
+    Player.destroy_all
+    u = UniverseCreator.new(10)
+    u.add_stage(DestroyStage)
+    u.add_stage(SectorStage)
+    u.add_stage(PortStage)
+    u.add_stage(WarpStage)
+    u.create
   end
 
   config.around(:each) do |example|
