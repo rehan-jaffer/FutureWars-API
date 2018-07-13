@@ -12,12 +12,12 @@ class SectorStage
   end
 
   def exec
-    sectors = YAML.load(File.read("./maps/sector.yml"))
+    sectors = YAML.safe_load(File.read('./maps/sector.yml'))
     @size.times do |i|
-      if sectors["Sectors"][i]
-        SectorCreatorService.call(sectors["Sectors"][i])
+      if sectors['Sectors'][i]
+        SectorCreatorService.call(sectors['Sectors'][i])
       else
-        SectorCreatorService.call()
+        SectorCreatorService.call
       end
     end
     pp Sector.pluck(:id)
