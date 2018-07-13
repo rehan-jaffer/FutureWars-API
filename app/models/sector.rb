@@ -3,21 +3,13 @@ require 'views/sector_view'
 require 'views/player_view'
 require 'views/port_view'
 require 'views/beacon_view'
-require 'port'
 
 class Sector < ApplicationRecord
-  attr_reader :port
 
-  def port
-    @port ||= Port.new(attributes)
-  end
-
-  def has_planet?
-    planet_type_id != nil
-  end
+  has_one :port
 
   def has_port?
-    port_class != nil
+    !port.nil?
   end
 
   def view
