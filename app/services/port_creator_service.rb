@@ -5,9 +5,9 @@ class PortCreatorService
 
   def initialize(props = {})
     @props = props
-    if @props.key?(:trades)
-      @props['port_class'] = PortTradeString.get_class(@props[:trades])
-      @props.delete(:trades)
+    if @props.key?("trades")
+      @props['port_class'] = PortTradeString.get_class(@props["trades"])
+      @props.delete("trades")
     end
   end
 
