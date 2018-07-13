@@ -14,7 +14,7 @@ This code is made available under the **Attribution-NonCommercial-ShareAlike 4.0
 
 # Development Plan
 
-The goal of Futurewars is develop a working, API-based version of the tradewars game in its original 2002 stock state. This will allow a variety of frontends, from traditional console-based to more complicated SPA-based applications. More importantly, it will allow easy creation of automated players. This will allow the development and testing of AI players using the kinds of machine learning techniques available in the present day. A console-based client written in Ruby is the first being implemented.
+The goal of Futurewars is develop a working, API-based version of the tradewars game in its original 2002 stock state, gameplay-wise. This will allow a variety of frontends, from traditional console-based to more complicated SPA-based applications. More importantly, it will allow easy creation of automated players. This will allow the development and testing of AI players using the kinds of machine learning techniques available in the present day. Most likely I'll start with some basic decision-tree based models. Additions to the game will be made that will not affect the gameplay where possible. Examples may be additional sector data, player avatars etc.
 
 ## Game Theory
 Because of TW2002's design, it allows a range of gameplay strategies with varying levels of morality, and many of the decisions mimic moral choices. Akin to an iterated prisoner's dilemma, this could produce some interesting results if an entire universe were to be filled with AI players.
@@ -64,3 +64,11 @@ Universe.create(10) do
 end
 ```
 This is useful for creating areas of space with predefined roles, but also for testing purposes where we may not want randomness.
+
+# Expansion/Addition Ideas
+
+## Regions of space
+Labeling of regions of space, nebulae/expanses etc.
+
+## Beacons
+Ability to leave image, audio or video beacons in sectors of space
