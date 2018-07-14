@@ -1,0 +1,27 @@
+Sectors:
+  1:
+    id: 1
+  2:
+    id: 2
+  3:
+    id: 3
+  4:
+    id: 4
+  5:
+    id: 5
+Ports:
+  1:
+    sector_id: 1
+    trades: "Special"
+  2:
+    sector_id: 2
+    trades: "SSB"
+  3:
+    sector_id: 3
+    trades: "BSS"
+  4:
+    sector_id: 4
+    trades: "SBS"
+  5:
+    sector_id: 5
+    trades: "BSB"
