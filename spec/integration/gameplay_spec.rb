@@ -1,6 +1,5 @@
 require 'rails_helper'
 require './spec/support/auth'
-require './lib/universe_parser.rb'
 
 describe 'Gameplay' do
 
