@@ -4,7 +4,7 @@ class ConsiderOfferService
   TARGET_PRICE = 20
 
   def initialize(player, transaction_id, amount)
-    @transaction = Transaction.where(id: transaction_id).first
+    @transaction = Transaction.where(uid: transaction_id).first
     @player = player
     @amount = amount
   end
