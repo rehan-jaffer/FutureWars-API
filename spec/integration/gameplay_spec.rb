@@ -87,7 +87,7 @@ describe 'Gameplay' do
       it { should have_key('sector') }
       it { should have_key('warps') }
       it { should have_key('port') }
-      it { should have_key('beacon') }
+      it { should have_key('beacons') }
 
       it 'should contain a list of neighbouring sectors as integers' do
         expect(sector['warps']).to all be_a_kind_of Integer

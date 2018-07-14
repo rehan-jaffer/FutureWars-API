@@ -3,16 +3,26 @@ require 'views/sector_view'
 require 'views/player_view'
 require 'views/port_view'
 require 'views/beacon_view'
+require 'views/planet_view'
+require 'views/warp_view'
 
 class Sector < ApplicationRecord
   has_one :port
+
+  HANDLERS = {players: PlayerView, beacons: BeaconView, port: PortView, planets: PlanetView, warps: WarpView, sector: SectorView}
 
   def has_port?
     !port.nil?
   end
 
+  def objects
+    [:players, :beacons, :port, :planets, :warps, :sector]
+  end
+
   def view
-    SectorView.render(attributes)
+    objects.map.with_object({}) do |object, h|
+      h[object] = HANDLERS[object].render(attributes)
+    end
   end
 
   def players

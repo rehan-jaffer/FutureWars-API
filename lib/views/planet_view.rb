@@ -1,5 +1,5 @@
-class SectorView
+class PlanetView
   def self.render(attributes)
-    attributes['id']
+    return "none"
   end
 end
