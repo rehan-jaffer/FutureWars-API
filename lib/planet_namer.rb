@@ -6,7 +6,7 @@ class PlanetNamer
   POSTS = %w[V Prime K1 K2 K3 K4 K5 I II III IV Alpha Beta Delta Epsilon Gamma Omega X Z].freeze
 
   def self.generate_one
-    [[PREFIXES.sample, SUFFIXES.sample].join, POSTS.sample].join(" ")
+    [[PREFIXES.sample, SUFFIXES.sample].join, POSTS.sample].join(' ')
   end
 
   def self.generate_all

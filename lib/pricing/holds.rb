@@ -1,6 +1,5 @@
 module Holds
-
-  INCREMENT = 20 
+  INCREMENT = 20
   BASE_COST = (DateTime.now.yday % 99) + 151
 
   def self.price(number_holds)
