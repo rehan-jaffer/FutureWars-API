@@ -10,7 +10,7 @@ class CreatePlayerService
   def call
     player = Player.create(username: @username,
                            ship_name: @ship_name,
-                           ship_type_id: ShipType.find_by_name('Merchant Cruiser').id,
+                           ship_type_id: ShipType.find_by(name: 'Merchant Cruiser').id,
                            alignment: 0,
                            holds: Rails.configuration.game['initial_holds'],
                            turns: Rails.configuration.game['initial_turns'],

@@ -8,11 +8,10 @@ class TradeWithPortService
   end
 
   def call
-
     # check the request is valid
 
     errors.add(:errors, 'Quantity must be supplied') unless @request.key?(:qty)
-    errors.add(:errors, 'Must specify if you want to buy or sell') unless @request.key?(:buy_or_sell) && ["buy", "sell"].include?(@request[:buy_or_sell])
+    errors.add(:errors, 'Must specify if you want to buy or sell') unless @request.key?(:buy_or_sell) && %w[buy sell].include?(@request[:buy_or_sell])
     errors.add(:errors, 'Commodity must be specified') unless @request.key?(:commodity) && !@request[:commodity].empty?
 
     # check the request is feasible
@@ -28,7 +27,6 @@ class TradeWithPortService
     transaction = Transaction.create(player_id: @player.id, port_id: @sector.port.id, open: true, status: :initial)
     offer = Offer.create(transaction_id: transaction.id, amount: offer_price)
 
-    return {transaction: transaction, initial_offer: offer}
-
+    { transaction: transaction, initial_offer: offer }
   end
 end

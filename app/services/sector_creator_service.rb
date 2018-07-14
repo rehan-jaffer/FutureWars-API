@@ -6,7 +6,7 @@ class SectorCreatorService
   end
 
   def call
-    Sector.find(@props["id"]).destroy if @props.key?("id") && Sector.where(id: @props["id"]).count > 0
+    Sector.find(@props['id']).destroy if @props.key?('id') && Sector.where(id: @props['id']).count > 0
     defaults = {}
 
     new_sector = Sector.create(@props.merge(defaults))

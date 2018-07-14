@@ -31,6 +31,6 @@ class ConsiderOfferService
       return @transaction
     end
 
-    Offer.create(transaction_id: @transaction.id, amount: strategy.counter_offer(@amount))
+    {offer: Offer.create(transaction_id: @transaction.id, amount: strategy.counter_offer(@amount))}
   end
 end

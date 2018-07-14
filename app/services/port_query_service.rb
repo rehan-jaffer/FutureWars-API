@@ -17,7 +17,7 @@ class PortQueryService
 
     sector = Sector.find(@id)
 
-    return SpecialPortTradeView.render(sector.attributes) if sector.port_class == 0
-    PortTradeView.render(sector.attributes)
+    return SpecialPortTradeView.render(sector.attributes) if sector.has_port? && sector.port.port_class == 0
+    PortTradeView.render(sector.port.attributes)
   end
 end
