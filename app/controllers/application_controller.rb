@@ -5,7 +5,7 @@ class ApplicationController < ActionController::API
   private
 
   def authenticate_request
-    @current_user = AuthorizeApiRequest.call(request.headers).result
+    @current_user = AuthorizeApiRequestService.call(request.headers).result
     render json: { error: 'Not Authorized' }, status: :unauthorized unless @current_user
   end
 end
