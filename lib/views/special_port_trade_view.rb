@@ -1,9 +1,9 @@
 class SpecialPortTradeView
-  def self.build_view(attributes)
+  def self.build_view(_attributes)
     trade_hash = {}
     %w[holds shields fighters].each do |commodity|
       trade_hash[commodity] = {
-        status: "Selling",
+        status: 'Selling',
         available: 100
       }
     end
