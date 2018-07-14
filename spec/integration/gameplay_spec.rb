@@ -3,22 +3,19 @@ require './spec/support/auth'
 require './lib/universe_parser.rb'
 
 describe 'Gameplay' do
+
   before(:all) do
     # fixing the value of the seed results in the same universe being created every time meaning predictable testing
-    srand(6000)
-    ShipType.create!(name: 'Merchant Cruiser')
-    Universe.create(10) do
-      sector 1 do
-        add_port 'Special'
-        set_home_sector
-      end
-      sector 2 do
-        add_port 'BBS'
-      end
-    end
-    CreatePlayerService.call('ray', 'testpassword', 'my ship')
+    @player = CreatePlayerService.call('ray', 'testpassword', 'my ship').result
     @auth = authenticate_user('ray', 'testpassword')
-    @sector_map = Sector.all.map(&:warps)
+    @sector_map = []
+    Sector.all.each do |sector|
+      @sector_map[sector.id] = sector.warps
+    end
+  end
+
+  after :all do
+    Player.destroy_all
   end
 
   describe 'Player/Game initialisation' do
@@ -37,10 +34,10 @@ describe 'Gameplay' do
     let(:player) { Player.find_by(username: 'ray') }
 
     it 'allows warping between sectors' do
-      expect(player.current_sector).to eq 1
-      sector = @sector_map[1].first
+      expect(@player.current_sector).to eq 1
+      sector = @sector_map[1].sample
       post '/api/player/move', params: { id: sector }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
-      expect(player.reload.current_sector).to eq sector
+      expect(@player.reload.current_sector).to eq sector
     end
 
     it "doesn't allow warping between unconnected sectors" do
