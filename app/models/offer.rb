@@ -6,6 +6,6 @@ class Offer < ApplicationRecord
   end
 
   def as_json(_opts = {})
-    { id: id, amount: amount }
+    { id: uid, amount: amount }
   end
 end
