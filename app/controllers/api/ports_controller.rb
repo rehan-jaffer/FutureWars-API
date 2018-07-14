@@ -10,8 +10,8 @@ class Api::PortsController < ApplicationController
     end
   end
 
-  def order
-    result = TradeWithPortService.call(trade_params[:commodity], trade_params[:qty], trade_params[:price])
+  def trade
+    result = TradeWithPortService.call(current_user.id, commodity: trade_params[:commodity], qty: trade_params[:qty], buy_or_sell: trade_params[:buy_or_sell])
     if result.success?
       render json: result.result
     else
@@ -20,6 +20,10 @@ class Api::PortsController < ApplicationController
   end
 
   private
+
+  def trade_params
+    params.permit(:id, :commodity, :qty, :buy_or_sell)
+  end
 
   def port_params
     params.permit(:id)
