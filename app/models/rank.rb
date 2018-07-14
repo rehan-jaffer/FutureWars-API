@@ -6,5 +6,4 @@ class Rank
   def to_s
     @rank.to_s
   end
-  
 end

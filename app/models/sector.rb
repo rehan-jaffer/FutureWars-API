@@ -5,7 +5,6 @@ require 'views/port_view'
 require 'views/beacon_view'
 
 class Sector < ApplicationRecord
-
   has_one :port
 
   def has_port?

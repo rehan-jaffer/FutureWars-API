@@ -8,4 +8,9 @@ class Transaction < ApplicationRecord
   def set_uid
     self.uid = IDGenerator.generate_serial
   end
+
+  def as_json(opts={})
+    {uid: uid, status: status, age: ((Time.now() - created_at)/60.0).round}
+  end
+
 end

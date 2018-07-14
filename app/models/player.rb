@@ -20,5 +20,4 @@ class Player < ApplicationRecord
   def rank
     @rank ||= Rank.new(exp, alignment.to_i)
   end
-
 end

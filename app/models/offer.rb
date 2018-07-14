@@ -1,4 +1,5 @@
 class Offer < ApplicationRecord
+
   before_create :set_uid
 
   def set_uid
