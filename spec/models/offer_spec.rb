@@ -8,6 +8,10 @@ RSpec.describe Offer, type: :model do
 #    transaction = Transaction.create(
   end
 
+  after :all do
+    Player.destroy_all
+  end
+
   it "sets its own UID before saving" do
 
     @offer = Offer.create(transaction_id: @transaction.id, amount: 20)
