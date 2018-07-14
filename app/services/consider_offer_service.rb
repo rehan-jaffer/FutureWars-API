@@ -6,7 +6,7 @@ class ConsiderOfferService
   def initialize(player, transaction_id, amount)
     @transaction = Transaction.where(uid: transaction_id).first
     @player = player
-    @amount = amount
+    @amount = amount.to_i
   end
 
   def call
@@ -28,7 +28,7 @@ class ConsiderOfferService
     if strategy.will_accept?(@amount)
       @transaction.status = 'accepted'
       @transaction.save
-      return @transaction
+      return {transaction: @transaction}
     end
 
     {offer: Offer.create(transaction_id: @transaction.id, amount: strategy.counter_offer(@amount))}
