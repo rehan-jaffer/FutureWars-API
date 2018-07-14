@@ -11,6 +11,10 @@ Rails.application.routes.draw do
     end
     namespace :ports do
       get 'query/:id', action: :query
+      post 'trade'
+    end
+    namespace :transactions do
+      post 'offer'
     end
   end
 end
