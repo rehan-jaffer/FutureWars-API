@@ -1,4 +1,5 @@
 require './lib/port_trade'
+require './lib/ports/port_setup'
 
 class PortCreatorService
   prepend SimpleCommand
@@ -14,10 +15,14 @@ class PortCreatorService
   def call
     @props['name'] = PlanetNamer.generate_one
     port = Port.create(@props)
-    return port if port.errors.empty?
-    port.errors.full_messages.each do |error|
-      errors.add(:errors, error)
+
+    unless port.errors.empty?
+      port.errors.full_messages.each do |error|
+        errors.add(:errors, error)
+      end
+      return errors
     end
-    nil
+
+    PortSetup.initialize(port)
   end
 end
