@@ -8,6 +8,7 @@ class CreatePlayerService
   end
 
   def call
+
     player = Player.create(username: @username,
                            ship_name: @ship_name,
                            ship_type_id: ShipType.find_by(name: 'Merchant Cruiser').id,
@@ -18,6 +19,8 @@ class CreatePlayerService
                            fighters: Rails.configuration.game['initial_fighters'],
                            credits: Rails.configuration.game['initial_credits'],
                            password: @password)
+
+    ship = CreatePlayerShipService.call(player, @ship_name)
 
     return player if player.errors.empty?
     errors.add(:errors, "Couldn't save")
