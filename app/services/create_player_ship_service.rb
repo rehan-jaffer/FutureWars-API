@@ -1,3 +1,5 @@
+require './lib/generators/id_generator'
+
 class CreatePlayerShipService
 
   prepend SimpleCommand
