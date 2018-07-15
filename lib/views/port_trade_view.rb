@@ -4,8 +4,8 @@ class PortTradeView
     %w[ore organics equipment].each do |commodity|
       trade_hash[commodity] = {
         status: PortTradeCommodity.buys_or_sells(attributes['port_class'], commodity),
-        trading: attributes["#{commodity}_qty"],
-        capacity: '100%'
+        quantity: attributes["#{commodity}_qty"],
+        trading: ((attributes["#{commodity}_qty"]/(attributes["#{commodity}_productivity"])*10)*100).to_s + "%"
       }
     end
     trade_hash
