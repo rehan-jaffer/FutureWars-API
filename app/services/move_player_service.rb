@@ -8,23 +8,24 @@ class MovePlayerService
     @dest = dest
   end
 
-  def call
+  def validates?
     errors.add(:errors, 'These parts of space are not connected') unless Sector.connected?(@player.current_sector, @dest)
     errors.add(:errors, 'You have no turns left') unless @player.turns > 0
     errors.add(:errors, 'Not a valid sector ID') unless Sector.exists?(@dest)
+    errors.empty?
+  end
 
-    return nil unless errors.empty?
-
+  def update_state
     @player.turns -= 1
     @player.current_sector = @dest
-    #    @player.update_turns(-1)
-    #    @player.update_current_sector(@dest)
     @player.save
-    return true
+  end
 
-    nil
-    #    Universe.event(:player_move, @player.id, [@origin, @dest])
+  def call
 
-    nil
+    return nil unless validates?
+
+    update_state
+    @player
   end
 end
