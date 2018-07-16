@@ -17,6 +17,7 @@ gem 'capybara'
 gem 'guard'
 gem 'guard-rspec'
 gem 'rack-cors'
+gem 'whenever'
 group :test do
   gem 'factory_bot_rails'
   gem 'database_cleaner'
