@@ -22,9 +22,7 @@ class MovePlayerService
   end
 
   def call
-
     return nil unless validates?
-
     update_state
     @player
   end

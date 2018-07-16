@@ -17,9 +17,7 @@ class PortQueryService
   end
 
   def call
-
     return nil unless validates?
-
     return SpecialPortTradeView.render(@port.attributes) if @port && @port.port_class == 0
     PortTradeView.render(@port.attributes)
   end

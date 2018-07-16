@@ -6,14 +6,11 @@ class PortCreatorService
 
   def initialize(props = {})
     @props = props
-    if @props.key?('trades')
-      @props['port_class'] = PortTradeString.get_class(@props['trades'])
-      @props.delete('trades')
-    end
+    @props['port_class'] = PortTradeString.get_class(@props.delete('trades')) if @props.key?('trades')
+    @props['name'] = PlanetNamer.generate_one
   end
 
   def call
-    @props['name'] = PlanetNamer.generate_one
     port = Port.create(@props)
 
     unless port.errors.empty?
