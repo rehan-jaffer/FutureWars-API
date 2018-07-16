@@ -16,7 +16,6 @@ class ConsiderOfferService
   end
 
   def call
-
     return nil unless validates?
 
     unless @strategy.will_negotiate?(@amount)
@@ -29,9 +28,9 @@ class ConsiderOfferService
     if @strategy.will_accept?(@amount)
       @transaction.status = 'accepted'
       @transaction.save
-      return {transaction: @transaction}
+      return { transaction: @transaction }
     end
 
-    {offer: Offer.create(transaction_id: @transaction.id, amount: @strategy.counter_offer(@amount))}
+    { offer: Offer.create(transaction_id: @transaction.id, amount: @strategy.counter_offer(@amount)) }
   end
 end

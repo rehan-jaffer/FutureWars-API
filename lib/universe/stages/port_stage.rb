@@ -22,8 +22,8 @@ class PortStage
   end
 
   def exec
-    port_distribution.each_with_index do |port, i|
-      sector_props = (@ports.empty?) ? port_preset(port) : @ports.pop[1]
+    port_distribution.each_with_index do |port, _i|
+      sector_props = @ports.empty? ? port_preset(port) : @ports.pop[1]
       PortCreatorService.call(sector_props)
     end
   end

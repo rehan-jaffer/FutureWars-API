@@ -49,56 +49,51 @@ describe 'Port Trading Functionality' do
   end
 
   describe 'Trading with a port (opening a transaction)' do
- 
-   before :all do
-     @player = Player.find_by_username("ray")
-   end
+    before :all do
+      @player = Player.find_by(username: 'ray')
+    end
 
-   it 'permits trading with a port and opening a transaction' do
+    it 'permits trading with a port and opening a transaction' do
       @player.current_sector = 2
       @player.save
 
       post '/api/ports/trade', params: { id: 2, qty: 1, commodity: 'equipment', buy_or_sell: 'buy' }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
       transaction = JSON.parse(response.body)
-      expect(transaction).to have_key("transaction")
-      expect(transaction).to have_key("initial_offer")
+      expect(transaction).to have_key('transaction')
+      expect(transaction).to have_key('initial_offer')
     end
-
   end
 
-  describe "Transaction handling (Dummy Trading Strategy)" do
-
+  describe 'Transaction handling (Dummy Trading Strategy)' do
     before :all do
-      @player = Player.find_by_username("ray")
+      @player = Player.find_by(username: 'ray')
       @player.current_sector = 2
       @player.save
 
-      @transaction = Transaction.create(player_id: @player.id, port_id: Sector.find(@player.current_sector).port.id, status: "open")
+      @transaction = Transaction.create(player_id: @player.id, port_id: Sector.find(@player.current_sector).port.id, status: 'open')
       Rails.configuration.trading_strategy = DummyStrategy
     end
 
-    it "permits making a counteroffer to a port (high offer) and receives a counteroffer in return" do
+    it 'permits making a counteroffer to a port (high offer) and receives a counteroffer in return' do
       offer_amount = 25
-      post '/api/transactions/offer', params: { id: @transaction.uid, amount: offer_amount }, headers: {'AUTHORIZATION': @auth["auth_token"]}
+      post '/api/transactions/offer', params: { id: @transaction.uid, amount: offer_amount }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
       transaction = JSON.parse(response.body)
-      expect(transaction).to have_key("offer")
-      expect(transaction["offer"]["amount"]).to be < offer_amount
+      expect(transaction).to have_key('offer')
+      expect(transaction['offer']['amount']).to be < offer_amount
     end
 
-    it "permits making a counteroffer to a port (low offer) and receives a transaction termination in return" do
+    it 'permits making a counteroffer to a port (low offer) and receives a transaction termination in return' do
       offer_amount = 15
-      post '/api/transactions/offer', params: { id: @transaction.uid, amount: offer_amount }, headers: {'AUTHORIZATION': @auth["auth_token"]}
+      post '/api/transactions/offer', params: { id: @transaction.uid, amount: offer_amount }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
       transaction = JSON.parse(response.body)
-      expect(transaction).to have_key("errors")
+      expect(transaction).to have_key('errors')
     end
 
-    it "permits making a counteroffer to a port (optimal offer) which is accepted" do
+    it 'permits making a counteroffer to a port (optimal offer) which is accepted' do
       offer_amount = 20
-      post '/api/transactions/offer', params: { id: @transaction.uid, amount: offer_amount }, headers: {'AUTHORIZATION': @auth["auth_token"]}
+      post '/api/transactions/offer', params: { id: @transaction.uid, amount: offer_amount }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
       transaction = JSON.parse(response.body)
-      expect(transaction).to have_key("transaction")
+      expect(transaction).to have_key('transaction')
     end
-
   end
-
 end

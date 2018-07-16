@@ -14,7 +14,7 @@ class SectorStage
 
   def exec
     @size.times do |i|
-        (@sectors['Sectors'][i]) ? SectorCreatorService.call(@sectors['Sectors'][i]) : SectorCreatorService.call
+      @sectors['Sectors'][i] ? SectorCreatorService.call(@sectors['Sectors'][i]) : SectorCreatorService.call
     end
   end
 end

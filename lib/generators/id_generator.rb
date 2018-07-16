@@ -4,6 +4,6 @@ class IDGenerator
   end
 
   def self.generate_serial
-    "SCN00-" + IDGenerator.generate_id(16)
+    'SCN00-' + IDGenerator.generate_id(16)
   end
 end

@@ -8,7 +8,6 @@ class TradeWithPortService
   end
 
   def validates?
-
     # check the request is valid
 
     errors.add(:errors, 'Quantity must be supplied') unless @request.key?(:qty)
@@ -21,11 +20,9 @@ class TradeWithPortService
     errors.add(:errors, 'We do not have that quantity') unless @sector.port.has_quantity?(@request[:commodity], @request[:qty])
     errors.add(:errors, 'We do not want to trade with you') unless @player.can_trade_at_port?(@sector.id)
     errors.empty?
-
   end
 
   def call
-
     return errors unless validates?
 
     offer_price = 20 * @request[:qty].to_i
@@ -34,6 +31,5 @@ class TradeWithPortService
     offer = Offer.create(transaction_id: transaction.id, amount: offer_price)
 
     { transaction: transaction, initial_offer: offer }
-
   end
 end

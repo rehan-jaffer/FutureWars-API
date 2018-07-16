@@ -11,5 +11,4 @@ class Api::TransactionsController < ApplicationController
   def offer_params
     params.permit(:id, :amount)
   end
-
 end

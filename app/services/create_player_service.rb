@@ -8,7 +8,6 @@ class CreatePlayerService
   end
 
   def call
-
     player = Player.create(username: @username,
                            ship_name: @ship_name,
                            ship_type_id: ShipType.find_by(name: 'Merchant Cruiser').id,

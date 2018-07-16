@@ -2,7 +2,6 @@ require 'rails_helper'
 require './spec/support/auth'
 
 describe 'Gameplay' do
-
   before(:all) do
     # fixing the value of the seed results in the same universe being created every time meaning predictable testing
     @player = CreatePlayerService.call('ray', 'testpassword', 'my ship').result

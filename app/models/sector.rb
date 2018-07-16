@@ -9,14 +9,14 @@ require 'views/warp_view'
 class Sector < ApplicationRecord
   has_one :port
 
-  HANDLERS = {players: PlayerView, beacons: BeaconView, port: PortView, planets: PlanetView, warps: WarpView, sector: SectorView}
+  HANDLERS = { players: PlayerView, beacons: BeaconView, port: PortView, planets: PlanetView, warps: WarpView, sector: SectorView }.freeze
 
   def has_port?
     !port.nil?
   end
 
   def objects
-    [:players, :beacons, :port, :planets, :warps, :sector]
+    %i[players beacons port planets warps sector]
   end
 
   def view

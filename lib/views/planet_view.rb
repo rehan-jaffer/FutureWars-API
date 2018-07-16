@@ -1,5 +1,5 @@
 class PlanetView
-  def self.render(attributes)
-    return "none"
+  def self.render(_attributes)
+    'none'
   end
 end
