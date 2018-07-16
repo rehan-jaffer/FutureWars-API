@@ -14,9 +14,9 @@ class UniverseCreator
   end
 
   def create
-    puts 'Creating Universe...let there be light!'
+    puts '[*] Creating Universe...let there be light!'
     @stages.each do |stage|
-      puts "Executing #{stage}.."
+      puts "[*] Executing #{stage}.."
       s = stage.new
       s.set_size(@size)
       s.exec
