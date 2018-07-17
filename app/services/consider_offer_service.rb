@@ -6,6 +6,7 @@ class ConsiderOfferService
     @player = player
     @amount = amount.to_i
     @strategy = Rails.configuration.trading_strategy
+    @offer_data = OfferData.new({amount: @amount})
   end
 
   def validates?
@@ -16,21 +17,22 @@ class ConsiderOfferService
   end
 
   def call
+
     return nil unless validates?
 
-    unless @strategy.will_negotiate?(@amount)
+    unless @strategy.will_negotiate?(@offer_data)
       @transaction.status = 'rejected'
       @transaction.save
       errors.add(:errors, 'Transaction terminated.')
       return nil
     end
 
-    if @strategy.will_accept?(@amount)
+    if @strategy.will_accept?(@offer_data)
       @transaction.status = 'accepted'
       @transaction.save
       return { transaction: @transaction }
     end
 
-    { offer: Offer.create(transaction_id: @transaction.id, amount: @strategy.counter_offer(@amount)) }
+    { offer: Offer.create(transaction_id: @transaction.id, amount: @strategy.counter_offer(@offer_data)) }
   end
 end

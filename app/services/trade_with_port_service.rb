@@ -5,6 +5,8 @@ class TradeWithPortService
     @request = request
     @player = Player.find(player_id)
     @sector = Sector.find(@player.current_sector)
+    @strategy = Rails.configuration.trading_strategy
+    @offer_data = OfferData.new(@request)
   end
 
   def validates?
@@ -23,9 +25,10 @@ class TradeWithPortService
   end
 
   def call
+
     return errors unless validates?
 
-    offer_price = 20 * @request[:qty].to_i
+    offer_price = @strategy.initial_offer_price(@offer_data) * @request[:qty].to_i
 
     transaction = Transaction.create(player_id: @player.id, port_id: @sector.port.id, open: true, status: :initial)
     offer = Offer.create(transaction_id: transaction.id, amount: offer_price)
