@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   namespace :api do
 
-    resources :session
+    resources :sessions
 
     namespace :sector do
       get 'current'

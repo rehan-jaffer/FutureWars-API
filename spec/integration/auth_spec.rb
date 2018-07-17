@@ -11,17 +11,17 @@ describe 'Authentication API' do
     end
 
     it 'allows login (correct password path)' do
-      post '/api/auth', params: { username: 'testuser', password: 'password' }
+      post '/api/sessions', params: { username: 'testuser', password: 'password' }
       expect(response.status).to eq 200
     end
 
     it 'allows login (incorrect password path)' do
-      post '/api/auth', params: { username: 'testuser', password: 'testpasswordwrong' }
+      post '/api/sessions', params: { username: 'testuser', password: 'testpasswordwrong' }
       expect(response.status).to eq 401
     end
 
     it 'returns a JSON web token on successful login' do
-      post '/api/auth', params: { username: 'testuser', password: 'password' }
+      post '/api/sessions', params: { username: 'testuser', password: 'password' }
       json = JSON.parse(response.body)
       expect(json['auth_token']).not_to be nil
     end
@@ -30,7 +30,7 @@ describe 'Authentication API' do
   context 'User Information' do
     before :all do
       FactoryBot.create(:player, username: 'testuser', password: 'password')
-      post '/api/auth', params: { username: 'testuser', password: 'password' }
+      post '/api/sessions', params: { username: 'testuser', password: 'password' }
       json = JSON.parse(response.body)
       @token = json['auth_token']
       @headers = { "Authorization": @token }
