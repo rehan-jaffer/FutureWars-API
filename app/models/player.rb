@@ -6,6 +6,10 @@ class Player < ApplicationRecord
 
   belongs_to :ship_type
 
+  def rank
+    @player_rank ||= PlayerRank.new(exp, alignment.to_i).to_s
+  end
+
   def can_trade_at_port?(_sector_id)
     # until implemented, players can trade at all ports
     true
@@ -17,7 +21,4 @@ class Player < ApplicationRecord
     @ship ||= Ship.new
   end
 
-  def rank
-    @rank ||= Rank.new(exp, alignment.to_i)
-  end
 end
