@@ -1,4 +1,5 @@
 require 'rails_helper'
+require './spec/support/auth'
 
 describe 'Player API' do
   before :all do
@@ -9,6 +10,30 @@ describe 'Player API' do
 
   after :all do
     Player.destroy_all
+  end
+
+  describe "Player#stat" do
+
+    context "player is authorized" do
+
+      it "returns the user's stats" do
+        get '/api/player/stats', headers: { 'AUTHORIZATION': @auth['auth_token'] }
+        response = JSON.parse(response.body)
+        expect(response).to have_key?("player")
+      end
+
+    end
+
+    context "player is not authorized" do
+
+     it "returns an error" do
+       get '/api/player/stats'
+       response = JSON.parse(response.body)
+       expect(response["error"]).to eq "Not Authorized"
+     end
+
+    end
+
   end
 
   describe 'Visibility of other players' do
