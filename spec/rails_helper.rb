@@ -61,7 +61,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner.clean_with(:truncation, { :except => %w[warp_graph] })
     load "#{Rails.root}/db/seeds.rb"
     Player.destroy_all
     u = UniverseCreator.new(10)
