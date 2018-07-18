@@ -1,6 +1,9 @@
 class Api::PlayerController < ApplicationController
+
+  respond_to :json
+
   def stats
-    render json: { turns: @current_user.turns }
+    render :stats
   end
 
   def status
