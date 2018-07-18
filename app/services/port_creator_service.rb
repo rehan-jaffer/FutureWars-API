@@ -10,7 +10,16 @@ class PortCreatorService
     @props['name'] = PlanetNamer.generate_one
   end
 
+  def validates?
+    errors.add(:errors, "Sector must exist") unless Sector.exists?(@props["sector_id"])
+    errors.add(:errors, "No Port Class supplied") unless @props['port_class']
+    errors.empty?
+  end
+
   def call
+
+    return nil unless validates?
+
     port = Port.create(@props)
 
     unless port.errors.empty?
