@@ -8,6 +8,12 @@ class PortQueryService
     @id = id
     @current_sector = current_sector
     @port = Port.where(sector_id: @id).first
+    @streams = ["trading", "universe","port_queries"]
+  end
+
+  def update_events
+    event = Event.new({port_id: @port.id}, @streams)
+    EventSource.publish(event, @streams)
   end
 
   def validates?

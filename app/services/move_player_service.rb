@@ -1,4 +1,4 @@
-require 'pp'
+require './lib/events/event_store'
 
 class MovePlayerService
   prepend SimpleCommand
@@ -6,6 +6,7 @@ class MovePlayerService
   def initialize(player_id, dest)
     @player = Player.find(player_id)
     @dest = dest
+    @streams = ["universe"]
   end
 
   def validates?
@@ -15,15 +16,21 @@ class MovePlayerService
     errors.empty?
   end
 
-  def update_state
-    @player.turns -= 1
+  def update_player_state
     @player.current_sector = @dest
+    @player.turns -= 3
     @player.save
+  end
+
+  def update_events
+    event = Event.new("player_moved", {player_id: @player.id, sector_id: @dest})
+    EventStore.publish(event, @streams)
   end
 
   def call
     return nil unless validates?
-    update_state
+    update_player_state
+    update_events
     @player
   end
 end
