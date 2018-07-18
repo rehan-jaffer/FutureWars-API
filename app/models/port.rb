@@ -5,6 +5,10 @@ class Port < ApplicationRecord
 
   belongs_to :sector
 
+  def trading_percent(commodity)
+      ((attributes["#{commodity}_qty"] / ((attributes["#{commodity}_productivity"]) * 10.0)) * 100.0).round(1)
+  end
+
   def has_quantity?(_commodity, _qty)
     # placeholder function
     true
