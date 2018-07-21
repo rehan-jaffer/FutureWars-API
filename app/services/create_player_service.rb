@@ -1,5 +1,3 @@
-require './lib/events/event_store'
-
 class CreatePlayerService
   prepend SimpleCommand
 
@@ -11,9 +9,10 @@ class CreatePlayerService
   end
 
   def update_events
-    event = Event.new("player_created", {player_id: @player.id})
     @streams.push("player-#{@player.id}")
-    EventStore.publish(event, @streams)
+    @streams.each do |stream|
+      Rails.configuration.event_store.publish(PlayerCreated.new(data: {player_id: @player.id}))
+    end
   end
 
   def call

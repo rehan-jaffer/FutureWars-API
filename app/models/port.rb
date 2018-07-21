@@ -5,6 +5,14 @@ class Port < ApplicationRecord
 
   belongs_to :sector
 
+  def to_h
+    attributes.merge(trading_hash)
+  end
+
+  def trading_hash
+    COMMODITIES.map { |k| ["#{k}_trading", trading_percent(k)] }.to_h
+  end
+
   def trading_percent(commodity)
       ((attributes["#{commodity}_qty"] / ((attributes["#{commodity}_productivity"]) * 10.0)) * 100.0).round(1)
   end

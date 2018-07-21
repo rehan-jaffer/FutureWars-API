@@ -15,7 +15,7 @@ Ports:
     trades: "Special"
   2:
     sector_id: 2
-    trades: "SSB"
+    trades: "BBS"
   3:
     sector_id: 3
     trades: "BSS"

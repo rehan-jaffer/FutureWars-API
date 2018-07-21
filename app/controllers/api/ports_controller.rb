@@ -2,7 +2,7 @@ require './lib/views/port_trade_view'
 
 class Api::PortsController < ApplicationController
   def query
-    result = PortQueryService.call(port_params[:id], current_user.current_sector)
+    result = PortQueryService.call(port_params[:id], current_user)
     if result.success?
       render json: result.result
     else
@@ -11,7 +11,7 @@ class Api::PortsController < ApplicationController
   end
 
   def trade
-    result = TradeWithPortService.call(current_user.id, commodity: trade_params[:commodity], qty: trade_params[:qty], buy_or_sell: trade_params[:buy_or_sell])
+    result = TradeWithPortService.call(current_user.id, commodity: trade_params[:commodity], qty: trade_params[:qty], trade_type: trade_params[:trade_type])
     if result.success?
       render json: result.result
     else
@@ -22,7 +22,7 @@ class Api::PortsController < ApplicationController
   private
 
   def trade_params
-    params.permit(:id, :commodity, :qty, :buy_or_sell)
+    params.permit(:id, :commodity, :qty, :trade_type)
   end
 
   def port_params

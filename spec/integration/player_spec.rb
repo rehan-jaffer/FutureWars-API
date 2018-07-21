@@ -18,8 +18,8 @@ describe 'Player API' do
 
       it "returns the user's stats" do
         get '/api/player/stats', headers: { 'AUTHORIZATION': @auth['auth_token'] }
-        response = JSON.parse(response.body)
-        expect(response).to have_key?("player")
+        player = JSON.parse(response.body)
+        expect(player).to have_key("player")
       end
 
     end
@@ -28,8 +28,8 @@ describe 'Player API' do
 
      it "returns an error" do
        get '/api/player/stats'
-       response = JSON.parse(response.body)
-       expect(response["error"]).to eq "Not Authorized"
+       error = JSON.parse(response.body)
+       expect(error["error"]).to eq "Not Authorized"
      end
 
     end

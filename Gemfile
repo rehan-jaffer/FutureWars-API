@@ -18,6 +18,9 @@ gem 'guard'
 gem 'guard-rspec'
 gem 'rack-cors'
 gem 'whenever'
+gem 'jbuilder'
+gem 'rails_event_store'
+
 group :test do
   gem 'factory_bot_rails'
   gem 'database_cleaner'

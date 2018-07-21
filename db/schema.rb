@@ -10,7 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180713180014) do
+ActiveRecord::Schema.define(version: 20180719150722) do
+
+  create_table "event_store_events", id: :string, limit: 36, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "event_type", null: false
+    t.text "metadata"
+    t.text "data", null: false
+    t.datetime "created_at", null: false
+    t.index ["created_at"], name: "index_event_store_events_on_created_at"
+  end
+
+  create_table "event_store_events_in_streams", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "stream", null: false
+    t.integer "position"
+    t.string "event_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["created_at"], name: "index_event_store_events_in_streams_on_created_at"
+    t.index ["stream", "event_id"], name: "index_event_store_events_in_streams_on_stream_and_event_id", unique: true
+    t.index ["stream", "position"], name: "index_event_store_events_in_streams_on_stream_and_position", unique: true
+  end
 
   create_table "offers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "transaction_id"
@@ -54,13 +72,16 @@ ActiveRecord::Schema.define(version: 20180713180014) do
     t.integer "accumulated_trading_credits", default: 0, unsigned: true
     t.integer "sector_id", null: false
     t.integer "ore_productivity", default: 0, unsigned: true
-    t.integer "organics_productivitiy", default: 0, unsigned: true
+    t.integer "organics_productivity", default: 0, unsigned: true
     t.integer "equipment_productivity", default: 0, unsigned: true
     t.integer "ore_mcic", default: 0
     t.integer "organics_mcic", default: 0
     t.integer "equipment_mcic", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "ore_qty", unsigned: true
+    t.integer "equipment_qty", unsigned: true
+    t.integer "organics_qty", unsigned: true
     t.index ["sector_id"], name: "index_ports_on_sector_id"
   end
 
@@ -81,10 +102,28 @@ ActiveRecord::Schema.define(version: 20180713180014) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "max_holds", unsigned: true
-    t.integer "initial_holds", unsigned: true
     t.integer "cost", unsigned: true
     t.integer "turns_per_warp", unsigned: true
+    t.integer "base_holds", unsigned: true
+    t.integer "max_fighters", unsigned: true
+    t.integer "max_fighters_per_attack", unsigned: true
+    t.boolean "long_range_scan", default: false
     t.index ["id"], name: "index_ship_types_on_id"
+  end
+
+  create_table "ships", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.integer "player_id"
+    t.integer "ship_type_id"
+    t.string "banner"
+    t.string "serial"
+    t.integer "total_holds", unsigned: true
+    t.integer "empty_holds", unsigned: true
+    t.integer "shield_points", unsigned: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "name"
+    t.index ["player_id"], name: "index_ships_on_player_id"
+    t.index ["ship_type_id"], name: "index_ships_on_ship_type_id"
   end
 
   create_table "transactions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -95,13 +134,28 @@ ActiveRecord::Schema.define(version: 20180713180014) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "uid"
+    t.string "commodity"
+    t.string "qty"
+    t.string "trade_type"
+    t.integer "initial_offer"
     t.index ["player_id"], name: "index_transactions_on_player_id"
     t.index ["port_id"], name: "index_transactions_on_port_id"
   end
 
+  create_table "warp_graph", id: false, force: :cascade, options: "ENGINE=OQGRAPH DEFAULT CHARSET=latin1 `data_table`=warps `origid`=origin_id `destid`=dest_id" do |t|
+    t.string "latch", limit: 32
+    t.bigint "origid", unsigned: true
+    t.bigint "destid", unsigned: true
+    t.float "weight", limit: 53
+    t.bigint "seq", unsigned: true
+    t.bigint "linkid", unsigned: true
+    t.index ["latch", "destid", "origid"], name: "latch_2", using: :hash
+    t.index ["latch", "origid", "destid"], name: "latch", using: :hash
+  end
+
   create_table "warps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
-    t.integer "origin_id"
-    t.integer "dest_id"
+    t.integer "origin_id", null: false
+    t.integer "dest_id", null: false
     t.index ["dest_id"], name: "index_warps_on_dest_id"
     t.index ["origin_id"], name: "index_warps_on_origin_id"
   end

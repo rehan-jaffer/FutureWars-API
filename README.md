@@ -35,6 +35,23 @@ For the most part, the game will stick to the same format as TW2002 until I see 
 
 # Documentation
 
+# Services
+Each service represents a game action to be carried out.
+
+* CreatePlayerService
+* MovePlayerService
+* PortCreatorService
+* SectorCreatorService
+* PortQueryService
+* TradeWithPortService
+* ConsiderOfferService
+
+* PathFinderService
+* ExpressMovePlayerService
+* AttackPlayerService
+* AttackPortService
+* RobPortService
+
 # Entities
 ## Player
 A player is an entity within the game. Players may be human playing via a frontend, or an AI player.
@@ -42,33 +59,3 @@ A player is an entity within the game. Players may be human playing via a fronte
 A sector is an area of space. It may or may not contain a planet, and may or may not also contain a port. Sectors of space are connected to each other in a random configuration and nonlinearly. I.e, Sector 10 and Sector 11 are not more likely to be neighbours than Sector 10 and Sector 1900. Two sectors are connected via a **warp**.
 ## Warp
 A warp is a connection between two parts of space.
-
-# Universe Creation
-A DSL is available for Universe creation with a predefined set of sectors. The ***Universe.create*** function takes a block with the following format:
-
-```ruby
-Universe.create(10) do
-  sector 0 do
-    set_home_sector
-    add_port 'Special'
-    colonists 1_000_000
-  end
-
-  sector 1 do
-    set_fedlaw_beacon
-    add_port 'SSB'
-    equipment 1500
-    ore 1500
-    organics 1500
-  end
-end
-```
-This is useful for creating areas of space with predefined roles, but also for testing purposes where we may not want randomness.
-
-# Expansion/Addition Ideas
-
-## Regions of space
-Labeling of regions of space, nebulae/expanses etc.
-
-## Beacons
-Ability to leave image, audio or video beacons in sectors of space
