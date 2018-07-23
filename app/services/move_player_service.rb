@@ -1,5 +1,3 @@
-require './lib/events/event_store'
-
 class MovePlayerService
   prepend SimpleCommand
 
@@ -23,8 +21,16 @@ class MovePlayerService
   end
 
   def update_events
-    event = Event.new("player_moved", {player_id: @player.id, sector_id: @dest})
-    EventStore.publish(event, @streams)
+
+    event = PlayerMoved.new(data: {
+      player_id: @player.id,
+      sector_id: @dest
+    });
+
+    @streams.each do |stream|
+      Rails.configuration.event_store.publish(event, stream_name: stream)
+    end
+
   end
 
   def call

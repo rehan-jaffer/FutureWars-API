@@ -12,6 +12,7 @@ development:
   planet_types: ["M", "K", "O", "L", "C", "H", "U"]
   planet_ratio: 0.1
   initial_sector: 1
+  turns_per_day: 500
 test:
   initial_credits: 10000
   initial_turns: 300

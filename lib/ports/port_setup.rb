@@ -1,5 +1,4 @@
 require './lib/port_trade.rb'
-require 'pp'
 
 class PortSetup
   def self.rand_productivity
@@ -30,5 +29,6 @@ class PortSetup
     port.equipment_qty = port.equipment_productivity * 10
 
     port.save
+  
   end
 end

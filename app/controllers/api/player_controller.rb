@@ -1,7 +1,5 @@
 class Api::PlayerController < ApplicationController
 
-  respond_to :json
-
   def stats
     render :stats
   end
