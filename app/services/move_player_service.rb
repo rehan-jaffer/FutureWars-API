@@ -8,7 +8,7 @@ class MovePlayerService
   end
 
   def validates?
-    errors.add(:errors, 'These parts of space are not connected') unless Sector.connected?(@player.current_sector, @dest)
+    errors.add(:errors, 'These parts of space are not connected') unless Warp.connected?(@player.current_sector, @dest)
     errors.add(:errors, 'You have no turns left') unless @player.turns > 0
     errors.add(:errors, 'Not a valid sector ID') unless Sector.exists?(@dest)
     errors.empty?

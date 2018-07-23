@@ -1,7 +1,4 @@
 class Port < ApplicationRecord
-  # this is being re-used from lib/port_trade, remove duplication during refactoring
-  PORT_TYPES = %w[Special BBS BSS BSB SBB SSB SBS BSS SSS BBB].freeze
-  COMMODITIES = %w[ore organics equipment].freeze
 
   belongs_to :sector
 
@@ -10,7 +7,7 @@ class Port < ApplicationRecord
   end
 
   def trading_hash
-    COMMODITIES.map { |k| ["#{k}_trading", trading_percent(k)] }.to_h
+    commodities.map { |k| ["#{k}_trading", trading_percent(k)] }.to_h
   end
 
   def trading_percent(commodity)
@@ -23,12 +20,22 @@ class Port < ApplicationRecord
   end
 
   def to_s
-    PORT_TYPES[port_class]
+    port_types[port_class]
   end
 
   def trades?(trade_type, commodity)
-    choice = COMMODITIES.find_index(commodity)
-    return false unless choice
-    (trade_type[0].upcase == PORT_TYPES[port_class].split('')[choice])
+    return false unless commodity.include?(commodity)
+    (trade_type[0].upcase == port_types[port_class].split('')[commodities.find_index(commodity)])
   end
+
+  private
+
+    def port_types
+      %w[Special BBS BSS BSB SBB SSB SBS BSS SSS BBB]
+    end
+
+    def commodities 
+      %w[ore organics equipment]
+    end
+
 end

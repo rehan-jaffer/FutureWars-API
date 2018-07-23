@@ -9,7 +9,7 @@ require 'views/warp_view'
 class Sector < ApplicationRecord
   has_one :port
 
-  HANDLERS = { players: PlayerView, beacons: BeaconView, port: PortView, planets: PlanetView, warps: WarpView, sector: SectorView }.freeze
+  HANDLERS = 
 
   def self.path(origin, destination)
     ActiveRecord::Base.connection.execute("select p.id from warp_graph fg join sectors p on (fg.linkid=p.id)where fg.latch = '1' and origid = #{origin} and destid = #{destination}").to_a.flatten
@@ -19,13 +19,9 @@ class Sector < ApplicationRecord
     !port.nil?
   end
 
-  def objects
-    %i[players beacons port planets warps sector]
-  end
-
   def view
     objects.map.with_object({}) do |object, h|
-      h[object] = HANDLERS[object].render(attributes)
+      h[object] = handlers[object].render(attributes)
     end
   end
 
@@ -61,6 +57,17 @@ class Sector < ApplicationRecord
   end
 
   def self.create_warps(id, id_list, _max_warps = 5, warp_function)
-    warp_function.call(0).times { |_| connect(id, id_list[rand * id_list.size]) }
+   warp_function.call(0).times { |_| connect(id, id_list[rand * id_list.size]) }
   end
+
+  private 
+
+    def objects
+      %i[players beacons port planets warps sector]
+    end
+
+    def handlers 
+      { players: PlayerView, beacons: BeaconView, port: PortView, planets: PlanetView, warps: WarpView, sector: SectorView }
+    end
+
 end
