@@ -6,6 +6,10 @@ class Port < ApplicationRecord
     attributes.merge(trading_hash)
   end
 
+  def to_s
+    port_types[port_class]
+  end
+
   def trading_hash
     commodities.map { |k| ["#{k}_trading", trading_percent(k)] }.to_h
   end
@@ -14,13 +18,8 @@ class Port < ApplicationRecord
       ((attributes["#{commodity}_qty"] / ((attributes["#{commodity}_productivity"]) * 10.0)) * 100.0).round(1)
   end
 
-  def has_quantity?(_commodity, _qty)
-    # placeholder function
-    true
-  end
-
-  def to_s
-    port_types[port_class]
+  def has_quantity?(commodity, qty)
+    qty < attributes["#{commodity}_qty"]
   end
 
   def trades?(trade_type, commodity)
