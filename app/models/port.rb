@@ -1,4 +1,6 @@
 class Port < ApplicationRecord
+  
+  include CommodityPricing
 
   belongs_to :sector
 
@@ -19,7 +21,7 @@ class Port < ApplicationRecord
   end
 
   def has_quantity?(commodity, qty)
-    qty < attributes["#{commodity}_qty"]
+    qty.to_i < attributes["#{commodity}_qty"]
   end
 
   def trades?(trade_type, commodity)
