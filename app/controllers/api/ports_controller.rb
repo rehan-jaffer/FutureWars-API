@@ -11,7 +11,7 @@ class Api::PortsController < ApplicationController
   end
 
   def trade
-    result = TradeWithPortService.call(current_user.id, commodity: trade_params[:commodity], qty: trade_params[:qty], trade_type: trade_params[:trade_type])
+    result = TradeWithPortService.call(current_user.id, {commodity: trade_params[:commodity], qty: trade_params[:qty], trade_type: trade_params[:trade_type]})
     if result.success?
       render json: result.result
     else
