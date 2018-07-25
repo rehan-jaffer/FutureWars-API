@@ -3,11 +3,16 @@ class ConsiderOfferService
 
   def initialize(player, transaction_id, amount)
     @transaction = Transaction.where(uid: transaction_id).first
-    @port = @transaction.port
     @player = player
     @amount = amount.to_i
     @strategy = Rails.configuration.trading_strategy
-    @offer_data = OfferData.new({amount: @amount, port: @port.to_h, transaction: @transaction.attributes})
+    @offer_data = {
+                     amount: @amount, 
+                     port_id: @transaction.port_id, 
+                     initial_offer: @transaction.initial_offer,
+                     commodity: @transaction.commodity.to_sym,
+                     qty: @transaction.qty
+                  }
   end
 
   def validates?
