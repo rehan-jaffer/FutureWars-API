@@ -6,7 +6,7 @@ class TradeWithPortService
     @player = Player.find(player_id)
     @sector = Sector.find(@player.current_sector)
     @strategy = Rails.configuration.trading_strategy
-    @offer_data = OfferData.new({port: @sector.port.to_h}.merge(@request))
+    @offer_data = {port_id: @sector.port.id}.merge(@request)
   end
 
   def validates?
