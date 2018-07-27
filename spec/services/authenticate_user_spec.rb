@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe AuthenticateUserService do
   before(:all) do
-    FactoryBot.create(:player, username: 'testpassword', password: 'password')
+    FactoryGirl.create(:player, username: 'testpassword', password: 'password')
   end
 
   subject(:context) { described_class.call(username, password) }

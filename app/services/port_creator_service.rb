@@ -4,7 +4,7 @@ require './lib/ports/port_setup'
 class PortCreatorService
   prepend SimpleCommand
 
-  def initialize(props = ActiveSupport::HashWithIndifferentAccess.new)
+  def initialize(props = {})
     @props = props
     @props['port_class'] = PortTradeString.get_class(@props.delete('trades')) if @props.key?('trades')
     @props['name'] = PlanetNamer.generate_one
