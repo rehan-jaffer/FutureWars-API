@@ -31,7 +31,7 @@ class ExpressWarpService
           event = true
         else
           @player.update_sector(sector_id)
-          @sectors.push(Sector.find(sector_id).to_json)
+          @sectors.push(sector_id)
         end
       end
     end
