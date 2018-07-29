@@ -5,7 +5,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'shoulda-matchers'
+gem 'pry-rails'
 gem 'mysql2'
 gem 'simplecov', require: false, group: :test
 gem 'simple_command'
@@ -20,10 +20,13 @@ gem 'rack-cors'
 gem 'whenever'
 gem 'jbuilder'
 gem 'rails_event_store'
+gem 'active_model_serializers'
 
 group :test do
+  gem 'factory_bot'
   gem 'factory_bot_rails'
   gem 'database_cleaner'
+  gem 'shoulda-matchers'
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

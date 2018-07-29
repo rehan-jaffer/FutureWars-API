@@ -61,7 +61,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with(:truncation, { :except => %w[warp_graph] })
+    DatabaseCleaner.clean_with(:truncation, except: %w[warp_graph])
     load "#{Rails.root}/db/seeds.rb"
     Player.destroy_all
     u = UniverseCreator.new(10)
@@ -76,5 +76,15 @@ RSpec.configure do |config|
     DatabaseCleaner.cleaning do
       example.run
     end
+  end
+end
+
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    # Choose a test framework:
+    with.test_framework :rspec
+
+    # Or, choose the following (which implies all of the above):
+    with.library :rails
   end
 end
