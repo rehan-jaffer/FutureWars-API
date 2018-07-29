@@ -1,5 +1,6 @@
 class ConsiderOfferService
   prepend SimpleCommand
+  include EventEmitter
 
   def initialize(player, transaction_id, amount)
     @transaction = Transaction.where(uid: transaction_id).first
@@ -7,12 +8,12 @@ class ConsiderOfferService
     @amount = amount.to_i
     @strategy = Rails.configuration.trading_strategy
     @offer_data = {
-                     amount: @amount, 
-                     port_id: @transaction.port_id, 
-                     initial_offer: @transaction.initial_offer,
-                     commodity: @transaction.commodity.to_sym,
-                     qty: @transaction.qty
-                  }
+      amount: @amount,
+      port_id: @transaction.port_id,
+      initial_offer: @transaction.initial_offer,
+      commodity: @transaction.commodity.to_sym,
+      qty: @transaction.qty
+    }
   end
 
   def validates?
@@ -23,7 +24,6 @@ class ConsiderOfferService
   end
 
   def call
-
     return nil unless validates?
 
     unless @strategy.will_negotiate?(@offer_data)
