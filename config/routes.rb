@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  namespace :api, :defaults => { :format => 'json' } do
-
+  namespace :api, defaults: { format: 'json' } do
     resources :sessions
 
     namespace :sector do
@@ -21,6 +20,5 @@ Rails.application.routes.draw do
     namespace :transactions do
       post 'offer'
     end
-
   end
 end
