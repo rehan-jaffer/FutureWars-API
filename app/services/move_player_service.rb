@@ -1,10 +1,15 @@
+require './lib/events/event_emitter'
+
 class MovePlayerService
   prepend SimpleCommand
+  include EventEmitter
 
   def initialize(player_id, dest)
     @player = Player.find(player_id)
+    @origin = @player.current_sector
     @dest = dest
-    @streams = ["universe"]
+    streams(['universe', "player_#{@player.id}"])
+    #    @streams = ["universe"]
   end
 
   def validates?
@@ -15,22 +20,14 @@ class MovePlayerService
   end
 
   def update_player_state
-    @player.current_sector = @dest
-    @player.turns -= 3
-    @player.save
+    @player.update_sector(@dest)
+    #    @player.decrease_turns( 3 )
   end
 
   def update_events
-
-    event = PlayerMoved.new(data: {
-      player_id: @player.id,
-      sector_id: @dest
-    });
-
-    @streams.each do |stream|
-      Rails.configuration.event_store.publish(event, stream_name: stream)
-    end
-
+    emit_event(PlayerMoved, player_id: @player.id,
+                            origin_id: @origin,
+                            dest_id: @dest)
   end
 
   def call
