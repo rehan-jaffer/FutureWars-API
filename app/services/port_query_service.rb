@@ -11,11 +11,11 @@ class PortQueryService
     @player = user # remove
     @current_sector = user.current_sector
     @port = Port.where(sector_id: @id).first
-    @streams = ["trading", "universe","port_queries"]
+    @streams = %w[trading universe port_queries]
   end
 
   def update_events
-    event = PortQuery.new(data: {port_id: @port.id, sector_id: @sector.id, player_id: @player.id})
+    event = PortQuery.new(data: { port_id: @port.id, sector_id: @sector.id, player_id: @player.id })
     @streams.each do |stream|
       Rails.configuration.event_store.publish(event, stream)
     end
