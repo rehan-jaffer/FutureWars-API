@@ -1,5 +1,4 @@
 class Port < ApplicationRecord
-  
   include CommodityPricing
 
   belongs_to :sector
@@ -17,7 +16,7 @@ class Port < ApplicationRecord
   end
 
   def trading_percent(commodity)
-      ((attributes["#{commodity}_qty"] / ((attributes["#{commodity}_productivity"]) * 10.0)) * 100.0).round(1)
+    ((attributes["#{commodity}_qty"] / (attributes["#{commodity}_productivity"] * 10.0)) * 100.0).round(1)
   end
 
   def has_quantity?(commodity, qty)
@@ -31,12 +30,11 @@ class Port < ApplicationRecord
 
   private
 
-    def port_types
-      %w[Special BBS BSS BSB SBB SSB SBS BSS SSS BBB]
-    end
+  def port_types
+    %w[Special BBS BSS BSB SBB SSB SBS BSS SSS BBB]
+  end
 
-    def commodities 
-      %w[ore organics equipment]
-    end
-
+  def commodities
+    %w[ore organics equipment]
+  end
 end
