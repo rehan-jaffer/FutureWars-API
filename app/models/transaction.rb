@@ -25,8 +25,7 @@ class Transaction < ApplicationRecord
 
   private
 
-    def age_in_minutes
-      ((Time.now - created_at) / 60.0).round
-    end
-
+  def age_in_minutes
+    ((Time.now - created_at) / 60.0).round
+  end
 end
