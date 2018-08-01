@@ -1,5 +1,4 @@
 class Api::PlayerController < ApplicationController
-
   def stats
     render :stats
   end

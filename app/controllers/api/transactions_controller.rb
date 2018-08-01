@@ -1,5 +1,4 @@
 class Api::TransactionsController < ApplicationController
-
   def offer
     result = ConsiderOfferService.call(current_user, offer_params[:id], offer_params[:amount])
     if result.success?
