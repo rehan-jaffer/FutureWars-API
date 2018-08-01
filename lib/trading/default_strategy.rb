@@ -2,7 +2,6 @@ require './lib/trading/pricing'
 require 'pp'
 
 class DefaultStrategy
-
   def self.initial_offer_price(offer_data)
     port = Port.find(offer_data[:port_id])
     port.per_unit_price(offer_data[:commodity]) * offer_data[:qty].to_i
@@ -22,9 +21,7 @@ class DefaultStrategy
 
   private
 
-    def self.qty(offer_data)
-     (offer_data.qty.to_i || offer_data[:qtys])
-    end
-
+  def self.qty(offer_data)
+    (offer_data.qty.to_i || offer_data[:qtys])
+  end
 end
-
