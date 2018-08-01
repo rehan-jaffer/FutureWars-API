@@ -74,7 +74,7 @@ describe 'Port Trading Functionality' do
       @player.current_sector = 2
       @player.save
 
-      @transaction = Transaction.create(player_id: @player.id, port_id: Sector.find(@player.current_sector).port.id, status: 'open', qty: 10, commodity: "ore", trade_type: "buy", initial_offer: 3000)
+      @transaction = Transaction.create(player_id: @player.id, port_id: Sector.find(@player.current_sector).port.id, status: 'open', qty: 10, commodity: 'ore', trade_type: 'buy', initial_offer: 3000)
       Rails.configuration.trading_strategy = DummyStrategy
     end
 
@@ -107,7 +107,7 @@ describe 'Port Trading Functionality' do
       @player.current_sector = 2
       @player.save
 
-      @transaction = Transaction.create(player_id: @player.id, port_id: 2, status: 'open', qty: 10, commodity: "ore", trade_type: "buy", initial_offer: 3000)
+      @transaction = Transaction.create(player_id: @player.id, port_id: 2, status: 'open', qty: 10, commodity: 'ore', trade_type: 'buy', initial_offer: 3000)
       Rails.configuration.trading_strategy = DefaultStrategy
     end
 
@@ -133,5 +133,4 @@ describe 'Port Trading Functionality' do
       expect(transaction).to have_key('transaction')
     end
   end
-
 end
