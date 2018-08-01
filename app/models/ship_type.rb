@@ -1,8 +1,5 @@
 class ShipType < ApplicationRecord
   has_many :players
 
-  def to_s
-    "#{name}"
-  end
-
+  delegate :to_s, to: :name
 end
