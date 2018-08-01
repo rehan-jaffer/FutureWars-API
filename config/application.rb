@@ -32,10 +32,8 @@ module FuturewarsApi
     config.api_only = true
     config.game = config_for(:game)
 
-
     config.to_prepare do
       Rails.configuration.event_store = RailsEventStore::Client.new
     end
-
   end
 end
