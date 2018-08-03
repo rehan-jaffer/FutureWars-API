@@ -1,7 +1,13 @@
+require './lib/trading/commodity_pricing'
+
 class Port < ApplicationRecord
   include CommodityPricing
 
   belongs_to :sector
+
+  def self.commodities
+    %w[ore organics equipment]
+  end
 
   def to_h
     attributes.merge(trading_hash)
