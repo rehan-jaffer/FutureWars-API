@@ -12,6 +12,25 @@ Rails.application.routes.draw do
       post 'move'
     end
 
+    namespace :nav do
+      post 'warp'
+      get 'warp_path'
+      post 'express_warp'
+    end
+
+   namespace :comp do
+
+      namespace :ports do
+        get 'query/:id', action: :query
+        post 'trade'
+      end
+
+      namespace :transactions do
+        post 'offer'
+      end
+
+   end
+
     namespace :ports do
       get 'query/:id', action: :query
       post 'trade'
