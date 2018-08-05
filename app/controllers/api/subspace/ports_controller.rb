@@ -1,6 +1,6 @@
 require './lib/views/port_trade_view'
 
-class Api::Comp::PortsController < ApplicationController
+class Api::Subspace::PortsController < ApplicationController
   def query
     result = PortQueryService.call(port_params[:id], current_user)
     if result.success?

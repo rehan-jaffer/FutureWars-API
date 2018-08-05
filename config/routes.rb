@@ -18,7 +18,7 @@ Rails.application.routes.draw do
       post 'express_warp'
     end
 
-   namespace :comp do
+   namespace :subspace do
 
       namespace :ports do
         get 'query/:id', action: :query
