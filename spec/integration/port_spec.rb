@@ -17,7 +17,7 @@ describe 'Port Trading Functionality' do
 
   describe 'Querying a Port for trading information' do
     it 'allows querying of a port' do
-      get '/api/comp/ports/query/2', headers: { 'AUTHORIZATION': @auth['auth_token'] }
+      get '/api/subspace/ports/query/2', headers: { 'AUTHORIZATION': @auth['auth_token'] }
       port = JSON.parse(response.body)
       player = Player.find_by(username: 'ray')
       expect(port).to have_key('items')
@@ -27,7 +27,7 @@ describe 'Port Trading Functionality' do
     end
 
     it "doesn't permit querying a sector I'm not in" do
-      get '/api/comp/ports/query/3', headers: { 'AUTHORIZATION': @auth['auth_token'] }
+      get '/api/subspace/ports/query/3', headers: { 'AUTHORIZATION': @auth['auth_token'] }
       errors = JSON.parse(response.body)
       expect(errors).to have_key('errors')
     end
@@ -37,7 +37,7 @@ describe 'Port Trading Functionality' do
       player.current_sector = 1
       player.save
 
-      get '/api/comp/ports/query/1', headers: { 'AUTHORIZATION': @auth['auth_token'] }
+      get '/api/subspace/ports/query/1', headers: { 'AUTHORIZATION': @auth['auth_token'] }
       items = JSON.parse(response.body)
       expect(items['items']).to have_key('fighters')
       expect(items['items']).to have_key('shields')
@@ -54,14 +54,14 @@ describe 'Port Trading Functionality' do
 
     it 'permits trading with a port and opening a transaction (dummy strategy)' do
       Rails.configuration.trading_strategy = DummyStrategy
-      post '/api/comp/ports/trade', params: { id: 2, qty: 1, commodity: 'ore', trade_type: 'buy' }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
+      post '/api/subspace/ports/trade', params: { id: 2, qty: 1, commodity: 'ore', trade_type: 'buy' }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
       transaction = JSON.parse(response.body)
       expect(transaction).to have_key('initial_offer')
     end
 
     it 'permits trading with a port and opening a transaction (default strategy)' do
       Rails.configuration.trading_strategy = DefaultStrategy
-      post '/api/comp/ports/trade', params: { id: 2, qty: 75, commodity: 'ore', trade_type: 'buy' }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
+      post '/api/subspace/ports/trade', params: { id: 2, qty: 75, commodity: 'ore', trade_type: 'buy' }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
       transaction = JSON.parse(response.body)
       expect(transaction).to have_key('transaction')
       expect(transaction).to have_key('initial_offer')
@@ -80,7 +80,7 @@ describe 'Port Trading Functionality' do
 
     it 'permits making a counteroffer to a port (high offer) and receives a counteroffer in return' do
       offer_amount = 1000
-      post '/api/comp/transactions/offer', params: { id: @transaction.uid, amount: offer_amount }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
+      post '/api/subspace/transactions/offer', params: { id: @transaction.uid, amount: offer_amount }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
       transaction = JSON.parse(response.body)
       expect(transaction).to have_key('offer')
       expect(transaction['offer']['amount']).to be < offer_amount
@@ -88,14 +88,14 @@ describe 'Port Trading Functionality' do
 
     it 'permits making a counteroffer to a port (low offer) and receives a transaction termination in return' do
       offer_amount = 15
-      post '/api/comp/transactions/offer', params: { id: @transaction.uid, amount: offer_amount }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
+      post '/api/subspace/transactions/offer', params: { id: @transaction.uid, amount: offer_amount }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
       transaction = JSON.parse(response.body)
       expect(transaction).to have_key('errors')
     end
 
     it 'permits making a counteroffer to a port (optimal offer) which is accepted' do
       offer_amount = 20
-      post '/api/comp/transactions/offer', params: { id: @transaction.uid, amount: offer_amount }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
+      post '/api/subspace/transactions/offer', params: { id: @transaction.uid, amount: offer_amount }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
       transaction = JSON.parse(response.body)
       expect(transaction).to have_key('transaction')
     end
@@ -113,7 +113,7 @@ describe 'Port Trading Functionality' do
 
     it 'permits making a counteroffer to a port (high offer) and receives a counteroffer in return' do
       offer_amount = 2300
-      post '/api/comp/transactions/offer', params: { id: @transaction.uid, amount: offer_amount }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
+      post '/api/subspace/transactions/offer', params: { id: @transaction.uid, amount: offer_amount }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
       transaction = JSON.parse(response.body)
       expect(transaction).to have_key('offer')
       expect(transaction['offer']['amount']).to be < offer_amount
@@ -121,14 +121,14 @@ describe 'Port Trading Functionality' do
 
     it 'permits making a counteroffer to a port (low offer) and receives a transaction termination in return' do
       offer_amount = 10
-      post '/api/comp/transactions/offer', params: { id: @transaction.uid, amount: offer_amount }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
+      post '/api/subspace/transactions/offer', params: { id: @transaction.uid, amount: offer_amount }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
       transaction = JSON.parse(response.body)
       expect(transaction).to have_key('errors')
     end
 
     it 'permits making a counteroffer to a port (optimal offer) which is accepted' do
       offer_amount = 2900
-      post '/api/comp/transactions/offer', params: { id: @transaction.uid, amount: offer_amount }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
+      post '/api/subspace/transactions/offer', params: { id: @transaction.uid, amount: offer_amount }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
       transaction = JSON.parse(response.body)
       expect(transaction).to have_key('transaction')
     end
