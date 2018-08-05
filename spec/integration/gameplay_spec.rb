@@ -70,13 +70,13 @@ describe 'Gameplay' do
 
   describe 'Viewing Current Sector' do
     it 'permits viewing of the current sector' do
-      get '/api/sector/current', headers: { 'AUTHORIZATION': @auth['auth_token'] }
+      get '/api/nav/sector/current', headers: { 'AUTHORIZATION': @auth['auth_token'] }
       expect(response).to be_success
     end
 
     context 'Sector Information' do
       before :all do
-        get '/api/sector/current', headers: { 'AUTHORIZATION': @auth['auth_token'] }
+        get '/api/nav/sector/current', headers: { 'AUTHORIZATION': @auth['auth_token'] }
       end
 
       let(:sector) { JSON.parse(response.body) }

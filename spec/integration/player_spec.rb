@@ -32,7 +32,7 @@ describe 'Player API' do
 
   describe 'Visibility of other players' do
     it 'shows another player that is in my sector' do
-      get '/api/sector/current', headers: { 'AUTHORIZATION': @auth['auth_token'] }
+      get '/api/nav/sector/current', headers: { 'AUTHORIZATION': @auth['auth_token'] }
       sector = JSON.parse(response.body)
       expect(sector).to have_key('players')
       expect(sector['players'].size).to eq 2
