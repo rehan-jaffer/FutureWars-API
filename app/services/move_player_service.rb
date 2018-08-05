@@ -9,7 +9,6 @@ class MovePlayerService
     @origin = @player.current_sector
     @dest = dest
     streams(['universe', "player_#{@player.id}"])
-    #    @streams = ["universe"]
   end
 
   def validates?
@@ -21,7 +20,7 @@ class MovePlayerService
 
   def update_player_state
     @player.update_sector(@dest)
-    #    @player.decrease_turns( 3 )
+    @player.decrease_turns( @player.move_cost(1) )
   end
 
   def update_events
