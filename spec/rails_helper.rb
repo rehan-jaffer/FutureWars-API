@@ -65,10 +65,6 @@ RSpec.configure do |config|
     load "#{Rails.root}/db/seeds.rb"
     Player.destroy_all
     u = UniverseCreator.new(10)
-    u.add_stage(DestroyStage)
-    u.add_stage(SectorStage)
-    u.add_stage(PortStage)
-    u.add_stage(WarpStage)
     u.create
   end
 
