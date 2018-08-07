@@ -6,7 +6,7 @@ require './lib/universe/stages/destroy_stage'
 class UniverseCreator
   def initialize(size)
     @size = size
-    @stages = []
+    @stages = stages
   end
 
   def add_stage(stage)
@@ -22,4 +22,11 @@ class UniverseCreator
       s.exec
     end
   end
+
+  private
+
+    def stages
+      [DestroyStage, SectorStage, WarpStage, PortStage]
+    end
+
 end

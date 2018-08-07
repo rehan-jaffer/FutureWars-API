@@ -1,3 +1,5 @@
+require './lib/grid/patterns'
+
 class WarpStage
   def initialize
     @size = 0
@@ -14,8 +16,23 @@ class WarpStage
   end
 
   def exec
-    @sector_list.each do |sector|
-      Sector.create_warps(sector, @sector_list, @warp_function)
+
+    square_size = (@size**0.5).ceil
+    grid = Patterns.square(square_size)
+    pattern_grid = Patterns.filter(grid, @sector_list)
+
+    0.upto(square_size-1) do |i|
+      0.upto(square_size-1) do |j|
+        sector_id = pattern_grid[i][j]
+        next unless sector_id
+        Patterns.neighbours(pattern_grid, i, j).each do |neighbour|
+          Warp.create(origin_id: sector_id, dest_id: neighbour) if neighbour && neighbour > 0
+        end
+      end
     end
+
+    File.write("./config/grid.#{Rails.env}.map", JSON.generate(pattern_grid))
+
   end
 end
+
