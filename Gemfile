@@ -22,6 +22,10 @@ gem 'jbuilder'
 gem 'rails_event_store'
 gem 'active_model_serializers'
 
+group :development do
+  gem 'web-console'
+end
+
 group :test do
   gem 'factory_bot'
   gem 'factory_bot_rails'
