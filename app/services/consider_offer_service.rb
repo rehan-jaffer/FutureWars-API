@@ -1,3 +1,5 @@
+require './lib/events/event_emitter'
+
 class ConsiderOfferService
   prepend SimpleCommand
   include EventEmitter
