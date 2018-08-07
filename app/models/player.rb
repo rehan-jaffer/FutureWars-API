@@ -11,6 +11,7 @@ class Player < ApplicationRecord
   validates :username, format: /\A[a-zA-Z0-9 ]+\z/, uniqueness: true, presence: true
   validates :current_sector, presence: true
   validates :alignment, presence: true
+  validates :email, presence: true
   
 
   belongs_to :ship_type
