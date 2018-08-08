@@ -1,5 +1,5 @@
 class SectorSerializer < ActiveModel::Serializer
-  attributes :id, :players, :port, :warps
+  attributes :id, :players, :port, :warps, :planets
 
 #  private
 
@@ -13,6 +13,16 @@ class SectorSerializer < ActiveModel::Serializer
 
     def warps
       Warp.warps_for(object.id)
+    end
+
+    def planets
+      object.planets.map { |planet|
+        {
+          name: planet.name,
+          class_name: planet.planet_type.classification,
+          planet_type: planet.planet_type.name
+        }
+      }
     end
 
     def players
