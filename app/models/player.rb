@@ -1,7 +1,10 @@
 require './lib/player/turns'
+require './lib/player/messaging'
 
 class Player < ApplicationRecord
+
   include PlayerUnit::Turns
+  include PlayerUnit::Messaging
 
   has_secure_password
 
@@ -13,6 +16,8 @@ class Player < ApplicationRecord
   validates :alignment, presence: true
   validates :email, presence: true
   
+  has_many :sent_messages, class_name: "Message", foreign_key: "from_id"
+  has_many :received_messages, class_name: "Message", foreign_key: "to_id"
 
   belongs_to :ship_type
 
@@ -35,6 +40,10 @@ class Player < ApplicationRecord
   def can_trade_at_port?(_sector_id)
     # until implemented, players can trade at all ports
     true
+  end
+
+  def new_messages?
+    received_messages.unread.count > 0
   end
 
   delegate :name, to: :ship_type, prefix: true
