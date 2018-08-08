@@ -9,6 +9,7 @@ class Player < ApplicationRecord
   has_secure_password
 
   has_one :ship
+  belongs_to :corporation
 
   validates :ship_name, presence: true, format: /\A[a-zA-Z0-9 \-_]+\z/
   validates :username, format: /\A[a-zA-Z0-9 ]+\z/, uniqueness: true, presence: true
@@ -20,6 +21,10 @@ class Player < ApplicationRecord
   has_many :received_messages, class_name: "Message", foreign_key: "to_id"
 
   belongs_to :ship_type
+
+  def ceo?
+    Corporation.where(ceo_id: id).count > 0
+  end
 
   def update_sector(sector_id)
     update_attribute(:current_sector, sector_id)
