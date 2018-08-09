@@ -1,6 +1,6 @@
 class Api::PlayerController < ApplicationController
   def stats
-    render :stats
+    render json: current_user
   end
 
   def status
