@@ -3,8 +3,9 @@ require './lib/generators/id_generator'
 class CreatePlayerShipService
   prepend SimpleCommand
 
-  def initialize(player, _ship_name)
+  def initialize(player, ship_name)
     @player = player
+    @ship_name = ship_name
   end
 
   def call
