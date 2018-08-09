@@ -8,7 +8,7 @@ class Player < ApplicationRecord
 
   has_secure_password
 
-  has_one :ship
+  has_many :ships, class_name: "Ship"
   belongs_to :corporation
 
   validates :ship_name, presence: true, format: /\A[a-zA-Z0-9 \-_]+\z/
@@ -24,6 +24,10 @@ class Player < ApplicationRecord
 
   def ceo?
     Corporation.with_ceo(id).count > 0
+  end
+
+  def primary_ship
+    ships.where(primary: true).first
   end
 
   def in_a_corporation?
