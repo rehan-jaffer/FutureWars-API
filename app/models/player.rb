@@ -26,6 +26,10 @@ class Player < ApplicationRecord
     Corporation.where(ceo_id: id).count > 0
   end
 
+  def in_corporation?
+    !corporation.nil?
+  end
+
   def update_sector(sector_id)
     update_attribute(:current_sector, sector_id)
   end
