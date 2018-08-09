@@ -18,6 +18,15 @@ class Api::Subspace::CorporationController < ApplicationRecord
     end
   end
 
+  def leave
+    result = LeaveCorporationService.call(current_user.id, leave_corp_params[:id])
+    if result.success?
+      render json: result.result
+    else
+      render json: result.errors
+    end
+  end
+
   private
 
     def join_corp_params

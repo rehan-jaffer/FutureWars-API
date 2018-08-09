@@ -23,11 +23,15 @@ class Player < ApplicationRecord
   belongs_to :ship_type
 
   def ceo?
-    Corporation.where(ceo_id: id).count > 0
+    Corporation.with_ceo(id).count > 0
   end
 
-  def in_corporation?
+  def in_a_corporation?
     !corporation.nil?
+  end
+
+  def in_corporation?(id)
+    corporation_id == id
   end
 
   def update_sector(sector_id)
@@ -39,7 +43,7 @@ class Player < ApplicationRecord
   end
 
   def can_express_warp?(dest)
-    move_cost( Warp.path(current_sector, dest).size ) < turns
+    move_cost( Warp.hops(current_sector, dest) ) < turns
   end
 
   def rank
