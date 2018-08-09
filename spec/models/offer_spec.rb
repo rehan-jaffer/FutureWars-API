@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Offer, type: :model do
   before :all do
-    @player = CreatePlayerService.call('ray', 'testpassword', 'USS Ship Name').result
+    @player = FactoryBot.create(:player)
     @transaction = Transaction.create(player_id: @player.id, port_id: Port.first.id, status: 'open')
     #    transaction = Transaction.create(
   end

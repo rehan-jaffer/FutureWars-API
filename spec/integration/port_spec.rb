@@ -5,7 +5,7 @@ require 'pp'
 
 describe 'Port Trading Functionality' do
   before :all do
-    p = CreatePlayerService.call('ray', 'testpassword', 'test ship').result
+    p = FactoryBot.create(:player, username: 'ray', password: 'testpassword')
     p.current_sector = 2
     p.save
     @auth = authenticate_user('ray', 'testpassword')

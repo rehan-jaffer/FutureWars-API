@@ -3,8 +3,10 @@ require './spec/support/auth'
 
 describe 'Player API' do
   before :all do
-    CreatePlayerService.call('ray', 'testpassword', 'ship name')
-    CreatePlayerService.call('ray2', 'testpassword', 'ship name 2')
+    p1 = FactoryBot.create(:player)
+    p2 = FactoryBot.create(:player, password: "testpassword2")
+    CreatePlayerShipService.call(p1, "ship name")
+    CreatePlayerShipService.call(p2, "ship name2")
     @auth = authenticate_user('ray2', 'testpassword')
   end
 

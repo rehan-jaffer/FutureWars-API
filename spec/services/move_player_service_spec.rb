@@ -4,7 +4,7 @@ describe MovePlayerService do
   describe 'Moving a Player between connected sectors' do
     context 'valid moves' do
       before :all do
-        @p = CreatePlayerService.call('myuser2', 'testpassword', 'ship name').result
+        @p = FactoryBot.create(:player)
         @turns = @p.turns
         @dest = Warp.warps_for(@p.current_sector).sample
         @result = MovePlayerService.call(@p.id, @dest)
@@ -15,12 +15,12 @@ describe MovePlayerService do
       end
 
       it 'deducts the correct amount of turns from a player' do
-        expect(@p.reload.turns).to eq (@turns - @p.ship_type_turns_per_warp)
+        expect(@p.reload.turns).to eq (@turns - @p.primary_ship.ship_type.turns_per_warp)
       end
     end
 
     context 'invalid moves' do
-      let(:p) { CreatePlayerService.call('myuser', 'testpassword', 'ship name').result }
+      let (:p) { FactoryBot.create(:player) }
 
       it 'does not permit move to non-neighbouring sector' do
         warps = Sector.find(p.current_sector).warps

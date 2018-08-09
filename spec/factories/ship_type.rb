@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :ship_type do
     id 1
-    name 'Merchant Cruiser'
+    name 'My cruiser'
   end
 end
