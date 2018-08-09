@@ -22,6 +22,18 @@ Rails.application.routes.draw do
 
    namespace :subspace do
 
+      namespace :corporations do
+        post 'create'
+        post 'join'
+        post 'leave'
+      end
+
+      namespace :messages do
+        post 'send'
+        get 'read'
+        get 'list'
+      end
+
       namespace :ports do
         get 'query/:id', action: :query
         post 'trade'
