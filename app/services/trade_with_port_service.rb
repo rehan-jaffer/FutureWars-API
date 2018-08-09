@@ -15,7 +15,7 @@ class TradeWithPortService
     errors.add(:errors, 'Quantity must be supplied') unless @request.key?(:qty)
     errors.add(:errors, 'Must specify if you want to buy or sell') unless @request.key?(:trade_type) && %w[buy sell].include?(@request[:trade_type])
     errors.add(:errors, 'Commodity must be specified') unless @request.key?(:commodity) && !@request[:commodity].empty?
-
+    errors.add(:errors, 'You do not have that many available holds') unless @player.primary_ship.empty_holds >= @request[:qty].to_i
     # check the request is feasible
 
     errors.add(:errors, 'We do not trade that commodity') unless @sector.port.trades?(@request[:trade_type], @request[:commodity])
