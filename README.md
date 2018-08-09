@@ -8,8 +8,6 @@ Futurewars is a text-based game modeled on the old Tradewars 2002 BBS game, writ
 > seminal game, credited as an early inspiration by many of today’s game
 > developers.
 
-This code is made available under the **Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)** license. 
-
 ## Services
 Most of the game logic code is implemented in the form of service objects
 
@@ -24,10 +22,13 @@ PortQueryService
 ConsiderOfferService
 
 SectorCreatorService
+CreatePlanetService
 
 CreatePlayerService
 CreatePlayerShipService
 MovePlayerService
+CreateCorporationService
+JoinCorporationService
 
 ### To Be Implemented
 
@@ -38,7 +39,6 @@ TransferCreditsService
 AttackPortService
 RobPortService
 
-CreatePlanetService
 DeployNovaDeviceService
 QueryPlanetService
 DestroyPlanetService
@@ -50,9 +50,7 @@ BuyClassZeroItemsService
 QueryFederalService
 PlaceBountyService
 
-CreateCorporationService
 ChangeCorporationService
-JoinCorporationService
 
 JettisonColonistsService
 ChangeColonistsOnPlanetService
