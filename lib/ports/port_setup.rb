@@ -11,19 +11,11 @@ class PortSetup
   end
 
   def self.initialize(port)
-    commodities = %w[ore organics equipment]
-
-    commodities.each do |commodity|
+    Port.commodities.each do |commodity|
       port["#{commodity}_mcic"] = get_mcic(commodity, PortTradeCommodity.buys_or_sells(port.port_class, commodity))
+      port["#{commodity}_productivity"] = rand_productivity
+      port["#{commodity}_qty"] = port["#{commodity}_productivity"] * 10
     end
-
-    port.organics_productivity = rand_productivity
-    port.ore_productivity = rand_productivity
-    port.equipment_productivity = rand_productivity
-
-    port.organics_qty = port.organics_productivity * 10
-    port.ore_qty = port.ore_productivity * 10
-    port.equipment_qty = port.equipment_productivity * 10
 
     port.save
   end
