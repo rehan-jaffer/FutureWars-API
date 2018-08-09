@@ -4,10 +4,11 @@ class CreatePlayerService
   prepend SimpleCommand
   include EventEmitter
 
-  def initialize(username, password, ship_name)
+  def initialize(username, password, ship_name, props={})
     @username = username
     @ship_name = ship_name
     @password = password
+    @props = props
     streams(["universe", "players"])
   end
 
@@ -17,7 +18,7 @@ class CreatePlayerService
   end
 
   def call
-    @player = Player.create(username: @username,
+    @player = Player.create({username: @username,
                             ship_name: @ship_name,
                             ship_type_id: ShipType.find_by(name: 'Merchant Cruiser').id,
                             alignment: 0,
@@ -26,7 +27,7 @@ class CreatePlayerService
                             current_sector: Rails.configuration.game['initial_sector'],
                             fighters: Rails.configuration.game['initial_fighters'],
                             credits: Rails.configuration.game['initial_credits'],
-                            password: @password)
+                            password: @password}.merge(@props))
 
     ship = CreatePlayerShipService.call(@player, @ship_name)
 
