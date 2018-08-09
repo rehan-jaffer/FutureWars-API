@@ -36,8 +36,20 @@ class ConsiderOfferService
     end
 
     if @strategy.will_accept?(@offer_data)
+      @port = Port.find(@offer_data[:port_id])
       @transaction.status = 'accepted'
-      @transaction.save
+      @transaction.save     
+
+      case @transaction.trade_type
+        when "Buying"
+          @player.ship.load_hold(@request[:commodity], @request[:qty])
+          @player.decrease_credits(@offer_data[:amount])
+          @port.accumulated_trading_credits += @offer_data[:amount]
+        when "Selling"
+          @player.ship.jettison_holds(@request[:commodity], @request[:qty])
+          @player.increase_credits(@offer_data[:amount])
+      end
+
       return { transaction: @transaction }
     end
 
