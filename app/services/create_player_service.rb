@@ -17,15 +17,19 @@ class CreatePlayerService
     emit_event(PlayerCreated, { player_id: @player_id})
   end
 
+  def validates?
+    errors.add(:errors, "No username supplied") unless @username
+    errors.add(:errors, "No password supplied") unless @password
+    errors.add(:errors, "No ship name supplied") unless @ship_name
+    errors.empty?
+  end
+
   def call
     @player = Player.create({username: @username,
                             ship_name: @ship_name,
-                            ship_type_id: ShipType.find_by(name: 'Merchant Cruiser').id,
                             alignment: 0,
-                            holds: Rails.configuration.game['initial_holds'],
                             turns: Rails.configuration.game['initial_turns'],
                             current_sector: Rails.configuration.game['initial_sector'],
-                            fighters: Rails.configuration.game['initial_fighters'],
                             credits: Rails.configuration.game['initial_credits'],
                             password: @password}.merge(@props))
 
