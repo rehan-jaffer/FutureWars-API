@@ -21,15 +21,17 @@ module Patterns
   def self.filter(square, id_list)
     n = square.size
     new_square = square(n)
+
     0.upto(n-1) do |i|
       0.upto(n-1) do |j|
-        if rand > 0.7
+        if rand > 0.7 || Rails.env != "test"
           new_square[i][j] = 0
         else
           new_square[i][j] = id_list.pop
         end
       end
     end
+
     new_square
   end
 end
