@@ -13,7 +13,7 @@ class JoinCorporationService
 
   def validates?
     errors.add(:errors, "Corporation does not exist") unless @corp
-    errors.add(:errors, "You are already in a corporation") if @player.in_corporation?
+    errors.add(:errors, "You are already in a corporation, leave first") if @player.in_a_corporation?
     errors.empty?
   end
 
