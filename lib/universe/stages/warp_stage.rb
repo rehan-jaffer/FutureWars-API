@@ -19,6 +19,7 @@ class WarpStage
 
     square_size = (@size**0.5).ceil
     grid = Patterns.square(square_size)
+
     pattern_grid = Patterns.filter(grid, @sector_list)
 
     0.upto(square_size-1) do |i|
