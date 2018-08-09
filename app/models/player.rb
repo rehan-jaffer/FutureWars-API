@@ -9,9 +9,9 @@ class Player < ApplicationRecord
   has_secure_password
 
   has_many :ships, class_name: "Ship"
-  belongs_to :corporation
+  belongs_to :corporation, optional: true
 
-  validates :ship_name, presence: true, format: /\A[a-zA-Z0-9 \-_]+\z/
+#  validates :ship_name, presence: true, format: /\A[a-zA-Z0-9 \-_]+\z/
   validates :username, format: /\A[a-zA-Z0-9 ]+\z/, uniqueness: true, presence: true
   validates :current_sector, presence: true
   validates :alignment, presence: true
@@ -19,8 +19,6 @@ class Player < ApplicationRecord
   
   has_many :sent_messages, class_name: "Message", foreign_key: "from_id"
   has_many :received_messages, class_name: "Message", foreign_key: "to_id"
-
-  belongs_to :ship_type
 
   def ceo?
     Corporation.with_ceo(id).count > 0
@@ -63,8 +61,13 @@ class Player < ApplicationRecord
     received_messages.unread.count > 0
   end
 
-  delegate :name, to: :ship_type, prefix: true
-  delegate :turns_per_warp, to: :ship_type, prefix: true
+  def increase_credits(n)
+    update_attribute(:credits, credits + n)
+  end
+
+  def decrease_credits(n)
+    update_attribute(:credits, credits - n)
+  end
 
   #  def ship
   #    @ship ||= Ship.new
