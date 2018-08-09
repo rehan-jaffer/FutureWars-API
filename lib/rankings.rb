@@ -8,7 +8,7 @@ class Rankings
     experience_levels.find_index { |n| n >= exp }
   end
 
-  def self.rank(exp)
+  def self.rank(exp, _)
     good_ranks[experience_level(exp)]
   end
 
