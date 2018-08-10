@@ -5,10 +5,10 @@ require 'pp'
 
 describe 'Port Trading Functionality' do
   before :all do
-    p = FactoryBot.create(:player, username: 'ray', password: 'testpassword')
+    p = FactoryBot.create(:player)
     p.current_sector = 2
     p.save
-    @auth = authenticate_user('ray', 'testpassword')
+    @auth = authenticate_user(p.username, 'testpassword')
   end
 
   after :all do
@@ -33,7 +33,7 @@ describe 'Port Trading Functionality' do
     end
 
     it 'allows querying a Class 0 special port' do
-      player = Player.find_by(username: 'ray')
+      player = Player.last
       player.current_sector = 1
       player.save
 
@@ -47,7 +47,7 @@ describe 'Port Trading Functionality' do
 
   describe 'Trading with a port (opening a transaction)' do
     before :all do
-      @player = Player.find_by(username: 'ray')
+      @player = Player.last
       @player.current_sector = 2
       @player.save
     end
@@ -63,6 +63,7 @@ describe 'Port Trading Functionality' do
       Rails.configuration.trading_strategy = DefaultStrategy
       post '/api/subspace/ports/trade', params: { id: 2, qty: 75, commodity: 'ore', trade_type: 'buy' }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
       transaction = JSON.parse(response.body)
+      pp transaction
       expect(transaction).to have_key('transaction')
       expect(transaction).to have_key('initial_offer')
     end
@@ -70,7 +71,7 @@ describe 'Port Trading Functionality' do
 
   describe 'Transaction handling (Dummy Trading Strategy)' do
     before :all do
-      @player = Player.find_by(username: 'ray')
+      @player = Player.last
       @player.current_sector = 2
       @player.save
 
@@ -103,7 +104,7 @@ describe 'Port Trading Functionality' do
 
   describe 'Transaction handling (Default Trading Strategy)' do
     before :all do
-      @player = Player.find_by(username: 'ray')
+      @player = Player.last
       @player.current_sector = 2
       @player.save
 

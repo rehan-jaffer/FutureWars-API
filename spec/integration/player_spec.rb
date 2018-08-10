@@ -4,10 +4,10 @@ require './spec/support/auth'
 describe 'Player API' do
   before :all do
     p1 = FactoryBot.create(:player)
-    p2 = FactoryBot.create(:player, password: "testpassword2")
-    CreatePlayerShipService.call(p1, "ship name")
-    CreatePlayerShipService.call(p2, "ship name2")
+    p2 = FactoryBot.create(:player, password: "testpassword")
     @auth = authenticate_user('ray2', 'testpassword')
+    puts p1.username
+    puts p2.username
   end
 
   after :all do
@@ -19,7 +19,8 @@ describe 'Player API' do
       it "returns the user's stats" do
         get '/api/player/stats', headers: { 'AUTHORIZATION': @auth['auth_token'] }
         player = JSON.parse(response.body)
-        expect(player).to have_key('player')
+        pp player
+        expect(player).to have_key('username')
       end
     end
 

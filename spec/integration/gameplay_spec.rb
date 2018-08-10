@@ -37,6 +37,7 @@ describe 'Gameplay' do
       sector = @sector_map[1].sample
       pp @sector_map[1]
       post '/api/player/move', params: { id: sector }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
+      pp response.body
       expect(@player.reload.current_sector).to eq sector
     end
 
