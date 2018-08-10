@@ -8,7 +8,7 @@ class MovePlayerService
     @player = Player.find(player_id)
     @origin = @player.current_sector
     @dest = dest
-    streams(['universe', "player_#{@player.id}"])
+    streams(['universe', "player-#{@player.id}"])
   end
 
   def validates?
