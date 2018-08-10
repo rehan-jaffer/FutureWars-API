@@ -8,6 +8,14 @@ class Ship < ApplicationRecord
     "#{ship_type.name} - Ported=40 Kills=0"
   end
 
+  def fighter_capacity
+    (ship_type.max_fighters - fighters)
+  end
+
+  def shield_capacity
+    (ship_type.max_shields - shields)
+  end
+
   def available_holds
     (ship_type.base_holds + additional_holds)
   end
