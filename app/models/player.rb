@@ -1,5 +1,6 @@
 require './lib/player/turns'
 require './lib/player/messaging'
+require './lib/rankings'
 
 class Player < ApplicationRecord
 
@@ -49,7 +50,7 @@ class Player < ApplicationRecord
   end
 
   def rank
-    @player_rank ||= PlayerRank.new(exp, alignment.to_i).to_s
+    Rankings.rank(exp, alignment)
   end
 
   def can_trade_at_port?(_sector_id)
@@ -69,7 +70,10 @@ class Player < ApplicationRecord
     update_attribute(:credits, credits - n)
   end
 
-  #  def ship
-  #    @ship ||= Ship.new
-  #  end
+  def feed
+    Rails.configuration.event_store.read.stream("player-#{id}").each.to_a.map { |event|
+      {event: event.type, when: Time.now - event.timestamp}
+    }
+  end
+
 end
