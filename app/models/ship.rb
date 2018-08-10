@@ -4,6 +4,10 @@ class Ship < ApplicationRecord
   has_many :holds
   belongs_to :ship_type
 
+  def info
+    "#{ship_type.name} - Ported=40 Kills=0"
+  end
+
   def available_holds
     (ship_type.base_holds + additional_holds)
   end
