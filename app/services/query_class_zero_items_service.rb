@@ -30,7 +30,7 @@ class QueryClassZeroItemsService
       ship_type.max_shields
     ].min
 
-    hold_count = ship.available_holds
+    hold_count = ship.total_holds
                      .upto(ship_type.max_holds)
                      .map { |holds| Holds.price(holds) }
                      .find_index { |cost| cost >= @player.credits }
@@ -48,7 +48,7 @@ class QueryClassZeroItemsService
       },
       {
         item: 'holds',
-        cost: Holds.price(ship.available_holds),
+        cost: Holds.price(ship.total_holds),
         available: hold_count
       }
     ] }
