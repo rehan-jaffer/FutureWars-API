@@ -25,10 +25,6 @@ class Player < ApplicationRecord
     Corporation.with_ceo(id).count > 0
   end
 
-  def primary_ship
-    ships.where(primary: true).first
-  end
-
   def in_a_corporation?
     !corporation.nil?
   end
@@ -37,8 +33,8 @@ class Player < ApplicationRecord
     corporation_id == id
   end
 
-  def update_sector(sector_id)
-    update_attribute(:current_sector, sector_id)
+  def new_messages?
+    received_messages.unread.count > 0
   end
 
   def has_events?
@@ -49,17 +45,20 @@ class Player < ApplicationRecord
     move_cost( Warp.hops(current_sector, dest) ) < turns
   end
 
+  def can_trade_at_port?(_sector_id)
+    true
+  end
+
+  def primary_ship
+    ships.where(primary: true).first
+  end
+
   def rank
     Rankings.rank(exp, alignment)
   end
 
-  def can_trade_at_port?(_sector_id)
-    # until implemented, players can trade at all ports
-    true
-  end
-
-  def new_messages?
-    received_messages.unread.count > 0
+  def update_sector(sector_id)
+    update_attribute(:current_sector, sector_id)
   end
 
   def increase_credits(n)
@@ -71,9 +70,23 @@ class Player < ApplicationRecord
   end
 
   def feed
-    Rails.configuration.event_store.read.stream("player-#{id}").each.to_a.map { |event|
-      {event: event.type, when: Time.now - event.timestamp}
-    }
+      event_store
+      .read
+      .stream("player-#{id}")
+      .each.to_a
+      .map { |event|
+        {
+          event: event.type, 
+          when: Time.now - event.timestamp
+        }
+      }
   end
+
+  private
+
+  def event_store
+    Rails.configuration.event_store
+  end
+
 
 end
