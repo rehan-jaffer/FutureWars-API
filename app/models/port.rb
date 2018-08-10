@@ -1,6 +1,7 @@
 require './lib/trading/commodity_pricing'
 
 class Port < ApplicationRecord
+
   include CommodityPricing
 
   belongs_to :sector
@@ -9,32 +10,41 @@ class Port < ApplicationRecord
     %w[ore organics equipment]
   end
 
-  def to_h
-    attributes.merge(trading_hash)
-  end
-
   def to_s
     port_types[port_class]
   end
 
-  def trading_hash
-    commodities.map { |k| ["#{k}_trading", trading_percent(k)] }.to_h
-  end
-
   def trading_percent(commodity)
-    ((attributes["#{commodity}_qty"] / (attributes["#{commodity}_productivity"] * 10.0)) * 100.0).round(1)
+    ((qty_for(commodity) / (productivity_for(commodity) * 10.0)) * 100.0).round(1)
   end
 
   def has_quantity?(commodity, qty)
-    qty.to_i < attributes["#{commodity}_qty"]
+    qty.to_i < qty_for(commodity)
   end
 
   def trades?(trade_type, commodity)
+    trade_letter = trade_type[0].upcase
     return false unless commodity.include?(commodity)
-    (trade_type[0].upcase == port_types[port_class].split('')[commodities.find_index(commodity)])
+    (trade_letter == trading_letters(port_class)[commodity_trade_index(commodity)])
   end
 
   private
+
+  def qty_for(commodity)
+    attributes["#{commodity}_qty"]
+  end
+
+  def productivity_for(commodity)
+    attributes["#{commodity}_productivity"]
+  end
+
+  def commodity_trade_index(commodity)
+    commodities.find_index(commodity)
+  end
+
+  def trading_letters(port_class)
+    port_types[port_class].split('')
+  end
 
   def port_types
     %w[Special BBS BSS BSB SBB SSB SBS BSS SSS BBB]
