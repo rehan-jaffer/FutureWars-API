@@ -25,6 +25,9 @@ class CreatePlayerService
   end
 
   def call
+
+    return nil unless validates?
+
     @player = Player.create({username: @username,
                             ship_name: @ship_name,
                             alignment: 0,
