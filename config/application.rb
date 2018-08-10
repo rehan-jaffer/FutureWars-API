@@ -36,7 +36,9 @@ module FuturewarsApi
 
     config.to_prepare do
       Rails.configuration.event_store = RailsEventStore::Client.new
+      Rails.configuration.event_store.subscribe_to_all_events(EventLogger.new(Rails.logger))
       Rails.configuration.event_store.subscribe(ExperienceTracker.new, to: [PlayerMoved])
+      Rails.configuration.event_store.subscribe(PromotionsTracker.new, to: [PlayerGainedExperience])
     end
   end
 end
