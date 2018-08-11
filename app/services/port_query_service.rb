@@ -1,24 +1,22 @@
 require './lib/views/port_trade_view'
 require './lib/views/special_port_trade_view'
+require './lib/events/event_emitter'
 
 class PortQueryService
-  prepend SimpleCommand
 
-  PortQuery = Class.new(RailsEventStore::Event)
+  prepend SimpleCommand
+  include EventEmitter
 
   def initialize(id, user)
     @id = id
     @player = user # remove
     @current_sector = user.current_sector
     @port = Port.where(sector_id: @id).first
-    @streams = %w[trading universe port_queries]
+    streams(["trading", "universe", "port_queries"])
   end
 
   def update_events
-    event = PortQuery.new(data: { port_id: @port.id, sector_id: @sector.id, player_id: @player.id })
-    @streams.each do |stream|
-      Rails.configuration.event_store.publish(event, stream)
-    end
+    emit_event(PortQuery, { port_id: @port.id, sector_id: @sector.id, player_id: @player.id })
   end
 
   def validates?
