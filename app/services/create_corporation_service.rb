@@ -17,7 +17,7 @@ class CreateCorporationService
   end
 
   def update_events
-    emit_event(CorporationCreated, {creator_id: @current_user.id, corp_id: @corp.id})
+    emit_event(CorporationCreated, {creator_id: @current_user.id, corporation_id: @corp.id, corporation_name: @corp.name})
   end
 
   def call()
