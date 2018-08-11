@@ -30,9 +30,9 @@ class SectorSerializer < ActiveModel::Serializer
       {
         name: player.username,
         rank: player.rank.to_s,
-        fighters: player.fighters,
+        fighters: player.primary_ship.fighters,
         ship: player.ship_name,
-        ship_type: player.ship_type.name
+        ship_type: player.primary_ship.ship_type.name
       }
      }
     end
