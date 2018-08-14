@@ -15,7 +15,7 @@ describe MovePlayerService do
       end
 
       it 'deducts the correct amount of turns from a player' do
-        expect(@p.reload.turns).to eq (@turns - @p.primary_ship.ship_type.turns_per_warp)
+        expect(@p.turns).to eq (@turns - @p.primary_ship.ship_type.turns_per_warp)
       end
     end
 
@@ -36,12 +36,14 @@ describe MovePlayerService do
         result = MovePlayerService.call(p.id, dest)
         expect(p.reload.current_sector).to eq 1
         expect(result.errors).to have_key(:errors)
+        expect(result.errors[:errors]).to include("You have no turns left")
       end
 
       it "does not permit travel to a part of space that doesn't exist" do
         result = MovePlayerService.call(p.id, 99_999_999)
         expect(p.reload.current_sector).to eq 1
         expect(result.errors).to have_key(:errors)
+        expect(result.errors[:errors]).to include("Not a valid sector ID")
       end
     end
   end
