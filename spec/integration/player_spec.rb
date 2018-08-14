@@ -6,8 +6,6 @@ describe 'Player API' do
     p1 = FactoryBot.create(:player)
     p2 = FactoryBot.create(:player, password: "testpassword")
     @auth = authenticate_user('ray2', 'testpassword')
-    puts p1.username
-    puts p2.username
   end
 
   after :all do

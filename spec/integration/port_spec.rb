@@ -5,10 +5,10 @@ require 'pp'
 
 describe 'Port Trading Functionality' do
   before :all do
-    p = FactoryBot.create(:player)
-    p.current_sector = 2
-    p.save
-    @auth = authenticate_user(p.username, 'testpassword')
+    @p = FactoryBot.create(:player)
+    sector = FactoryBot.create(:sector, id: 10099)
+    port = FactoryBot.create(:special_port, sector_id: 10099)
+    @auth = authenticate_user(@p.username, 'testpassword')
   end
 
   after :all do
@@ -17,9 +17,9 @@ describe 'Port Trading Functionality' do
 
   describe 'Querying a Port for trading information' do
     it 'allows querying of a port' do
+      @p.update_sector(2)
       get '/api/subspace/ports/query/2', headers: { 'AUTHORIZATION': @auth['auth_token'] }
       port = JSON.parse(response.body)
-      player = Player.find_by(username: 'ray')
       expect(port).to have_key('items')
       expect(port['items']).to have_key('ore')
       expect(port['items']).to have_key('equipment')
@@ -34,10 +34,10 @@ describe 'Port Trading Functionality' do
 
     it 'allows querying a Class 0 special port' do
       player = Player.last
-      player.current_sector = 1
+      player.current_sector = 10099
       player.save
 
-      get '/api/subspace/ports/query/1', headers: { 'AUTHORIZATION': @auth['auth_token'] }
+      get '/api/subspace/ports/query/10099', headers: { 'AUTHORIZATION': @auth['auth_token'] }
       items = JSON.parse(response.body)
       expect(items['items']).to have_key('fighters')
       expect(items['items']).to have_key('shields')
@@ -47,9 +47,7 @@ describe 'Port Trading Functionality' do
 
   describe 'Trading with a port (opening a transaction)' do
     before :all do
-      @player = Player.last
-      @player.current_sector = 2
-      @player.save
+      @p.update_sector(2)
     end
 
     it 'permits trading with a port and opening a transaction (dummy strategy)' do
@@ -61,21 +59,19 @@ describe 'Port Trading Functionality' do
 
     it 'permits trading with a port and opening a transaction (default strategy)' do
       Rails.configuration.trading_strategy = DefaultStrategy
-      post '/api/subspace/ports/trade', params: { id: 2, qty: 75, commodity: 'ore', trade_type: 'buy' }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
-      transaction = JSON.parse(response.body)
-      pp transaction
-      expect(transaction).to have_key('transaction')
+      post '/api/subspace/ports/trade', params: { id: 2, qty: 10, commodity: 'ore', trade_type: 'buy' }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
+     transaction = JSON.parse(response.body)
+     pp transaction
+     expect(transaction).to have_key('transaction')
       expect(transaction).to have_key('initial_offer')
     end
   end
 
   describe 'Transaction handling (Dummy Trading Strategy)' do
     before :all do
-      @player = Player.last
-      @player.current_sector = 2
-      @player.save
+      @p.update_sector(2)
 
-      @transaction = Transaction.create(player_id: @player.id, port_id: Sector.find(@player.current_sector).port.id, status: 'open', qty: 10, commodity: 'ore', trade_type: 'buy', initial_offer: 3000)
+      @transaction = Transaction.create(player_id: @p.id, port_id: Sector.find(@p.current_sector).port.id, status: 'open', qty: 10, commodity: 'ore', trade_type: 'buy', initial_offer: 3000)
       Rails.configuration.trading_strategy = DummyStrategy
     end
 
@@ -105,10 +101,10 @@ describe 'Port Trading Functionality' do
   describe 'Transaction handling (Default Trading Strategy)' do
     before :all do
       @player = Player.last
-      @player.current_sector = 2
+      @p.current_sector = 2
       @player.save
 
-      @transaction = Transaction.create(player_id: @player.id, port_id: 2, status: 'open', qty: 10, commodity: 'ore', trade_type: 'buy', initial_offer: 3000)
+      @transaction = Transaction.create(player_id: @p.id, port_id: 2, status: 'open', qty: 10, commodity: 'ore', trade_type: 'buy', initial_offer: 3000)
       Rails.configuration.trading_strategy = DefaultStrategy
     end
 
