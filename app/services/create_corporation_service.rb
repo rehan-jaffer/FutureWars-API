@@ -12,6 +12,7 @@ class CreateCorporationService
 
   def validates?
     errors.add(:errors, "Must specify a corporation name") unless @corporation_name
+    errors.add(:errors, "Corporation already exists with that name") if Corporation.where(name: @corporation_name).count > 0
     errors.add(:errors, "You are already in a corporation") if @current_user.in_a_corporation?
     errors.empty?
   end
