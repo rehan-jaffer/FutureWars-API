@@ -1,4 +1,4 @@
-class Api::NavContoller < ApplicationRecord
+class Api::NavController < ApplicationController
 
   def express_warp
   end
