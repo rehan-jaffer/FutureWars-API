@@ -68,4 +68,20 @@ describe PathFinderService do
 
   end
 
+  describe "plotting a path when the player has no turns" do
+
+    before :all do
+      @player.turns = 0
+      @player.save
+    end
+
+    let(:path) { PathFinderService.call(@player.id, 10).result }
+   
+    it "returns an error" do
+      pp path
+      expect(path[:can_warp]).to eq false
+    end
+
+  end
+
 end
