@@ -21,4 +21,8 @@ class Sector < ApplicationRecord
     Warp.warps_for(id)
   end
 
+  def self.create_warps(id, id_list, _max_warps = 5, warp_function)	
+    warp_function.call(0).times { |_| Warp.connect(id, id_list[rand * id_list.size]) }	
+  end
+
 end
