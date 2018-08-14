@@ -10,7 +10,7 @@ Rails.application.routes.draw do
    namespace :nav do
    
       post 'warp'
-      get 'warp_path'
+      get 'warp_path/:id', action: :warp_path
       post 'express_warp'
 
       namespace :sector do
