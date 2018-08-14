@@ -4,15 +4,18 @@ class SectorSerializer < ActiveModel::Serializer
 #  private
 
     def port
+      return nil unless object.port && object.port['name']
       {
         name: object.port['name'],
         port_class: object.port['port_class'],
-        trades: PortTradeString.get(object.port['port_class'])
+        trades: object.port.trades
       }
     end
 
     def warps
-      Warp.warps_for(object.id)
+      Warp.warps_for(object.id).map { |warp|
+       {warp: warp, explored: false}
+      }
     end
 
     def planets
