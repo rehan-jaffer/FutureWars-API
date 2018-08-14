@@ -1,6 +1,7 @@
 require './lib/player/turns'
 require './lib/player/messaging'
 require './lib/rankings'
+require './lib/events/projections'
 
 class Player < ApplicationRecord
 
@@ -49,6 +50,10 @@ class Player < ApplicationRecord
     true
   end
 
+  def explored
+    @explored ||= Projection::Player.explored_sectors(id)
+  end
+
   def primary_ship
     ships.where(primary: true).first
   end
@@ -76,10 +81,25 @@ class Player < ApplicationRecord
       .each.to_a
       .map { |event|
         {
-          event: event.type, 
-          when: Time.now - event.timestamp
+        item: feed_item(event),
+        timestamp: event.timestamp
         }
       }
+  end
+
+  def feed_item(event)
+    case event.type
+      when "PlayerMoved"
+        "#{username} warped to sector #{event.data[:dest_id]}"
+      when "PlayerGainedExperience"
+        "#{username} gained #{event.data[:exp]} exp"
+      when "PlayerPromoted"
+        "#{username} was promoted to #{event.data[:new_rank]}"
+      when "CorporationCreated"
+        "#{username} created the corporation #{event.data[:corporation_name]}"
+      else
+        event.type
+    end
   end
 
   private
