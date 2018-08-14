@@ -78,7 +78,6 @@ describe PathFinderService do
     let(:path) { PathFinderService.call(@player.id, 10).result }
    
     it "returns an error" do
-      pp path
       expect(path[:can_warp]).to eq false
     end
 
