@@ -6,13 +6,13 @@ class PortCreatorService
 
   def initialize(props = {})
     @props = props
-    @props['port_class'] = PortTradeString.get_class(@props.delete('trades')) if @props.key?('trades')
-    @props['name'] = PlanetNamer.generate_one
+    @props[:port_class] = PortTradeString.get_class(@props.delete('trades')) if @props.key?('trades')
+    @props[:name] = PlanetNamer.generate_one
   end
 
   def validates?
-    errors.add(:errors, 'Sector must exist') unless Sector.exists?(@props['sector_id'])
-    errors.add(:errors, 'No Port Class supplied') unless @props['port_class']
+    errors.add(:errors, 'Sector must exist') unless Sector.exists?(@props[:sector_id])
+    errors.add(:errors, 'No Port Class supplied') unless @props[:port_class]
     errors.empty?
   end
 
