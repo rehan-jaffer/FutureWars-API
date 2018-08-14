@@ -22,6 +22,14 @@ class Port < ApplicationRecord
     qty.to_i < qty_for(commodity)
   end
 
+  def trades
+    h = Hash.new
+    trading_letters(port_class).each_with_index { |c, i|
+      h[commodities[i]] = c
+    }
+    h
+  end
+
   def trades?(trade_type, commodity)
     trade_letter = trade_type[0].upcase
     return false unless commodity.include?(commodity)
