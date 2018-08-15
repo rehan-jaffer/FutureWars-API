@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180719150722) do
+ActiveRecord::Schema.define(version: 20180809154757) do
+
+  create_table "corporations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "name", null: false
+    t.integer "ceo_id", null: false
+    t.integer "creator_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "event_store_events", id: :string, limit: 36, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "event_type", null: false
@@ -30,12 +38,29 @@ ActiveRecord::Schema.define(version: 20180719150722) do
     t.index ["stream", "position"], name: "index_event_store_events_in_streams_on_stream_and_position", unique: true
   end
 
+  create_table "holds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.integer "ship_id", null: false, unsigned: true
+    t.integer "qty", null: false, unsigned: true
+    t.string "contents", null: false
+    t.index ["ship_id"], name: "index_holds_on_ship_id"
+  end
+
+  create_table "messages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.integer "from_id", null: false
+    t.integer "to_id", null: false
+    t.text "message", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "read", default: false
+  end
+
   create_table "offers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "transaction_id"
     t.integer "amount", unsigned: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "uid"
+    t.boolean "final", default: false
     t.index ["transaction_id"], name: "index_offers_on_transaction_id"
   end
 
@@ -47,23 +72,27 @@ ActiveRecord::Schema.define(version: 20180719150722) do
     t.index ["id"], name: "index_planet_types_on_id"
   end
 
+  create_table "planets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "name"
+    t.integer "planet_type_id"
+    t.integer "owner_id"
+    t.integer "creator_id"
+    t.integer "sector_id"
+  end
+
   create_table "players", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "username"
     t.boolean "online", default: false
     t.integer "current_sector", unsigned: true
     t.integer "credits", default: 0, unsigned: true
     t.integer "turns", default: 0, unsigned: true
-    t.integer "fighters", default: 0, unsigned: true
     t.integer "exp", default: 0, unsigned: true
-    t.integer "holds", default: 0, unsigned: true
-    t.integer "organics", default: 0, unsigned: true
-    t.integer "equipment", default: 0, unsigned: true
-    t.integer "colonists", default: 0, unsigned: true
     t.string "ship_name"
     t.string "email"
     t.string "password_digest"
     t.integer "alignment"
-    t.integer "ship_type_id", unsigned: true
+    t.integer "corporation_id", unsigned: true
+    t.index ["corporation_id"], name: "index_players_on_corporation_id"
   end
 
   create_table "ports", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -108,6 +137,8 @@ ActiveRecord::Schema.define(version: 20180719150722) do
     t.integer "max_fighters", unsigned: true
     t.integer "max_fighters_per_attack", unsigned: true
     t.boolean "long_range_scan", default: false
+    t.integer "min_holds", default: 0, unsigned: true
+    t.integer "max_shields", default: 0, unsigned: true
     t.index ["id"], name: "index_ship_types_on_id"
   end
 
@@ -122,6 +153,10 @@ ActiveRecord::Schema.define(version: 20180719150722) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
+    t.integer "additional_holds", default: 0, unsigned: true
+    t.integer "fighters", default: 0, unsigned: true
+    t.integer "shields", default: 0, unsigned: true
+    t.boolean "primary", default: false
     t.index ["player_id"], name: "index_ships_on_player_id"
     t.index ["ship_type_id"], name: "index_ships_on_ship_type_id"
   end
