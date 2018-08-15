@@ -13,6 +13,8 @@ describe MessagePlayerService do
 
     it "succeeds" do
       expect(message_player).to be_a_kind_of Message
+      expect(@player1.sent_messages.size).to be > 0
+      expect(@player2.received_messages.size).to be > 0
     end
 
   end
