@@ -5,7 +5,7 @@ describe 'Gameplay' do
   before(:all) do
     # fixing the value of the seed results in the same universe being created every time meaning predictable testing
     @player = FactoryBot.create(:player)
-    @player.update_sector(Sector.first.id)
+    @player.update_sector(1)
     @auth = authenticate_user('ray1', 'testpassword')
     @sector_map = []
     Sector.all.each do |sector|
@@ -18,10 +18,9 @@ describe 'Gameplay' do
   end
 
   describe 'Player/Game initialisation' do
-    let(:player) { Player.last }
 
     it 'puts the player in the initial sector' do
-      expect(player.current_sector).to eq Rails.configuration.game['initial_sector']
+      expect(@player.current_sector).to eq Rails.configuration.game['initial_sector']
     end
 
 #    it 'puts the player in a merchant cruiser' do
@@ -31,6 +30,9 @@ describe 'Gameplay' do
 
   describe 'Moving between sectors' do
     let(:player) { Player.last }
+    before :each do
+      @player.update_sector(1)
+    end
 
     it 'allows warping between sectors' do
       expect(@player.current_sector).to eq 1
@@ -40,9 +42,9 @@ describe 'Gameplay' do
     end
 
     it "doesn't allow warping between unconnected sectors" do
-      expect(player.current_sector).to eq 1
+      expect(@player.current_sector).to eq 1
       post '/api/player/move', params: { id: 0 }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
-      expect(player.reload.current_sector).to eq 1
+      expect(@player.reload.current_sector).to eq 1
       errors = JSON.parse(response.body)
       expect(errors).to have_key('errors')
       expect(errors['errors']).to include('These parts of space are not connected')
