@@ -15,7 +15,6 @@ class ExpressWarpService
     event = false
     @path = Warp.path(@player.current_sector, @dest)
     @sectors = []
-    pp @path
 
     @path.shift
 
