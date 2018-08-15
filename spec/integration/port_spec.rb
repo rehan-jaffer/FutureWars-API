@@ -47,21 +47,20 @@ describe 'Port Trading Functionality' do
 
   describe 'Trading with a port (opening a transaction)' do
     before :all do
-      @p.update_sector(2)
+      @p.update_sector(3)
     end
 
     it 'permits trading with a port and opening a transaction (dummy strategy)' do
       Rails.configuration.trading_strategy = DummyStrategy
-      post '/api/subspace/ports/trade', params: { id: 2, qty: 1, commodity: 'ore', trade_type: 'buy' }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
+      post '/api/subspace/ports/trade', params: { id: 3, qty: 1, commodity: 'ore', trade_type: 'buy' }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
       transaction = JSON.parse(response.body)
       expect(transaction).to have_key('initial_offer')
     end
 
     it 'permits trading with a port and opening a transaction (default strategy)' do
       Rails.configuration.trading_strategy = DefaultStrategy
-      post '/api/subspace/ports/trade', params: { id: 2, qty: 10, commodity: 'ore', trade_type: 'buy' }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
+      post '/api/subspace/ports/trade', params: { id: 3, qty: 10, commodity: 'ore', trade_type: 'buy' }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
      transaction = JSON.parse(response.body)
-     pp transaction
      expect(transaction).to have_key('transaction')
       expect(transaction).to have_key('initial_offer')
     end
