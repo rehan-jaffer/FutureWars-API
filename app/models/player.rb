@@ -26,6 +26,10 @@ class Player < ApplicationRecord
     Corporation.with_ceo(id).count > 0
   end
 
+  def explored?(id)
+    explored.include?(id)
+  end
+
   def in_a_corporation?
     !corporation.nil?
   end
