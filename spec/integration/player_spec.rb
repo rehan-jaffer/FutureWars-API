@@ -17,7 +17,6 @@ describe 'Player API' do
       it "returns the user's stats" do
         get '/api/player/stats', headers: { 'AUTHORIZATION': @auth['auth_token'] }
         player = JSON.parse(response.body)
-        pp player
         expect(player).to have_key('username')
       end
     end
