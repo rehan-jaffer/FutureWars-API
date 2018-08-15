@@ -14,6 +14,10 @@ class PathFinderService
   def call
     return nil unless validates?
     path = Warp.path(@player.current_sector, @dest)
+    if path.empty?
+      errors.add(:errors, "No path exists between these sectors")
+      return nil
+    end
     {path: path, nodes: path.size, cost: @player.move_cost(path.size), can_warp: @player.can_express_warp?(@dest)}
   end
 
