@@ -11,13 +11,14 @@ class CreatePlayerShipService
   def call
     serial = IDGenerator.generate_serial
 
-    ship = Ship.create(ship_type_id: ShipType.find_by(name: 'Merchant Cruiser'),
+    ship = Ship.create(ship_type_id: ShipType.find_by(name: 'Merchant Cruiser').id,
                        name: @ship_name,
                        serial: serial,
                        banner: serial,
                        total_holds: ShipType.find_by(name: 'Merchant Cruiser').base_holds,
                        empty_holds: ShipType.find_by(name: 'Merchant Cruiser').base_holds,
-                       player_id: @player.id)
+                       player_id: @player.id,
+                       primary: true)
 
     return ship if ship.errors.empty?
     ship.errors.full_messages.map { |msg| errors.add(:errors, msg) }
