@@ -29,15 +29,18 @@ CreatePlayerShipService
 MovePlayerService
 CreateCorporationService
 JoinCorporationService
+MessagePlayerService
 
 ### To Be Implemented
 
 AttackPlayerService
-MessagePlayerService
 TransferCreditsService
 
 AttackPortService
 RobPortService
+UpgradePortService
+
+DeployFightersService
 
 DeployNovaDeviceService
 QueryPlanetService
@@ -45,7 +48,9 @@ DestroyPlanetService
 
 QueryShipyardService
 BuySpaceshipService
+BuyHardwareService
 BuyClassZeroItemsService
+QueryClassZeroItemsService
 
 QueryFederalService
 PlaceBountyService
@@ -55,3 +60,8 @@ ChangeCorporationService
 JettisonColonistsService
 ChangeColonistsOnPlanetService
 ChangeProductsOnPlanetService
+
+LaunchEtherProbeService
+LongRangeScanService
+DeployMineService
+DeployLimpetMineService
