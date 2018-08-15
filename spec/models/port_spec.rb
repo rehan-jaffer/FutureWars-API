@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Port, type: :model do
   describe '.to_s' do
-    let(:sector) { FactoryBot.create(:sector) }
+    let(:sector) { FactoryBot.create(:sector, id: 16) }
     let(:port) { FactoryBot.create(:port, port_class: 2, sector_id: sector.id) }
 
     context 'when class 0' do
