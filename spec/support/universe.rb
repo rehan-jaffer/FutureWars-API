@@ -18,6 +18,8 @@ def create_universe
   end
   create_tunnel
   create_hole
+  FactoryBot.create(:planet, sector_id: 4, planet_type_id: FactoryBot.create(:planet_type).id)
+
 end
 
 def create_tunnel
