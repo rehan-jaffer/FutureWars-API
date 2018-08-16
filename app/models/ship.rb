@@ -4,8 +4,9 @@ class Ship < ApplicationRecord
   belongs_to :ship_type
 
   def info
-    "#{ship_type.name} - Ported=40 Kills=0"
+    "#{ship_type.name} - Ported=40 Kills=0 Distance=#{player.distance}"
   end
+
 
   def fighter_capacity
     ship_type.max_fighters - fighters
