@@ -60,4 +60,24 @@ describe TradeWithPortService do
 
   end
 
+  describe "Player opening a trade with insufficient data supplied (commodity)" do
+
+    let(:transaction) { TradeWithPortService.call(@player.id, {qty: 1, trade_type: "buy"}).errors }
+
+    it "fails" do
+      expect(transaction[:errors]).to include("Commodity must be specified")
+    end
+
+  end
+
+  describe "Player opening a trade with insufficient data supplied (trade)" do
+
+    let(:transaction) { TradeWithPortService.call(@player.id, {qty: 1, commodity: "ore"}).errors }
+
+    it "fails" do
+      expect(transaction[:errors]).to include("Must specify if you want to buy or sell")
+    end
+
+  end
+
 end
