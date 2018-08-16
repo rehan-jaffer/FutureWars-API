@@ -1,6 +1,37 @@
 require 'rails_helper'
 
 RSpec.describe Port, type: :model do
+
+  describe ".commodities" do
+
+    it "returns a list of the commodities" do
+      expect(Port.commodities).to eq %w[ore organics equipment]
+    end
+
+  end
+
+  describe "#trades" do
+    
+    before :all do
+      @port_c1 = FactoryBot.create(:port, port_class: 1, sector_id: 12)
+      @port_c2 = FactoryBot.create(:port, port_class: 2, sector_id: 12)
+      @port_c3 = FactoryBot.create(:port, port_class: 3, sector_id: 12)
+    end
+
+    it "populates the trades hash correctly (Class 2 Port)" do
+      expect(@port_c2.trades?("B", "ore")).to eq true
+      expect(@port_c2.trades?("S", "organics")).to eq true
+      expect(@port_c2.trades?("S", "equipment")).to eq true
+    end
+
+    it "populates the trades hash correctly (Class 3 Port)" do
+      expect(@port_c3.trades?("B", "ore")).to eq true
+      expect(@port_c3.trades?("S", "organics")).to eq true
+      expect(@port_c3.trades?("B", "equipment")).to eq true
+    end
+
+  end
+
   describe '.to_s' do
     let(:sector) { FactoryBot.create(:sector, id: 16) }
     let(:port) { FactoryBot.create(:port, port_class: 2, sector_id: sector.id) }
