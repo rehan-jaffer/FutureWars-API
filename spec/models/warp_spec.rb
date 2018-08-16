@@ -25,4 +25,24 @@ describe Warp do
 
   end
 
+  describe ".path" do
+
+    before :all do
+      @s1 = FactoryBot.create(:sector, id: 40)
+      @s2 = FactoryBot.create(:sector, id: 41)
+      @s3 = FactoryBot.create(:sector, id: 42)
+      Warp.connect(40, 41)
+      Warp.connect(41, 42)
+    end
+
+    it "returns the path between two sectors" do
+      expect(Warp.path(40, 42)).to eq [40, 41, 42]
+    end
+
+    it "returns the number of hops for this path via .hops" do
+      expect(Warp.hops(40, 42)).to eq 2
+    end
+
+  end
+
 end
