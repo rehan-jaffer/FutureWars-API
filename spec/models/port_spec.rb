@@ -11,6 +11,19 @@ RSpec.describe Port, type: :model do
   end
 
   describe "#trades" do
+
+    before :all do
+      @port = FactoryBot.create(:port, sector_id: 13)
+    end
+
+    it "populates the trades hash correctly" do
+      expect(@port.trades.keys).to eq ["ore", "organics", "equipment"]
+      expect(@port.trades.values).to eq ["B", "B", "S"]
+    end
+
+  end
+
+  describe "#trades?" do
     
     before :all do
       @port_c1 = FactoryBot.create(:port, port_class: 1, sector_id: 12)
@@ -18,13 +31,13 @@ RSpec.describe Port, type: :model do
       @port_c3 = FactoryBot.create(:port, port_class: 3, sector_id: 12)
     end
 
-    it "populates the trades hash correctly (Class 2 Port)" do
+    it "returns the trades? value correctly (Class 2 Port)" do
       expect(@port_c2.trades?("B", "ore")).to eq true
       expect(@port_c2.trades?("S", "organics")).to eq true
       expect(@port_c2.trades?("S", "equipment")).to eq true
     end
 
-    it "populates the trades hash correctly (Class 3 Port)" do
+    it "populates the trades? value correctly (Class 3 Port)" do
       expect(@port_c3.trades?("B", "ore")).to eq true
       expect(@port_c3.trades?("S", "organics")).to eq true
       expect(@port_c3.trades?("B", "equipment")).to eq true
