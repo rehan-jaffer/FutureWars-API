@@ -17,6 +17,19 @@ RSpec.describe Ship, type: :model do
 
     end
 
+    describe "#available_holds" do
+
+      it "returns the number of available holds" do
+        expect(@ship.empty_holds).to eq 40
+      end
+
+      it "returns the number of available holds after loading products" do
+        @ship.load_hold(:equipment, 20)
+        expect(@ship.empty_holds).to eq 20
+      end
+
+    end
+
   end
 
 end
