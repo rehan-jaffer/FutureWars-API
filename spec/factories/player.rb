@@ -7,6 +7,7 @@ FactoryBot.define do
     ship_name 'USS Enterprise'
     email "user@domain.com"
     turns 300
+    credits 100000
     alignment 0
     current_sector 1    
     after(:create) do |player|
