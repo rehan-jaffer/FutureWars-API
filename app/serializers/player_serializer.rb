@@ -6,7 +6,9 @@ class PlayerSerializer < ActiveModel::Serializer
 
   def corp
     nil unless object.in_a_corporation?
-#    "#{object.corporation_id}, #{object.corporation.name}"
+    {
+      corporation_id: object.corporation_id
+    }
   end
 
   def ship_name
@@ -30,7 +32,10 @@ class PlayerSerializer < ActiveModel::Serializer
   end
 
   def total_holds
-    "#{object.primary_ship.total_holds}/#{object.primary_ship.empty_holds}"
+    {
+     total: object.primary_ship.total_holds, 
+     empty: object.primary_ship.empty_holds
+    }
   end
 
   def holds
