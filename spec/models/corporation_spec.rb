@@ -4,6 +4,26 @@ RSpec.describe Corporation, type: :model do
 
   it { should validate_presence_of(:name) }
 
+  describe "#members" do
+
+    before :all do
+      @corporation = FactoryBot.create(:corporation)
+      @p1 = FactoryBot.create(:player, corporation_id: @corporation.id)
+      @p2 = FactoryBot.create(:player, corporation_id: @corporation.id)
+      @p3 = FactoryBot.create(:player, corporation_id: @corporation.id)
+    end
+
+    after :all do
+      @corporation.destroy
+      @p1.destroy && @p2.destroy && @p3.destroy
+    end
+
+    it "should return the members of the corporation" do
+      expect(@corporation.members.map(&:id)).to eq [@p1.id, @p2.id, @p3.id]
+    end
+
+  end
+
   describe "with_ceo" do
 
     before :all do
