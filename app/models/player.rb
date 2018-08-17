@@ -2,6 +2,7 @@ require './lib/player/turns'
 require './lib/player/messaging'
 require './lib/rankings'
 require './lib/events/projections'
+require './lib/pricing/class_zero_items'
 
 class Player < ApplicationRecord
 
@@ -114,6 +115,14 @@ class Player < ApplicationRecord
 
   def event_store
     Rails.configuration.event_store
+  end
+
+  def ship
+    primary_ship
+  end
+
+  def ship_type
+    primary_ship.ship_type
   end
 
 
