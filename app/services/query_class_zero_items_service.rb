@@ -17,41 +17,21 @@ class QueryClassZeroItemsService
   def call
     return nil unless validates?
 
-    fighter_price = ClassZeroItems::Pricing.fighter_price
-    shield_price = ClassZeroItems::Pricing.shield_price
-
-    fighter_count = [
-      @player.credits / fighter_price,
-      ship_type.max_fighters
-    ].min
-
-    shield_count = [
-      @player.credits / shield_price,
-      ship_type.max_shields
-    ].min
-
-    hold_count = ship.total_holds
-                     .upto(ship_type.max_holds)
-                     .map { |holds| Holds.price(holds) }
-                     .find_index { |cost| cost >= @player.credits }
-
-    { "items": [
-      {
-        item: 'fighters',
-        cost: fighter_price,
-        available: fighter_count
-      },
-      {
-        item: 'shields',
-        cost: shield_price,
-        available: shield_count
-      },
-      {
+    { "items": {
+      'fighters': {
+        cost: @port.class_zero.fighter_price,
+        available: @port.class_zero.fighter_count(@player.credits, @player.ship)
+        },
+        'shields': {
+        cost: @port.class_zero.shield_price,
+        available: @port.class_zero.shield_count(@player.credits, @player.ship)
+        },
+        'holds': {
         item: 'holds',
-        cost: Holds.price(ship.total_holds),
-        available: hold_count
-      }
-    ] }
+        cost: @port.class_zero.hold_price
+        available: @port.class_zero.hold_count(@player.credits, @player.ship)
+    }}}
+
   end
 
   private

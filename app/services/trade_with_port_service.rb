@@ -1,3 +1,5 @@
+require 'simple_command'
+
 class TradeWithPortService
   prepend SimpleCommand
 
