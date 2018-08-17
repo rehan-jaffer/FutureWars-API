@@ -19,7 +19,7 @@ class Port < ApplicationRecord
   end
 
   def has_quantity?(commodity, qty)
-    qty.to_i < qty_for(commodity)
+    commodity && (qty.to_i < qty_for(commodity))
   end
 
   def trades
@@ -30,9 +30,13 @@ class Port < ApplicationRecord
     h
   end
 
+  def class_zero
+    @class_zero ||= ClassZeroPort.new(self)
+  end
+
   def trades?(trade_type, commodity)
+    return false unless trade_type && commodity && commodity.include?(commodity)
     trade_letter = trade_type[0].upcase
-    return false unless commodity.include?(commodity)
     (trade_letter == trading_letters(port_class)[commodity_trade_index(commodity)])
   end
 
