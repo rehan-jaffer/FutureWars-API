@@ -5,7 +5,7 @@ class Warp < ApplicationRecord
   end
 
   def self.hops(origin, destination)
-    path(origin, destination).size
+    path(origin, destination).size-1
   end
 
   def self.connected?(origin, dest)
