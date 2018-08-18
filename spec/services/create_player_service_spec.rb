@@ -25,10 +25,20 @@ describe CreatePlayerService do
   end
 
   describe 'Creates a Player' do
-    it 'creates a player' do
+
+    let(:valid_player) { CreatePlayerService.call('testuser', 'testpassword', 'testship', email: 'ray@thelondonvandal.com') }
+
+    it 'changes the number of players' do
       expect do
-        CreatePlayerService.call('testuser', 'testpassword', 'testship', email: "ray@test.com")
+        valid_player
       end.to change { Player.count }
     end
+
+    it 'creates a user with a merchant cruiser as the default' do
+      expect(valid_player.result.primary_ship).to be_a_kind_of Ship
+      expect(valid_player.result.primary_ship.ship_type.name).to eq "Merchant Cruiser"
+    end
+
+    
   end
 end
