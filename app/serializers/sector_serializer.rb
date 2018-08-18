@@ -1,7 +1,11 @@
 class SectorSerializer < ActiveModel::Serializer
-  attributes :id, :players, :port, :warps, :planets
+  attributes :id, :players, :port, :warps, :planets, :nav_hazard
 
 #  private
+
+    def nav_hazard
+      object.nav_hazard.to_f / 100.0
+    end
 
     def port
       return nil unless object.port && object.port['name']
