@@ -1,4 +1,9 @@
 module Scheduler
+  module Planets
+    def self.update_planets
+      Planet.all.update_planet_products
+    end
+  end
   module Ports
     def self.update_quantities
     end
