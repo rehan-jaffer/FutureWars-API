@@ -21,4 +21,5 @@
 every 1.hour do
   runner "Scheduler::Ports.update_quantities"
   runner "Scheduler::Players.update_turns"
+  runner "Scheduler::Planets.update_products"
 end
