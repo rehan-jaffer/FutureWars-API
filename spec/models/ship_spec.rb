@@ -23,7 +23,7 @@ RSpec.describe Ship, type: :model do
         end
 
         it "returns the number of available holds after loading products" do
-          @ship.load_hold(:equipment, 20)
+          @ship.load(:equipment, 20)
           expect(@ship.empty_holds).to eq 20
         end
 
@@ -36,7 +36,7 @@ RSpec.describe Ship, type: :model do
         end
 
         it "returns the current contents of the holds (single product)" do
-          @ship.load_hold(:equipment, 20)
+          @ship.load(:equipment, 20)
           expect(@ship.hold_contents).to eq({empty: 20, equipment: 20})
         end
 
