@@ -26,7 +26,7 @@ class SectorSerializer < ActiveModel::Serializer
       object.planets.map { |planet|
         {
           name: planet.name,
-          class_name: planet.planet_type.classification,
+          classification: planet.planet_type.classification,
           planet_type: planet.planet_type.name
         }
       }
