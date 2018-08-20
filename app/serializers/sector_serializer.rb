@@ -33,14 +33,17 @@ class SectorSerializer < ActiveModel::Serializer
     end
 
     def players
-      object.players_in_sector.all.map { |player|
-      {
-        name: player.username,
-        rank: player.rank.to_s,
-        fighters: player.primary_ship.fighters,
-        ship: player.ship_name,
-        ship_type: player.primary_ship.ship_type.name
-      }
+      object.players_in_sector
+        .all
+        .reject { |player| player.username == scope.username }
+        .map { |player|
+        {
+          name: player.username,
+          rank: player.rank.to_s,
+          fighters: player.primary_ship.fighters,
+          ship: player.ship_name,
+          ship_type: player.primary_ship.ship_type.name
+        }
      }
     end
 end
