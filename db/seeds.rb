@@ -20,7 +20,7 @@ ShipType.create(
     ship_hull_cost: 10000, ship_base_cost: 41300,
     mine_max: 50, genesis_max: 5, transwarp_drive: false, max_transporter_range: 5,
     offensive_odds: 10, beacon_max: 50, long_range_scanner: true, planet_scanner: true,
-    photon_missiles: false
+    photon_missiles: false, description: "The Merchant Cruiser is the standard fare for earning a living in the universe. These craft are moderately fast, well armored and have hard points for many different accessories. Many cartels use the Merchant Cruiser as their only ship type. The Merchant is the craft by which combat specs are rated for a standard."
   )
 ShipType.create(
     name: "Scout Marauder", turns_per_warp: 2, base_holds: 10, 
@@ -30,7 +30,7 @@ ShipType.create(
     ship_hull_cost: 2750, ship_base_cost: 15950,
     mine_max: 0, genesis_max: 0, transwarp_drive: false, max_transporter_range: 0, 
     offensive_odds: 20, beacon_max: 10, long_range_scan: true, planet_scanner: true,
-    photon_missiles: false
+    photon_missiles: false, description: "The Scout Marauder is currently the fastest, conventional drive ship known to mankind. This small speedster can easily outdistance even the powerful Corellian Battleships. It is not equipped for controlling many fighters or shields, but it fights at 2 to 1 odds due to its quickness and small size. This craft cannot carry mines or Genesis Torpedoes. It may be small, but this ship's speed and range make up for much."
   )
 ShipType.create(
     name: "Merchant Freighter", turns_per_warp: 2, base_holds: 30, 
@@ -40,7 +40,7 @@ ShipType.create(
     ship_hull_cost: 6800, ship_base_cost: 33400,
     mine_max: 0, genesis_max: 0, transwarp_drive: false, max_transporter_range: 0,
     offensive_odds: 20, beacon_max: 10, long_range_scan: true, planet_scanner: true,
-    photon_missiles: false
+    photon_missiles: false, description: "The Merchant Freighter is the ideal ship for those traders that do not want to concern themselves with political matters. It is not a very powerful ship in combat, but its strengths are many. This ship can carry a large number of shields and manages to outdistance most ships. After all, 'Those who fight and run away, live to fight another day' still holds very true in the universe as we know it today."
   )
 ShipType.create(
     name: "Corporate Flagship", turns_per_warp: 3, base_holds: 20, 
@@ -48,7 +48,7 @@ ShipType.create(
     max_holds: 85, max_fighters_per_attack: 6000, 
     max_fighters: 20000, mine_max: 100, genesis_max: 10, transwarp_drive: true,
     max_transporter_range: 10, offensive_odds: 12, beacon_max: 100, long_range_scan: true,
-    planet_scanner: true, photon_missiles: false
+    planet_scanner: true, photon_missiles: false, description: "Few words can actually describe the sheer awe associated with a Corporate Flagship. Only available to Corp CEOs, this huge craft is the ultimate in power and capability. Not only can it carry up to 20,000 fighters at one time, this ship carries a powerful combination of options that will make any foe turn tail and run. The most impressive capability of the Flagship is the TransWarp Drive. This device enables the ship to TransWarp to any other sector in the Universe provided one of your fighters is already there emitting a locator beam. Without this, a ship can disappear into TransWarp and never be seen again."
   )
 ShipType.create(
     name: "CargoTran", turns_per_warp: 4, base_holds: 50,
@@ -58,7 +58,7 @@ ShipType.create(
     ship_hull_cost: 12900, ship_base_cost: 51950,
     mine_max: 1, genesis_max: 2, transwarp_drive: false, offensive_odds: 8,
     beacon_max: 20, long_range_scanner: true, planet_scanner: true,
-    photon_missiles: false
+    photon_missiles: false, description: "The CargoTran is a large ship indeed. Though not as fast as some of its related trading cousins, this ship can move vast amounts of goods. It is typically a pacifist's ship as it does not carry much in the way of offensive capabilities but it's very large array of holds makes up for all of that. The large shield capacity of this craft makes it safe to wander hostile territory as well. This ship is considered by many to be one of the top money-makers in the Universe."
   )
 ShipType.create(
     name: "Corellian Battleship", turns_per_warp: 4, base_holds: 16,
