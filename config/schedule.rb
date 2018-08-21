@@ -1,3 +1,5 @@
+require './lib/scheduler/scheduler'
+
 # Use this file to easily define all of your cron jobs.
 #
 # It's helpful, but not entirely necessary to understand cron before proceeding.
@@ -18,6 +20,9 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
+
+set :environment, 'development'
+
 every 1.hour do
   runner "Scheduler::Ports.update_quantities"
   runner "Scheduler::Players.update_turns"
