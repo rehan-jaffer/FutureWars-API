@@ -5,6 +5,14 @@ class Sector < ApplicationRecord
   has_one :port
   has_many :planets
 
+  def self.density(id)
+    sector = Sector.find(id)
+    planet_count = 500 * sector.planets.size
+    ship_count = 40 * sector.players_in_sector.count
+    nav_haz = 21 * (sector.nav_hazard / 100)
+    planet_count + ship_count + nav_haz
+  end
+
   def self.path(origin, destination)
      ActiveRecord::Base.connection.execute("select p.id from warp_graph fg join sectors p on (fg.linkid=p.id)where fg.latch = '1' and origid = #{origin} and destid = #{destination}").to_a.flatten
   end
