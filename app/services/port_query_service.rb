@@ -1,5 +1,3 @@
-require './lib/views/port_trade_view'
-require './lib/views/special_port_trade_view'
 require './lib/events/event_emitter'
 
 class PortQueryService
@@ -27,7 +25,8 @@ class PortQueryService
 
   def call
     return nil unless validates?
-    return SpecialPortTradeView.render(@port.attributes) if @port && @port.port_class == 0
-    PortTradeView.render(@port.attributes)
+#    return SpecialPortTradeView.render(@port.attributes) if @port && @port.port_class == 0
+#    PortTradeView.render(@port.attributes)
+     @port.to_json
   end
 end
