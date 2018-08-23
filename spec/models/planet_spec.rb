@@ -60,6 +60,23 @@ RSpec.describe Planet, type: :model do
 
     end
 
+    describe "reassigning colonists" do
+
+      before :each do
+        @planet.ore_colonists = 10
+        @planet.organics_colonists = 10
+        @planet.equipment_colonists = 10
+        @planet
+      end
+
+      it "allows reassigning colonists from ore to organics (for instance)" do
+        expect(@planet.reassign_colonists(:ore, :organics, 10)).to eq true
+        expect(@planet.ore_colonists).to eq 0
+        expect(@planet.organics_colonists).to eq 20
+      end
+
+    end
+
   end
 
 end
