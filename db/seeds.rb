@@ -86,45 +86,45 @@ ShipType.create(name: "Interdictor Cruiser", turns_per_warp: 15)
 
 PlanetType.create(
     name: "Earth-like", classification: "M",
-    colonists_fuel_ore_ratio: 3, colonists_organics_ratio: 7, colonists_equipment_ratio: 13, 
+    colonists_ore_ratio: 3, colonists_organics_ratio: 7, colonists_equipment_ratio: 13, 
     colonists_fighters_ratio: 10, max_colonists_fuel_ore: 30000, max_colonists_organics: 30000, 
-    max_colonists_equipment: 30000, max_product_fuel_ore: 100000, max_product_organics: 100000, max_product_equipment: 100000
+    max_colonists_equipment: 30000, max_product_ore: 100000, max_product_organics: 100000, max_product_equipment: 100000
   )
 PlanetType.create(
     name: "Desert Wasteland", classification: "K", 
-    colonists_fuel_ore_ratio: 3, colonists_organics_ratio: 7, colonists_equipment_ratio: 13, 
+    colonists_ore_ratio: 3, colonists_organics_ratio: 7, colonists_equipment_ratio: 13, 
     colonists_fighters_ratio: 10, max_colonists_fuel_ore: 30000, max_colonists_organics: 30000, 
-    max_colonists_equipment: 30000, max_product_fuel_ore: 100000, max_product_organics: 100000, max_product_equipment: 100000
+    max_colonists_equipment: 30000, max_product_ore: 100000, max_product_organics: 100000, max_product_equipment: 100000
   )
 PlanetType.create(
     name: "Oceanic", classification: "O", 
-    colonists_fuel_ore_ratio: 3, colonists_organics_ratio: 7, colonists_equipment_ratio: 13, 
+    colonists_ore_ratio: 3, colonists_organics_ratio: 7, colonists_equipment_ratio: 13, 
     colonists_fighters_ratio: 10, max_colonists_fuel_ore: 30000, max_colonists_organics: 30000, 
-    max_colonists_equipment: 30000, max_product_fuel_ore: 100000, max_product_organics: 100000, max_product_equipment: 100000
+    max_colonists_equipment: 30000, max_product_ore: 100000, max_product_organics: 100000, max_product_equipment: 100000
   )
 PlanetType.create(
     name: "Mountainous", classification: "L", 
-    colonists_fuel_ore_ratio: 3, colonists_organics_ratio: 7, colonists_equipment_ratio: 13, 
+    colonists_ore_ratio: 3, colonists_organics_ratio: 7, colonists_equipment_ratio: 13, 
     colonists_fighters_ratio: 10, max_colonists_fuel_ore: 30000, max_colonists_organics: 30000, 
-    max_colonists_equipment: 30000, max_product_fuel_ore: 100000, max_product_organics: 100000, max_product_equipment: 100000
+    max_colonists_equipment: 30000, max_product_ore: 100000, max_product_organics: 100000, max_product_equipment: 100000
   )
 PlanetType.create(
-    name: "Glacial", classification: "C", colonists_fuel_ore_ratio: 3, colonists_organics_ratio: 7, 
+    name: "Glacial", classification: "C", colonists_ore_ratio: 3, colonists_organics_ratio: 7, 
     colonists_equipment_ratio: 13, colonists_fighters_ratio: 10, max_colonists_fuel_ore: 30000, 
     max_colonists_organics: 30000, max_colonists_equipment: 30000, 
-    max_product_fuel_ore: 100000, max_product_organics: 100000, max_product_equipment: 100000
+    max_product_ore: 100000, max_product_organics: 100000, max_product_equipment: 100000
   )
 PlanetType.create(
     name: "Volcanic", classification: "H", 
-    colonists_fuel_ore_ratio: 3, colonists_organics_ratio: 7, colonists_equipment_ratio: 13, 
+    colonists_ore_ratio: 3, colonists_organics_ratio: 7, colonists_equipment_ratio: 13, 
     colonists_fighters_ratio: 10, max_colonists_fuel_ore: 30000, max_colonists_organics: 30000, 
-    max_colonists_equipment: 30000, max_product_fuel_ore: 100000, max_product_organics: 100000, 
+    max_colonists_equipment: 30000, max_product_ore: 100000, max_product_organics: 100000, 
     max_product_equipment: 100000
   )
 PlanetType.create(
     name: "Gaseous", classification: "U", 
-    colonists_fuel_ore_ratio: 3, colonists_organics_ratio: 7, colonists_equipment_ratio: 13, 
+    colonists_ore_ratio: 3, colonists_organics_ratio: 7, colonists_equipment_ratio: 13, 
     colonists_fighters_ratio: 10, max_colonists_fuel_ore: 30000, max_colonists_organics: 30000, 
-    max_colonists_equipment: 30000, max_product_fuel_ore: 100000, max_product_organics: 100000, 
+    max_colonists_equipment: 30000, max_product_ore: 100000, max_product_organics: 100000, 
     max_product_equipment: 100000
   )
