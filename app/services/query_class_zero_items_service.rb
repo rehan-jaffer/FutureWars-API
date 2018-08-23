@@ -17,20 +17,23 @@ class QueryClassZeroItemsService
   def call
     return nil unless validates?
 
-    { "items": {
-      'fighters': {
-        cost: @port.class_zero.fighter_price,
-        available: @port.class_zero.fighter_count(@player.credits, @player.ship)
-        },
-        'shields': {
-        cost: @port.class_zero.shield_price,
-        available: @port.class_zero.shield_count(@player.credits, @player.ship)
-        },
-        'holds': {
-        item: 'holds',
-        cost: @port.class_zero.hold_price
-        available: @port.class_zero.hold_count(@player.credits, @player.ship)
-    }}}
+    { 
+      "items": 
+        {
+          'fighters': {
+          cost: @port.class_zero.fighter_price,
+          available: @port.class_zero.fighter_count(@player.credits, @player.ship)
+          },
+          'shields': {
+            cost: @port.class_zero.shield_price,
+            available: @port.class_zero.shield_count(@player.credits, @player.ship)
+          },
+          'holds': {
+            cost: @port.class_zero.hold_price,
+            available: @port.class_zero.hold_count(@player.credits, @player.ship)
+          }
+        }
+    }
 
   end
 
