@@ -1,5 +1,5 @@
 class PlayerSerializer < ActiveModel::Serializer
-  attributes :username, :rank, :exp, :times_destroyed, :corp, :ship_name, :ship_info, :ship_date_built, :turns_per_warp, :current_sector, :turns, :holds, :total_holds, :fighters, :credits
+  attributes :username, :rank, :exp, :times_destroyed, :corp, :ship_name, :ship_info, :ship_date_built, :turns_per_warp, :current_sector, :turns, :holds, :total_holds, :fighters, :credits, :ship_shields
 
   def times_destroyed
   end
@@ -13,6 +13,13 @@ class PlayerSerializer < ActiveModel::Serializer
 
   def ship_name
     object.primary_ship.name
+  end
+
+  def ship_shields
+    {
+      current: object.primary_ship.shields,
+      max: object.primary_ship.ship_type.max_shields
+    }
   end
 
   def ship_info
