@@ -1,4 +1,5 @@
 require 'port_trade'
+require './lib/scanners/density'
 
 class Sector < ApplicationRecord
 
@@ -11,6 +12,14 @@ class Sector < ApplicationRecord
     ship_count = 40 * sector.players_in_sector.count
     nav_haz = 21 * (sector.nav_hazard / 100)
     planet_count + ship_count + nav_haz
+  end
+
+  def density
+    Density.value(self)
+  end
+
+  def anom?
+    cloaked_ships_present? || limpet_mines_present?
   end
 
   def self.path(origin, destination)
@@ -32,5 +41,15 @@ class Sector < ApplicationRecord
   def self.create_warps(id, id_list, _max_warps = 5, warp_function)	
     warp_function.call(0).times { |_| Warp.connect(id, id_list[rand * id_list.size]) }	
   end
+
+  private
+
+    def cloaked_ships_present?
+      players_in_sector.select { |player| player.primary_ship.has_equip?(:cloak) }.size > 0
+    end
+
+    def limpet_mines_present?
+      false
+    end
 
 end
