@@ -1,6 +1,8 @@
 require './lib/events/event_emitter'
+require './app/policy/consider_offer_policy'
 
 class ConsiderOfferService
+
   prepend SimpleCommand
   include EventEmitter
 
@@ -18,15 +20,15 @@ class ConsiderOfferService
     }
   end
 
-  def validates?
-    errors.add(:errors, "Transaction doesn't exist") unless @transaction
-    errors.add(:errors, "This isn't your transaction") unless @transaction && @transaction.player_id == @player.id
-    errors.add(:errors, 'This transaction has been closed') unless @transaction && @transaction.status == 'open'
-    errors.empty?
-  end
 
   def call
-    return nil unless validates?
+
+    offer_policy = ConsiderOfferPolicy.new(@player, @transaction)
+
+    unless offer_policy.allowed?
+      errors.add(:errors, offer_policy.error)
+      return nil
+    end
 
     unless @strategy.will_negotiate?(@offer_data)
       @transaction.status = 'rejected'
