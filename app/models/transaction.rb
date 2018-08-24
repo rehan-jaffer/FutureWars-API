@@ -11,6 +11,10 @@ class Transaction < ApplicationRecord
   validates :qty, presence: true, numericality: true
   validates_associated :port
 
+  def open?
+    status == "open"
+  end
+
   def set_uid
     self.uid = IDGenerator.generate_serial
   end
