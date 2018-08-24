@@ -2,6 +2,7 @@ require 'pp'
 
 class Planet < ApplicationRecord
 
+  has_many :moons
   belongs_to :planet_type
   belongs_to :sector
 
@@ -9,6 +10,14 @@ class Planet < ApplicationRecord
 
   include Mixins::Planet::Colonists
   include Mixins::Planet::Products
+
+  after_create :create_moons
+
+  def create_moons
+    0.upto(rand(8)) do |n|
+      Moon.create(planet_id: id, name: "M-" + rand(999).round().to_s)
+    end
+  end
 
   def update_planet_products
 
