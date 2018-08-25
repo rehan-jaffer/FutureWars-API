@@ -12,19 +12,16 @@ class Density
    ].inject(:+)
   end
 
-  private
-  
-    def self.planet_density(planets)
-      500 * planets
-    end
+  def self.planet_density(planets)
+    500 * planets
+  end
 
-    def self.ship_density(ships)
-      40 * ships
-    end
+  def self.ship_density(ships)
+    40 * ships
+  end
 
-    def self.nav_hazard_density(naz_hazard)
-      21 * (naz_hazard / 100)
-    end
-
+  def self.nav_hazard_density(naz_hazard)
+    21 * (naz_hazard / 100)
+  end
 
 end
