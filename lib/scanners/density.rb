@@ -1,4 +1,9 @@
 class Density
+
+  def self.anom?(sector)
+    sector.cloaked_ships_present? || sector.limpet_mines_present?
+  end
+
   def self.value(sector)
    [
      planet_density(sector.planets.size),
