@@ -11,7 +11,7 @@ class Player < ApplicationRecord
 
   has_secure_password
 
-  has_many :ships, class_name: "Ship"
+  has_many :ships, class_name: "Ship", dependent: :destroy
   belongs_to :corporation, optional: true
 
 #  validates :ship_name, presence: true, format: /\A[a-zA-Z0-9 \-_]+\z/
@@ -20,8 +20,8 @@ class Player < ApplicationRecord
   validates :alignment, presence: true
   validates :email, presence: true
   
-  has_many :sent_messages, class_name: "Message", foreign_key: "from_id"
-  has_many :received_messages, class_name: "Message", foreign_key: "to_id"
+  has_many :sent_messages, class_name: "Message", foreign_key: "from_id", dependent: :nullify
+  has_many :received_messages, class_name: "Message", foreign_key: "to_id", dependent: :nullify
 
   def ceo?
     Corporation.with_ceo(id).count > 0
@@ -31,8 +31,9 @@ class Player < ApplicationRecord
     Projection::Player.distance(id)
   end
 
-  def explored?(id)
-    explored.include?(id)
+  def explored?(sector_id)
+    Projection::Player.explored_sectors(id).include?(sector_id)
+#    explored.include?(id)
   end
 
   def in_a_corporation?
@@ -64,7 +65,7 @@ class Player < ApplicationRecord
   end
 
   def primary_ship
-    ships.where(primary: true).first
+    ships.find_by(primary: true)
   end
 
   def rank

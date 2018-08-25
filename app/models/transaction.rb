@@ -3,7 +3,7 @@ require './lib/generators/id_generator'
 class Transaction < ApplicationRecord
   belongs_to :player
   belongs_to :port
-  has_many :offers
+  has_many :offers, dependent: :destroy
   before_create :set_uid
 
   validates :initial_offer, presence: true

@@ -2,7 +2,7 @@ require 'pp'
 
 class Planet < ApplicationRecord
 
-  has_many :moons
+  has_many :moons, dependent: :destroy
   belongs_to :planet_type
   belongs_to :sector
 

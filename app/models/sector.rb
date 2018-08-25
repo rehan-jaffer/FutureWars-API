@@ -3,7 +3,7 @@ require './lib/scanners/density'
 
 class Sector < ApplicationRecord
 
-  has_one :port
+  has_one :port, dependent: :destroy
   has_many :planets
 
   def self.density(id)
@@ -19,7 +19,7 @@ class Sector < ApplicationRecord
   end
 
   def anom?
-    cloaked_ships_present? || limpet_mines_present?
+    Density.anom?(self)
   end
 
   def self.path(origin, destination)
@@ -42,14 +42,12 @@ class Sector < ApplicationRecord
     warp_function.call(0).times { |_| Warp.connect(id, id_list[rand * id_list.size]) }	
   end
 
-  private
+  def cloaked_ships_present?
+    players_in_sector.select { |player| player.primary_ship.has_equip?(:cloak) }.size > 0
+  end
 
-    def cloaked_ships_present?
-      players_in_sector.select { |player| player.primary_ship.has_equip?(:cloak) }.size > 0
-    end
-
-    def limpet_mines_present?
-      false
-    end
+  def limpet_mines_present?
+   false
+  end
 
 end

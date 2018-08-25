@@ -5,6 +5,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+gem 'coveralls', require: false
 gem 'pry-rails'
 gem 'mysql2'
 gem 'simplecov', require: false, group: :test
