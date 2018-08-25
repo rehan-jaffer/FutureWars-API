@@ -7,6 +7,18 @@ RSpec.describe Planet, type: :model do
     @planet = FactoryBot.create(:planet, sector_id: @sector.id)
   end
 
+  describe "#moons" do
+
+   it "should respond to a request for moons" do
+     expect { @planet.moons }.not_to raise_error
+   end
+
+   it "should have a random number of moons" do
+     expect(@planet.moons.size).to be > 0
+   end
+
+  end
+
   describe "#colonists" do
 
     describe "accessing colonist data" do
