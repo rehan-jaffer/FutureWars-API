@@ -27,4 +27,4 @@ before_script:
   - mysql -u root -e "CREATE USER 'futurewars'@'localhost' IDENTIFIED BY 'futurewars';"
   - mysql -u root -e "GRANT ALL ON futurewars_test.* TO 'futurewars'@'localhost';"
   - mysql -u root -e "install plugin oqgraph soname 'ha_oqgraph.so';"
-  - rake db:migrate RAILS_ENV=test
+  - bundle exec rake db:migrate RAILS_ENV=test
