@@ -4,11 +4,11 @@ class ClassZeroPort
   end
 
   def fighter_price
-    fighter_price = ClassZeroItems::Pricing.fighter_price
+    ClassZeroItems::Pricing.fighter_price
   end
 
   def shield_price
-    shield_price = ClassZeroItems::Pricing.shield_price
+    ClassZeroItems::Pricing.shield_price
   end
 
   def next_hold_price
