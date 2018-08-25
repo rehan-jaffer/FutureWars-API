@@ -4,7 +4,7 @@ require './lib/scanners/density'
 class Sector < ApplicationRecord
 
   has_one :port, dependent: :destroy
-  has_many :planets
+  has_many :planets, dependent: :destroy
 
   def self.density(id)
     sector = Sector.find(id)
