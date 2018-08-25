@@ -1,7 +1,6 @@
 require './lib/events/event_emitter'
 
 class PortQueryService
-
   prepend SimpleCommand
   include EventEmitter
 
@@ -10,11 +9,11 @@ class PortQueryService
     @player = user # remove
     @current_sector = user.current_sector
     @port = Port.where(sector_id: @id).first
-    streams(["trading", "universe", "port_queries"])
+    streams(%w[trading universe port_queries])
   end
 
   def update_events
-    emit_event(PortQuery, { port_id: @port.id, sector_id: @sector.id, player_id: @player.id })
+    emit_event(PortQuery, port_id: @port.id, sector_id: @sector.id, player_id: @player.id)
   end
 
   def validates?
@@ -25,8 +24,8 @@ class PortQueryService
 
   def call
     return nil unless validates?
-#    return SpecialPortTradeView.render(@port.attributes) if @port && @port.port_class == 0
-#    PortTradeView.render(@port.attributes)
-     @port.to_json
+    #    return SpecialPortTradeView.render(@port.attributes) if @port && @port.port_class == 0
+    #    PortTradeView.render(@port.attributes)
+    @port.to_json
   end
 end

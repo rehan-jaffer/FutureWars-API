@@ -17,12 +17,12 @@ class QueryClassZeroItemsService
   def call
     return nil unless validates?
 
-    { 
-      "items": 
+    {
+      "items":
         {
           'fighters': {
-          cost: @port.class_zero.fighter_price,
-          available: @port.class_zero.fighter_count(@player.credits, @player.ship)
+            cost: @port.class_zero.fighter_price,
+            available: @port.class_zero.fighter_count(@player.credits, @player.ship)
           },
           'shields': {
             cost: @port.class_zero.shield_price,
@@ -34,7 +34,6 @@ class QueryClassZeroItemsService
           }
         }
     }
-
   end
 
   private

@@ -1,5 +1,4 @@
 class Api::Subspace::MessagesController < ApplicationRecord
-
   def send
     result = MessagePlayerService.call(message_params[:username], message_params[:message])
     if result.success?
@@ -19,12 +18,11 @@ class Api::Subspace::MessagesController < ApplicationRecord
 
   private
 
-    def read_message_params
-      params.permit(:id)
-    end
-  
-    def message_params
-      params.require(:message).params(:username, :message)
-    end
+  def read_message_params
+    params.permit(:id)
+  end
 
+  def message_params
+    params.require(:message).params(:username, :message)
+  end
 end

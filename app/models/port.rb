@@ -1,7 +1,6 @@
 require './lib/trading/commodity_pricing'
 
 class Port < ApplicationRecord
-
   include CommodityPricing
 
   belongs_to :sector
@@ -23,10 +22,10 @@ class Port < ApplicationRecord
   end
 
   def trades
-    h = Hash.new
-    trading_letters(port_class).each_with_index { |c, i|
+    h = {}
+    trading_letters(port_class).each_with_index do |c, i|
       h[commodities[i]] = c
-    }
+    end
     h
   end
 

@@ -1,5 +1,4 @@
 class ShipTypeSerializer < ActiveModel::Serializer
-
   attributes :name, :description, :cost, :capabilities
 
   def capabilities
@@ -7,7 +6,7 @@ class ShipTypeSerializer < ActiveModel::Serializer
       transwarp_drive: object.transwarp_drive,
       photon_missiles: object.photon_missiles,
       planet_scanner: object.planet_scanner,
-#      max_genesis: object.max_genesis,
+      #      max_genesis: object.max_genesis,
       max_fighters: object.max_fighters,
       max_fighters_per_attack: object.max_fighters_per_attack,
       max_shields: object.max_shields,
@@ -24,5 +23,4 @@ class ShipTypeSerializer < ActiveModel::Serializer
       ship_base_cost: object.ship_base_cost
     }
   end
-
 end

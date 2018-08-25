@@ -4,37 +4,36 @@ class CreatePlayerService
   prepend SimpleCommand
   include EventEmitter
 
-  def initialize(username, password, ship_name, props={})
+  def initialize(username, password, ship_name, props = {})
     @username = username
     @ship_name = ship_name
     @password = password
     @props = props
-    streams(["universe", "players"])
+    streams(%w[universe players])
   end
 
   def update_events
     stream_add("player-#{@player.id}")
-    emit_event(PlayerCreated, { player_id: @player_id})
+    emit_event(PlayerCreated, player_id: @player_id)
   end
 
   def validates?
-    errors.add(:errors, "No username supplied") unless @username
-    errors.add(:errors, "No password supplied") unless @password
-    errors.add(:errors, "No ship name supplied") unless @ship_name
+    errors.add(:errors, 'No username supplied') unless @username
+    errors.add(:errors, 'No password supplied') unless @password
+    errors.add(:errors, 'No ship name supplied') unless @ship_name
     errors.empty?
   end
 
   def call
-
     return nil unless validates?
 
-    @player = Player.create({username: @username,
-                            ship_name: @ship_name,
-                            alignment: 0,
-                            turns: Rails.configuration.game['initial_turns'],
-                            current_sector: Rails.configuration.game['initial_sector'],
-                            credits: Rails.configuration.game['initial_credits'],
-                            password: @password}.merge(@props))
+    @player = Player.create({ username: @username,
+                              ship_name: @ship_name,
+                              alignment: 0,
+                              turns: Rails.configuration.game['initial_turns'],
+                              current_sector: Rails.configuration.game['initial_sector'],
+                              credits: Rails.configuration.game['initial_credits'],
+                              password: @password }.merge(@props))
 
     ship = CreatePlayerShipService.call(@player, @ship_name)
 

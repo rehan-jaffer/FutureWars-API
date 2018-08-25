@@ -2,7 +2,6 @@ require 'port_trade'
 require './lib/scanners/density'
 
 class Sector < ApplicationRecord
-
   has_one :port, dependent: :destroy
   has_many :planets, dependent: :destroy
 
@@ -23,7 +22,7 @@ class Sector < ApplicationRecord
   end
 
   def self.path(origin, destination)
-     ActiveRecord::Base.connection.execute("select p.id from warp_graph fg join sectors p on (fg.linkid=p.id)where fg.latch = '1' and origid = #{origin} and destid = #{destination}").to_a.flatten
+    ActiveRecord::Base.connection.execute("select p.id from warp_graph fg join sectors p on (fg.linkid=p.id)where fg.latch = '1' and origid = #{origin} and destid = #{destination}").to_a.flatten
   end
 
   def has_port?
@@ -38,16 +37,15 @@ class Sector < ApplicationRecord
     Warp.warps_for(id)
   end
 
-  def self.create_warps(id, id_list, _max_warps = 5, warp_function)	
-    warp_function.call(0).times { |_| Warp.connect(id, id_list[rand * id_list.size]) }	
+  def self.create_warps(id, id_list, _max_warps = 5, warp_function)
+    warp_function.call(0).times { |_| Warp.connect(id, id_list[rand * id_list.size]) }
   end
 
   def cloaked_ships_present?
-    players_in_sector.select { |player| player.primary_ship.has_equip?(:cloak) }.size > 0
+    !players_in_sector.select { |player| player.primary_ship.has_equip?(:cloak) }.empty?
   end
 
   def limpet_mines_present?
-   false
+    false
   end
-
 end

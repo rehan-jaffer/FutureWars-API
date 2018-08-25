@@ -17,5 +17,4 @@ class Ship < ApplicationRecord
   def shield_capacity
     ship_type.max_shields - shields
   end
-
 end

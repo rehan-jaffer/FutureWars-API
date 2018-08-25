@@ -20,7 +20,7 @@ class MovePlayerService
 
   def update_player_state
     @player.update_sector(@dest)
-    @player.decrease_turns( @player.move_cost(1) )
+    @player.decrease_turns(@player.move_cost(1))
   end
 
   def update_events

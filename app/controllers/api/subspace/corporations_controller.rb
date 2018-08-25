@@ -1,5 +1,4 @@
 class Api::Subspace::CorporationController < ApplicationRecord
-
   def join
     result = JoinCorporationService.call(current_user.id, join_corp_params[:id])
     if result.success?
@@ -29,12 +28,11 @@ class Api::Subspace::CorporationController < ApplicationRecord
 
   private
 
-    def join_corp_params
-      params.permit(:id)
-    end
+  def join_corp_params
+    params.permit(:id)
+  end
 
-    def corporation_params
-      params.require(:corporation).permit(:name)
-    end
-
+  def corporation_params
+    params.require(:corporation).permit(:name)
+  end
 end

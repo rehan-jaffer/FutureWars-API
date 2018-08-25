@@ -12,7 +12,7 @@ class Transaction < ApplicationRecord
   validates_associated :port
 
   def open?
-    status == "open"
+    status == 'open'
   end
 
   def set_uid

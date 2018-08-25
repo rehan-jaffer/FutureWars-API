@@ -1,5 +1,4 @@
 class MessagePlayerService
-
   prepend SimpleCommand
 
   def initialize(from_id, to_user, message)
@@ -9,8 +8,8 @@ class MessagePlayerService
   end
 
   def validates?
-    errors.add(:errors, "No known trader with this name") unless @to_id
-    errors.add(:errors, "Please specify a message") unless @message
+    errors.add(:errors, 'No known trader with this name') unless @to_id
+    errors.add(:errors, 'Please specify a message') unless @message
     errors.empty?
   end
 
@@ -18,5 +17,4 @@ class MessagePlayerService
     return nil unless validates?
     Message.create(from_id: @from_id, to_id: @to_id, message: @message)
   end
-
 end

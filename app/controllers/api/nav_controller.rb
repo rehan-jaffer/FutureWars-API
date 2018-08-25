@@ -1,7 +1,5 @@
 class Api::NavController < ApplicationController
-
-  def express_warp
-  end
+  def express_warp; end
 
   def warp_path
     result = PathFinderService.call(current_user.id, warp_path_params[:id])
@@ -23,12 +21,11 @@ class Api::NavController < ApplicationController
 
   private
 
-    def warp_path_params
-      params.permit(:id)
-    end
+  def warp_path_params
+    params.permit(:id)
+  end
 
-    def warp
-      params.permit(:id)
-    end
-
+  def warp
+    params.permit(:id)
+  end
 end

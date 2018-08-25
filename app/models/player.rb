@@ -5,23 +5,22 @@ require './lib/events/projections'
 require './lib/pricing/class_zero_items'
 
 class Player < ApplicationRecord
-
   include PlayerUnit::Turns
   include PlayerUnit::Messaging
 
   has_secure_password
 
-  has_many :ships, class_name: "Ship", dependent: :destroy
+  has_many :ships, class_name: 'Ship', dependent: :destroy
   belongs_to :corporation, optional: true
 
-#  validates :ship_name, presence: true, format: /\A[a-zA-Z0-9 \-_]+\z/
+  #  validates :ship_name, presence: true, format: /\A[a-zA-Z0-9 \-_]+\z/
   validates :username, format: /\A[a-zA-Z0-9 ]+\z/, uniqueness: true, presence: true
   validates :current_sector, presence: true
   validates :alignment, presence: true
   validates :email, presence: true
-  
-  has_many :sent_messages, class_name: "Message", foreign_key: "from_id", dependent: :nullify
-  has_many :received_messages, class_name: "Message", foreign_key: "to_id", dependent: :nullify
+
+  has_many :sent_messages, class_name: 'Message', foreign_key: 'from_id', dependent: :nullify
+  has_many :received_messages, class_name: 'Message', foreign_key: 'to_id', dependent: :nullify
 
   def ceo?
     Corporation.with_ceo(id).count > 0
@@ -52,7 +51,7 @@ class Player < ApplicationRecord
   end
 
   def can_express_warp?(dest)
-    move_cost( Warp.hops(current_sector, dest) ) < turns
+    move_cost(Warp.hops(current_sector, dest)) < turns
   end
 
   def can_trade_at_port?(_sector_id)
@@ -84,30 +83,30 @@ class Player < ApplicationRecord
   end
 
   def feed
-      event_store
+    event_store
       .read
       .stream("player-#{id}")
       .each.to_a
-      .map { |event|
-        {
+      .map do |event|
+      {
         item: feed_item(event),
         timestamp: event.timestamp
-        }
       }
+    end
   end
 
   def feed_item(event)
     case event.type
-      when "PlayerMoved"
-        "#{username} warped to sector #{event.data[:dest_id]}"
-      when "PlayerGainedExperience"
-        "#{username} gained #{event.data[:exp]} exp"
-      when "PlayerPromoted"
-        "#{username} was promoted to #{event.data[:new_rank]}"
-      when "CorporationCreated"
-        "#{username} created the corporation #{event.data[:corporation_name]}"
-      else
-        event.type
+    when 'PlayerMoved'
+      "#{username} warped to sector #{event.data[:dest_id]}"
+    when 'PlayerGainedExperience'
+      "#{username} gained #{event.data[:exp]} exp"
+    when 'PlayerPromoted'
+      "#{username} was promoted to #{event.data[:new_rank]}"
+    when 'CorporationCreated'
+      "#{username} created the corporation #{event.data[:corporation_name]}"
+    else
+      event.type
     end
   end
 
@@ -124,6 +123,4 @@ class Player < ApplicationRecord
   def ship_type
     primary_ship.ship_type
   end
-
-
 end

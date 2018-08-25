@@ -1,5 +1,4 @@
 class AssignColonistsService
-
   prepend SimpleCommand
 
   def initialize(player_id, planet_id, commodity, colonists)
@@ -9,6 +8,5 @@ class AssignColonistsService
     @colonists = colonists
   end
 
-  def call
-  end
+  def call; end
 end

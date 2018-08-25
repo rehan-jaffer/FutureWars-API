@@ -1,3 +1,2 @@
 class ShipSerializer
-
 end

@@ -1,11 +1,10 @@
 class Warp < ApplicationRecord
-
   def self.path(origin, destination)
     ActiveRecord::Base.connection.execute("select p.id from warp_graph fg join sectors p on (fg.linkid=p.id) where fg.latch = '1' and origid = #{origin.to_i} and destid = #{destination.to_i}").to_a.flatten
   end
 
   def self.hops(origin, destination)
-    path(origin, destination).size-1
+    path(origin, destination).size - 1
   end
 
   def self.connected?(origin, dest)

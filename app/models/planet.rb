@@ -1,7 +1,6 @@
 require 'pp'
 
 class Planet < ApplicationRecord
-
   has_many :moons, dependent: :destroy
   belongs_to :planet_type
   belongs_to :sector
@@ -14,13 +13,12 @@ class Planet < ApplicationRecord
   after_create :create_moons
 
   def create_moons
-    0.upto(rand(8)) do |n|
-      Moon.create(planet_id: id, name: "M-" + rand(999).round().to_s)
+    0.upto(rand(8)) do |_n|
+      Moon.create(planet_id: id, name: 'M-' + rand(999).round.to_s)
     end
   end
 
   def update_planet_products
-
     commodities = Hash.new(0)
 
     Port.commodities.each do |commodity|
@@ -28,7 +26,5 @@ class Planet < ApplicationRecord
     end
 
     update(commodities)
-
   end
-
 end
