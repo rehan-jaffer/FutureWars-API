@@ -1,4 +1,4 @@
-class CreateHolds < ActiveRecord::Migration[5.1]
+class Holds < ActiveRecord::Migration[5.1]
   def change
     create_table :holds do |t|
       t.integer :ship_id, null: false, unsigned: true
