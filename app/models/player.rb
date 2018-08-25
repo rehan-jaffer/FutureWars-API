@@ -33,7 +33,6 @@ class Player < ApplicationRecord
 
   def explored?(sector_id)
     Projection::Player.explored_sectors(id).include?(sector_id)
-#    explored.include?(id)
   end
 
   def in_a_corporation?
