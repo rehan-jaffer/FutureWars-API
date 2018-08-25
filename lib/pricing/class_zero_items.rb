@@ -1,5 +1,21 @@
 module ClassZeroItems
   module Pricing
+    module Holds
+
+      def self.price(number_holds)
+        (base_cost * number_holds) + (increment * number_holds) * (number_holds - 1) / 2
+      end
+
+      def self.increment
+        20
+      end
+
+      def self.base_cost
+        (DateTime.now.yday % 99) + 151
+      end
+
+    end
+
     def self.d
       DateTime.now.yday
     end
@@ -21,17 +37,3 @@ module ClassZeroItems
   end
 end
 
-module Holds
-
-  def self.price(number_holds)
-    (base_cost * number_holds) + (increment * number_holds) * (number_holds - 1) / 2
-  end
-
-  def self.increment
-    20
-  end
-
-  def self.base_cost
-   (DateTime.now.yday % 99) + 151
-  end
-end
