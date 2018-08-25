@@ -1,15 +1,12 @@
+require './lib/mixins/policy_object'
+
 class DensityScanPolicy
+
+  include PolicyObject
+
   def initialize(user, sector)
     @user = user
     @sector = sector
-  end
-
-  def allowed?
-    conditions.all? { |c| c[1] }
-  end
-
-  def error
-    conditions.find { |c| !c[1] }[0]
   end
 
   private

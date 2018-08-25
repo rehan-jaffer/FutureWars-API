@@ -1,15 +1,12 @@
+require './lib/mixins/policy_object'
+
 class ConsiderOfferPolicy
+
+  include PolicyObject
+
   def initialize(current_user, transaction)
     @current_user = current_user
     @transaction = transaction
-  end
-
-  def allowed?
-    conditions.all? { |c| c[1] }
-  end
-
-  def error
-    conditions.find { |c| !c[1] }[0]
   end
 
   private
