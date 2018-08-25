@@ -16,3 +16,8 @@ services:
 rvm:
   - 2.4.2
   - 2.5.1
+
+before_script:
+  - mysql -u root -e 'CREATE DATABASE futurewars_test;'
+  - mysql -u root -e 'CREATE USER 'futurewars'@'localhost' IDENTIFIED BY 'futurewars';'
+  - mysql -u root -e 'GRANT ALL ON futurewars_test.* TO 'futurewars'@'localhost';'
