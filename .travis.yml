@@ -11,6 +11,7 @@ script:
 
 services:
   - redis-server
+  - mysql
 
 rvm:
   - 2.4.2
