@@ -13,7 +13,7 @@ class PortQueryService
   end
 
   def update_events
-    emit_event(PortQuery, port_id: @port.id, sector_id: @sector.id, player_id: @player.id)
+    emit :port_query, port_id: @port.id, sector_id: @current_sector.id, player_id: @player.id
   end
 
   def validates?
