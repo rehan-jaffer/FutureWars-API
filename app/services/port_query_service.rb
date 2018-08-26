@@ -4,28 +4,25 @@ class PortQueryService
   prepend SimpleCommand
   include EventEmitter
 
-  def initialize(id, user)
-    @id = id
-    @player = user # remove
-    @current_sector = user.current_sector
-    @port = Port.where(sector_id: @id).first
-    streams(%w[trading universe port_queries])
+  def initialize(port_id, user)
+    @port = Port.where(sector_id: port_id).first
+    @player = user
+    streams2 @port, @player
   end
 
   def update_events
-    emit :port_query, port_id: @port.id, sector_id: @current_sector.id, player_id: @player.id
-  end
-
-  def validates?
-    errors.add(:errors, 'You are not in that sector! Cannot query port across sectors.') unless @id.to_i == @current_sector.to_i
-    errors.add(:errors, 'No user supplied!') unless @id
-    errors.empty?
+    emit :port_query, port_id: @port.id, sector_id: @port.sector_id, player_id: @player.id
   end
 
   def call
-    return nil unless validates?
-    #    return SpecialPortTradeView.render(@port.attributes) if @port && @port.port_class == 0
-    #    PortTradeView.render(@port.attributes)
-    @port.to_json
+
+    policy = PortQueryPolicy.new(@player, @port)
+
+    if policy.failure?
+      errors.add(:errors, policy.error)
+    elsif policy.success?
+      @port.to_json
+    end
+
   end
 end
