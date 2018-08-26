@@ -31,6 +31,7 @@ describe 'Gameplay' do
   describe 'Moving between sectors' do
     let(:player) { Player.last }
     before :each do
+      @sector = FactoryBot.create(:sector, id: 1551)
       @player.update_sector(1)
     end
 
@@ -43,7 +44,7 @@ describe 'Gameplay' do
 
     it "doesn't allow warping between unconnected sectors" do
       expect(@player.current_sector).to eq 1
-      post '/api/player/move', params: { id: 0 }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
+      post '/api/player/move', params: { id: 1551 }, headers: { 'AUTHORIZATION': @auth['auth_token'] }
       expect(@player.reload.current_sector).to eq 1
       errors = JSON.parse(response.body)
       expect(errors).to have_key('errors')
