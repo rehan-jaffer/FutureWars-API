@@ -22,36 +22,36 @@ class ConsiderOfferService
   def call
     offer_policy = ConsiderOfferPolicy.new(@player, @transaction)
 
-    unless offer_policy.allowed?
+    if offer_policy.denied?
       errors.add(:errors, offer_policy.error)
       return nil
     end
 
-    unless @strategy.will_negotiate?(@offer_data)
-      @transaction.status = 'rejected'
-      @transaction.save
-      errors.add(:errors, 'Transaction terminated.')
-      return nil
-    end
-
-    if @strategy.will_accept?(@offer_data)
-      @port = Port.find(@offer_data[:port_id])
-      @transaction.status = 'accepted'
-      @transaction.save
-
-      case @transaction.trade_type
-      when 'Buying'
-        @player.ship.load_hold(@request[:commodity], @request[:qty])
-        @player.decrease_credits(@offer_data[:amount])
-        @port.accumulated_trading_credits += @offer_data[:amount]
-      when 'Selling'
-        @player.ship.jettison_holds(@request[:commodity], @request[:qty])
-        @player.increase_credits(@offer_data[:amount])
+    if offer_policy.allowed?
+      unless @strategy.will_negotiate?(@offer_data)
+        @transaction.reject!
+        errors.add(:errors, 'Transaction terminated.')
+        return nil
       end
 
-      return { transaction: @transaction }
-    end
+      if @strategy.will_accept?(@offer_data)
+        @port = Port.find(@offer_data[:port_id])
+        @transaction.accept!
 
-    { offer: Offer.create(transaction_id: @transaction.id, amount: @strategy.counter_offer(@offer_data)) }
+        case @transaction.trade_type
+          when 'Buying'
+            @player.ship.load_hold(@request[:commodity], @request[:qty])
+            @player.decrease_credits(@offer_data[:amount])
+            @port.accumulated_trading_credits += @offer_data[:amount]
+          when 'Selling'
+            @player.ship.jettison_holds(@request[:commodity], @request[:qty])
+            @player.increase_credits(@offer_data[:amount])
+          end
+
+          return { transaction: @transaction }
+        end
+
+      { offer: Offer.create(transaction_id: @transaction.id, amount: @strategy.counter_offer(@offer_data)) }
+    end
   end
 end
