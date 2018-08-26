@@ -57,6 +57,10 @@ class Port < ApplicationRecord
     port_types[port_class].split('')
   end
 
+  def stream_id
+    "port-#{id}"
+  end
+
   def port_types
     %w[Special BBS BSS BSB SBB SSB SBS BSS SSS BBB]
   end
