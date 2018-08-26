@@ -2,14 +2,14 @@ class PortQueryPolicy
   include PolicyObject
 
   def initialize(port, player)
-    @id = id
-    @current_sector = current_sector
+    @port = port
+    @player = player
   end
 
   private
 
   def conditions
     [
-      ['You are not in that sector! Cannot query port across sectors.', @id.to_i == @current_sector.to_i]
+      ['You are not in that sector! Cannot query port across sectors.', @port.sector_id == @player.current_sector]
     ]
 end
