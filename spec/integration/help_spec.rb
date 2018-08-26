@@ -12,7 +12,7 @@ describe "Help API" do
 
     it "returns a list of ships" do
       get '/api/ships', headers: { 'AUTHORIZATION': @auth['auth_token'] }
-      pp JSON.parse(response.body)
+      JSON.parse(response.body)
     end
 
   end
