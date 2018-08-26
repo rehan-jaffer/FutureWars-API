@@ -11,6 +11,14 @@ class Transaction < ApplicationRecord
   validates :qty, presence: true, numericality: true
   validates_associated :port
 
+  def reject!
+    update_attributes(status: "rejected")
+  end
+
+  def accept!
+    update_attributes(status: "accepted")
+  end
+
   def open?
     status == 'open'
   end
