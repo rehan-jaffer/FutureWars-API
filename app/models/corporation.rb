@@ -5,4 +5,8 @@ class Corporation < ApplicationRecord
   validates :name, uniqueness: { case_sensitive: true }, presence: true
 
   scope :with_ceo, ->(id) { where(ceo_id: id) }
+
+  def stream_id
+    "corporation-#{id}"
+  end
 end

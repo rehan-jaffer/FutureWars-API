@@ -74,6 +74,10 @@ class Player < ApplicationRecord
     update_attribute(:current_sector, sector_id)
   end
 
+  def stream_id
+    "player-#{id}"
+  end
+
   def increase_credits(n)
     update_attribute(:credits, credits + n)
   end
