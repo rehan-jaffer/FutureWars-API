@@ -18,7 +18,7 @@ describe 'Port Trading Functionality' do
   describe 'Querying a Port for trading information' do
     it 'allows querying of a port' do
       @p.update_sector(2)
-      get '/api/subspace/ports/query/2', headers: { 'AUTHORIZATION': @auth['auth_token'] }
+      get '/api/subspace/ports/query/3', headers: { 'AUTHORIZATION': @auth['auth_token'] }
       port = JSON.parse(response.body)
       expect(port).to have_key('items')
       expect(port['items']).to have_key('ore')
