@@ -9,6 +9,10 @@ class Port < ApplicationRecord
     %w[ore organics equipment]
   end
 
+  def stream_id
+    "port-#{id}"
+  end
+
   def to_s
     port_types[port_class]
   end
@@ -55,10 +59,6 @@ class Port < ApplicationRecord
 
   def trading_letters(port_class)
     port_types[port_class].split('')
-  end
-
-  def stream_id
-    "port-#{id}"
   end
 
   def port_types
