@@ -11,8 +11,8 @@ class ClassZeroPort
     ClassZeroItems::Pricing.shield_price
   end
 
-  def next_hold_price
-    Holds.price(total_holds + 1)
+  def next_hold_price(current_holds)
+    ClassZeroItems::Pricing::Holds.price(current_holds + 1)
   end
 
   def item_count(item, credits, ship)
@@ -53,8 +53,8 @@ class ClassZeroPort
 
   def hold_count(credits, ship)
     ship.total_holds
-        .upto(ship_type.max_holds)
-        .map { |holds| Holds.price(holds) }
+        .upto(ship.ship_type.max_holds)
+        .map { |holds| ClassZeroItems::Pricing::Holds.price(holds) }
         .find_index { |cost| cost >= credits }
   end
 end

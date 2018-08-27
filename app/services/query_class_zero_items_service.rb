@@ -3,9 +3,9 @@ require './lib/pricing/class_zero_items'
 class QueryClassZeroItemsService
   prepend SimpleCommand
 
-  def initialize(current_user_id, port_id)
-    @player = Player.find(current_user_id)
-    @port = Port.find(port_id)
+  def initialize(player, port)
+    @player = player
+    @port = port
   end
 
   def validates?
@@ -22,15 +22,15 @@ class QueryClassZeroItemsService
         {
           'fighters': {
             cost: @port.class_zero.fighter_price,
-            available: @port.class_zero.fighter_count(@player.credits, @player.ship)
+            available: @port.class_zero.fighter_count(@player.credits, @player.primary_ship)
           },
           'shields': {
             cost: @port.class_zero.shield_price,
-            available: @port.class_zero.shield_count(@player.credits, @player.ship)
+            available: @port.class_zero.shield_count(@player.credits, @player.primary_ship)
           },
           'holds': {
-            cost: @port.class_zero.hold_price,
-            available: @port.class_zero.hold_count(@player.credits, @player.ship)
+            cost: @port.class_zero.next_hold_price(@player.primary_ship.total_holds),
+            available: @port.class_zero.hold_count(@player.credits, @player.primary_ship)
           }
         }
     }

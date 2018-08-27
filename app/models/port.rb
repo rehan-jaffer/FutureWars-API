@@ -9,6 +9,10 @@ class Port < ApplicationRecord
     %w[ore organics equipment]
   end
 
+  def class_zero?
+    class_zero == true
+  end
+
   def stream_id
     "port-#{id}"
   end
@@ -35,6 +39,10 @@ class Port < ApplicationRecord
 
   def class_zero
     @class_zero ||= ClassZeroPort.new(self)
+  end
+
+  def trade_type(commodity)
+    trades[commodity] == "B" ? "Buying" : "Selling"
   end
 
   def trades?(trade_type, commodity)

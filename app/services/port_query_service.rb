@@ -1,4 +1,5 @@
 require './lib/events/event_emitter'
+require './app/serializers/port_serializer'
 
 class PortQueryService
   prepend SimpleCommand
@@ -21,7 +22,11 @@ class PortQueryService
     if policy.denied?
       errors.add(:errors, policy.error)
     elsif policy.allowed?
-      @port.to_json
+      if @port.port_class.zero?
+       QueryClassZeroItemsService.call(@player, @port).result
+      else
+        PortTradeSerializer.new(@port).to_json
+      end
     end
 
   end
