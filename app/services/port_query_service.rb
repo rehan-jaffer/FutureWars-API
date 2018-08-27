@@ -18,9 +18,9 @@ class PortQueryService
 
     policy = PortQueryPolicy.new(@player, @port)
 
-    if policy.failure?
+    if policy.denied?
       errors.add(:errors, policy.error)
-    elsif policy.success?
+    elsif policy.allowed?
       @port.to_json
     end
 
