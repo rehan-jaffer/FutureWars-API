@@ -11,7 +11,7 @@ class CreateCorporationPolicy
 
   private
 
-    def conditions
+   def conditions
       [
        ['Must specify a corporation name', @corporation_name.present?],
        ['Corporation already exists with that name', Corporation.where(name: @corporation_name).count.zero?],
