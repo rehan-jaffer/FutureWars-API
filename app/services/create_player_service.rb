@@ -12,20 +12,13 @@ class CreatePlayerService
     streams(%w[universe players])
   end
 
-  def update_events
-    stream_add("player-#{@player.id}")
-    emit_event(PlayerCreated, player_id: @player_id)
-  end
-
-  def validates?
-    errors.add(:errors, 'No username supplied') unless @username
-    errors.add(:errors, 'No password supplied') unless @password
-    errors.add(:errors, 'No ship name supplied') unless @ship_name
-    errors.empty?
-  end
-
   def call
-    return nil unless validates?
+    policy = CreatePlayerPolicy.new(@username, @password, @ship_name)
+
+    if policy.denied?
+      errors.add(:errors, policy.error)
+      return nil
+    end
 
     @player = Player.create({ username: @username,
                               ship_name: @ship_name,
@@ -38,7 +31,8 @@ class CreatePlayerService
     ship = CreatePlayerShipService.call(@player, @ship_name)
 
     if @player.errors.empty?
-      update_events
+      stream_add("player-#{@player.id}")
+      emit :player_created, player_id: @player_id
       return @player
    end
 

@@ -6,18 +6,16 @@ class PathFinderService
     @dest = dest
   end
 
-  def validates?
-    errors.add(:errors, 'Destination does not exist!') unless Sector.exists?(@dest)
-    errors.empty?
-  end
-
   def call
-    return nil unless validates?
     path = Warp.path(@player.current_sector, @dest)
-    if path.empty?
-      errors.add(:errors, 'No path exists between these sectors')
+    policy = PathFinderPolicy.new(@dest, path)
+
+    if policy.denied?
+      errors.add(:errors, policy.error)
       return nil
     end
+
+
     { path: path, nodes: path.size, cost: @player.move_cost(path.size), can_warp: @player.can_express_warp?(@dest) }
   end
 end

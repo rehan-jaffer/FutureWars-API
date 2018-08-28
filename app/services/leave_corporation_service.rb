@@ -10,19 +10,18 @@ class LeaveCorporationService
     streams(['universe', 'corporations', "corporation-#{corp_id}"])
   end
 
-  def validates?
-    errors.add(:errors, 'Corporation does not exist') unless Corporation.exists?(@corp_id)
-    errors.add(:errors, 'You are not in this corporation') unless @player.in_corporation?(@corp_id)
-    errors.empty?
-  end
-
-  def update_events
-    emit_event(PlayerLeftCorporation, player_id: @user.id, corporation_id: @corp.id)
-  end
-
   def call
-    return nil unless validates?
-    @player.update_attribute(:corporation_id, nil)
-    @player
+    policy = LeaveCorporationPolicy.new(@player, @corp_id)
+
+    if policy.denied?
+      errors.add(:errors, policy.error)
+      return nil
+    end
+
+    if policy.allowed?
+      emit :player_left_corporation, player_id: @player.id, corporation_id: @corp_id
+      @player.update_attribute(:corporation_id, nil)
+      @player
+    end
   end
 end

@@ -7,14 +7,16 @@ class MessagePlayerService
     @message = message
   end
 
-  def validates?
-    errors.add(:errors, 'No known trader with this name') unless @to_id
-    errors.add(:errors, 'Please specify a message') unless @message
-    errors.empty?
-  end
-
   def call
-    return nil unless validates?
-    Message.create(from_id: @from_id, to_id: @to_id, message: @message)
+    
+    policy = MessagePlayerPolicy.new(@from_id, @to_id, @message)
+    
+    if policy.success?
+      Message.create(from_id: @from_id, to_id: @to_id, message: @message)
+    else
+      errors.add(:errors, policy.error)
+      nil
+    end
+
   end
 end

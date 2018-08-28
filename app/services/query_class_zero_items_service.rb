@@ -8,14 +8,14 @@ class QueryClassZeroItemsService
     @port = port
   end
 
-  def validates?
-    errors.add(:errors, 'You are not in the same sector as this port') unless @player.current_sector == @port.sector_id
-    errors.add(:errors, 'Not a Class 0 Port') unless @port.port_class.zero?
-    errors.empty?
-  end
 
   def call
-    return nil unless validates?
+    policy = QueryClassZeroItemsPolicy.new(@player, @port)
+
+    if policy.denied?
+      errors.add(:errors, policy.error)
+      return nil
+    end
 
     {
       "items":

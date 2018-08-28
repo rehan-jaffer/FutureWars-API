@@ -9,13 +9,15 @@ class DensityScanService
   def call
     policy = DensityScanPolicy.new(@current_user, @sector)
 
-    unless policy.allowed?
-      errors.add(:errors, policy.error)
-      return nil
-    end
-
-    @sector.warps
+    if policy.allowed?
+      @sector.warps
            .map { |warp| Sector.find(warp) }
            .map { |warp| { id: warp.id, density: warp.density, anom: true } }
+    end
+    
+    if policy.denied?
+      errors.add(:errors, policy.error)
+      nil
+    end
   end
 end
