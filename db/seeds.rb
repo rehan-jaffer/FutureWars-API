@@ -7,8 +7,8 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 # Create Federation Space (zones 1-10)
-ShipType.destroy_all
-PlanetType.destroy_all
+ShipType.delete_all
+PlanetType.delete_all
 #ShipType.create(name: "Merchant Freighter", turns_per_warp: 2, max_shields: 500, max_holds: 65, initial_holds: 30, maximum_fighters: 300)
 #ShipType.create(name: "Merchant Cruiser",turns_per_warp: 3, max_shields: 400, maximum_fighters: 2500, max_holds: 75, initial_holds: 20)
 #ShipType.create(name: "Cargo Tran", turns_per_warp: 4, max_shields: 1000, max_holds: 125, initial_holds: 50, maximum_fighters: 400)
@@ -85,37 +85,43 @@ ShipType.create(name: "Taurean Mule", turns_per_warp: 4)
 ShipType.create(name: "Interdictor Cruiser", turns_per_warp: 15)
 
 PlanetType.create(
-    name: "Earth-like", classification: "M",
+    name: "Earth type", classification: "M",
+    description: "Thick Oxygen/Nitrogen atmosphere. Specific gravity within 0.7 to 1.3 Earth normal. Random, but mostly manageable weather patterns, with temperatures ranging from 0 to 40 degrees Celsius. Fertile soil, excellent for Organic production. Mineral deposits, very good for Equipment production. Chemical elements good for Fuel Ore. Class M planets are excellent for human colonization and promote an excellent population growth curve as well as a very good population harmony quotient. They have an above average 'habitability band'. Drawbacks include overpopulation problems, political unrest, and human-induced destruction of the biosphere.",
     colonists_ore_ratio: 3, colonists_organics_ratio: 7, colonists_equipment_ratio: 13, 
     colonists_fighters_ratio: 10, max_colonists_fuel_ore: 30000, max_colonists_organics: 30000, 
     max_colonists_equipment: 30000, max_product_ore: 100000, max_product_organics: 100000, max_product_equipment: 100000
   )
 PlanetType.create(
     name: "Desert Wasteland", classification: "K", 
+    description: "Thin Oxygen/Nitrogen atmosphere. Specific gravity within 0.5 to 1.5 Earth normal. Weather patterns are mostly dry and hot with temps ranging from 40 to 140 degrees Celsius. Little area of fertile soil, very bad for Organics. Very little precious metal making it bad for Equipment production. Common chemical traces making it great for Fuel Ore. Class K worlds are average for humanoid colonization but an arid and hot climate requires specialized colonists. Narrow habitability band but a generally stable political environment as the population must depend on each other to survive. Higher fatality rate than Class M worlds.",
     colonists_ore_ratio: 3, colonists_organics_ratio: 7, colonists_equipment_ratio: 13, 
     colonists_fighters_ratio: 10, max_colonists_fuel_ore: 30000, max_colonists_organics: 30000, 
     max_colonists_equipment: 30000, max_product_ore: 100000, max_product_organics: 100000, max_product_equipment: 100000
   )
 PlanetType.create(
     name: "Oceanic", classification: "O", 
+    description: "Dense Oxygen/Nitrogen atmosphere. Specific gravity within 1.1 to 1.8 Earth normal. Random and occasional violent weather current patterns, with temps ranging from 20 to 50 degrees Celsius. No land mass to speak of, making mining for Ore more difficult. Organics production quite good (one of the best), but a poor environment for building Equipment. Class O planets are more challenging to habitate, but are almost as safe as class M. Good population growth curve and decent population harmony. Their entire surface is habitable with proper gear with the only drawbacks being the costs to settle and build citadels.",
     colonists_ore_ratio: 3, colonists_organics_ratio: 7, colonists_equipment_ratio: 13, 
     colonists_fighters_ratio: 10, max_colonists_fuel_ore: 30000, max_colonists_organics: 30000, 
     max_colonists_equipment: 30000, max_product_ore: 100000, max_product_organics: 100000, max_product_equipment: 100000
   )
 PlanetType.create(
     name: "Mountainous", classification: "L", 
+    description: "Thin Oxygen/Nitrogen atmosphere. Specific gravity between 1.0 to 2.2 Earth normal. Weather patterns are wet with temperatures ranging anywhere from -30 to 50 degrees Celsius depending on the width of the habitability band. Excellent Mineral and Ore deposits but harsh conditions only permit avg to below avg Equipment production. Soil is excellent, providing higher than normal organics production. Colonist specialization is necessary to maintain population. Good - very good population harmony quotient. Above average 'habitability band' but only medium population growth. Drawbacks include hazards to equipment and occasional severe weather conditions.",
     colonists_ore_ratio: 3, colonists_organics_ratio: 7, colonists_equipment_ratio: 13, 
     colonists_fighters_ratio: 10, max_colonists_fuel_ore: 30000, max_colonists_organics: 30000, 
     max_colonists_equipment: 30000, max_product_ore: 100000, max_product_organics: 100000, max_product_equipment: 100000
   )
 PlanetType.create(
     name: "Glacial", classification: "C", colonists_ore_ratio: 3, colonists_organics_ratio: 7, 
+    description: "Extremely thin Oxygen-Nitrogen atmosphere. Specific gravity from 0.5 to 1.7 Earth normal. Meteorologically unstable causing violent conditions. Temps range from -10 to -190 degrees Censius. Full life support necessary for colonies and death rates are high. No workable soil base so hydroponic Organics are limited. Modest mineral and chemicals exist so production of Ore and Equipment will be below average to none. Class C planets NOT recommended for colonization, their violent conditions makes it extremely hazardous. Some class C planets have been adopted by the Federation and used as prison colonies and used with very effective results.",
     colonists_equipment_ratio: 13, colonists_fighters_ratio: 10, max_colonists_fuel_ore: 30000, 
     max_colonists_organics: 30000, max_colonists_equipment: 30000, 
     max_product_ore: 100000, max_product_organics: 100000, max_product_equipment: 100000
   )
 PlanetType.create(
     name: "Volcanic", classification: "H", 
+    description: "Extremely thin Oxygen / Nitrogen atmospheres. Specific gravities are within 0.8 to 2.6 Earth normal. Climate patterns are violent with temperatures from 45 to 400 degrees Celsius. Full life support required for colonization. Zero workable soil and harsh conditions make Organics production impossible. Good trace elements for equip but conditions make production a gamble at best. Excellent Ore production possibilities as material is often ejected by volcanic activity and found on the surface. Very dangerous for colony growth as unstable planetary crusts often lead to the complete loss of a colony. The Federation has been known to use Class H planets for defense of key sectors due to their large Ore base.",
     colonists_ore_ratio: 3, colonists_organics_ratio: 7, colonists_equipment_ratio: 13, 
     colonists_fighters_ratio: 10, max_colonists_fuel_ore: 30000, max_colonists_organics: 30000, 
     max_colonists_equipment: 30000, max_product_ore: 100000, max_product_organics: 100000, 
@@ -123,6 +129,7 @@ PlanetType.create(
   )
 PlanetType.create(
     name: "Gaseous", classification: "U", 
+    description: "Heavy ranging to very thin atmospheres consisting of various elements, mostly comprised of helium or of hydrogen. Specific gravities can range from 0.2 to 8.0 of Earth normal. Climate patterns usually extremely violent with temps ranging from -200 to 400 degrees Celsius. Full life support required at all times. No production can sustain itself on a class U planet. Some miners have hinted at very valuable products that they have extracted from class U worlds but the Federation does not have them in its 'Official Guide to Mining'. Class U planets are not recommended for colonization as the environment is harsher than being in space itself.",
     colonists_ore_ratio: 3, colonists_organics_ratio: 7, colonists_equipment_ratio: 13, 
     colonists_fighters_ratio: 10, max_colonists_fuel_ore: 30000, max_colonists_organics: 30000, 
     max_colonists_equipment: 30000, max_product_ore: 100000, max_product_organics: 100000, 
