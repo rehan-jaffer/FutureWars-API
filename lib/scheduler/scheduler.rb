@@ -1,7 +1,7 @@
 module Scheduler
   module Planets
-    def self.update_planets
-      Planet.all.update_planet_products
+    def self.update_products
+      Planet.all.each { |planet| planet.update_planet_products }
     end
   end
   module Ports
