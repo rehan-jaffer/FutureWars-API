@@ -8,6 +8,10 @@ Rails.application.routes.draw do
       post 'move'
     end
 
+   namespace :scanners do
+     get 'density/:id', action: :density
+   end
+
    namespace :nav do
    
       post 'warp'
