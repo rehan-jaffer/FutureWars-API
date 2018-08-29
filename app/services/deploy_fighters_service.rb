@@ -1,15 +1,24 @@
 class DeployFightersService
   prepend SimpleCommand
 
-  def initialize(player_id, fighter_count)
-    @player = Player.find(player_id)
+  def initialize(player, fighter_count)
+    @player = player
     @fighter_count = fighter_count
   end
 
-  def validates?
-    errors.add(:errors, 'You do not have that many fighters') if @fighter_count > 0 && @fighter_count > @player.primary_ship.fighters
-    errors.add(:errors, 'Fighters not deployed') if @fighter_count < 0 && Sector.find(@player.current_sector).fighters < @fighter_count.abs
+  def call
+    policy = DeployFightersPolicy.new(@player, @fighter_count)
+  
+    if policy.denied?
+      errors.add(:errors, policy.error)
+      return nil
+    end
+   
+      sector_id = @player.current_sector
+      sector = Sector.find(sector_id)
+      sector.fighters_deployed += @fighter_count
+      @player.primary_ship.fighters += @fighter_count
+      sector.save && @player.save
+      return sector
   end
-
-  def call; end
 end
