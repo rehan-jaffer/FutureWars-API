@@ -5,6 +5,8 @@ class Sector < ApplicationRecord
   has_one :port, dependent: :destroy
   has_many :planets, dependent: :destroy
 
+  validates_inclusion_of :fighters_mode, in: ["offensive", "defensive", "toll"]
+
   def self.density(id)
     sector = Sector.find(id)
     planet_count = 500 * sector.planets.size
