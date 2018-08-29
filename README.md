@@ -8,60 +8,6 @@ Futurewars is a text-based game modeled on the old Tradewars 2002 BBS game, writ
 > seminal game, credited as an early inspiration by many of today’s game
 > developers.
 
-## Services
-Most of the game logic code is implemented in the form of service objects
-
-### Implemented
-
-PathFinderService
-ExpressWarpService
-
-TradeWithPortService
-PortCreatorService
-PortQueryService
-ConsiderOfferService
-
-SectorCreatorService
-CreatePlanetService
-
-CreatePlayerService
-CreatePlayerShipService
-MovePlayerService
-CreateCorporationService
-JoinCorporationService
-MessagePlayerService
-
-### To Be Implemented
-
-AttackPlayerService
-TransferCreditsService
-
-AttackPortService
-RobPortService
-UpgradePortService
-
-DeployFightersService
-
-DeployNovaDeviceService
-QueryPlanetService
-DestroyPlanetService
-
-QueryShipyardService
-BuySpaceshipService
-BuyHardwareService
-BuyClassZeroItemsService
-QueryClassZeroItemsService
-
-QueryFederalService
-PlaceBountyService
-
-ChangeCorporationService
-
-JettisonColonistsService
-ChangeColonistsOnPlanetService
-ChangeProductsOnPlanetService
-
-LaunchEtherProbeService
-LongRangeScanService
-DeployMineService
-DeployLimpetMineService
+[![Maintainability](https://api.codeclimate.com/v1/badges/7217849a75e593c9af06/maintainability)](https://codeclimate.com/github/rehan-jaffer/FutureWars-API/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/7217849a75e593c9af06/test_coverage)](https://codeclimate.com/github/rehan-jaffer/FutureWars-API/test_coverage)
+[![Build Status](https://travis-ci.org/rehan-jaffer/FutureWars-API.svg?branch=master)](https://travis-ci.org/rehan-jaffer/FutureWars-API)
