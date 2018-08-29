@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180809154757) do
+ActiveRecord::Schema.define(version: 20180828152245) do
 
   create_table "corporations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "name", null: false
@@ -52,6 +52,14 @@ ActiveRecord::Schema.define(version: 20180809154757) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "read", default: false
+    t.index ["from_id"], name: "index_messages_on_from_id"
+    t.index ["to_id"], name: "index_messages_on_to_id"
+  end
+
+  create_table "moons", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "name", null: false
+    t.integer "planet_id", null: false
+    t.index ["planet_id"], name: "index_moons_on_planet_id"
   end
 
   create_table "offers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -69,6 +77,18 @@ ActiveRecord::Schema.define(version: 20180809154757) do
     t.string "classification"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "colonists_ore_ratio"
+    t.integer "colonists_organics_ratio"
+    t.integer "colonists_equipment_ratio"
+    t.integer "colonists_fighters_ratio"
+    t.integer "max_colonists_fuel_ore"
+    t.integer "max_colonists_organics"
+    t.integer "max_colonists_equipment"
+    t.integer "max_product_ore"
+    t.integer "max_product_organics"
+    t.integer "max_product_equipment"
+    t.integer "max_product_fighters", default: 0
+    t.text "description"
     t.index ["id"], name: "index_planet_types_on_id"
   end
 
@@ -78,6 +98,17 @@ ActiveRecord::Schema.define(version: 20180809154757) do
     t.integer "owner_id"
     t.integer "creator_id"
     t.integer "sector_id"
+    t.integer "ore_colonists", default: 0, null: false
+    t.integer "organics_colonists", default: 0, null: false
+    t.integer "equipment_colonists", default: 0, null: false
+    t.integer "unassigned_colonists", default: 0, null: false
+    t.integer "ore", default: 0, null: false
+    t.integer "organics", default: 0, null: false
+    t.integer "equipment", default: 0, null: false
+    t.index ["creator_id"], name: "index_planets_on_creator_id"
+    t.index ["owner_id"], name: "index_planets_on_owner_id"
+    t.index ["planet_type_id"], name: "index_planets_on_planet_type_id"
+    t.index ["sector_id"], name: "index_planets_on_sector_id"
   end
 
   create_table "players", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -108,9 +139,9 @@ ActiveRecord::Schema.define(version: 20180809154757) do
     t.integer "equipment_mcic", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "ore_qty", unsigned: true
-    t.integer "equipment_qty", unsigned: true
-    t.integer "organics_qty", unsigned: true
+    t.integer "ore_qty", default: 0
+    t.integer "equipment_qty", default: 0
+    t.integer "organics_qty", default: 0
     t.index ["sector_id"], name: "index_ports_on_sector_id"
   end
 
@@ -122,12 +153,13 @@ ActiveRecord::Schema.define(version: 20180809154757) do
     t.datetime "updated_at", null: false
     t.boolean "home_sector", default: false
     t.boolean "federation_space", default: false
+    t.integer "nav_hazard", default: 0, null: false
     t.index ["id"], name: "index_sectors_on_id"
   end
 
   create_table "ship_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "name", null: false
-    t.string "description"
+    t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "max_holds", unsigned: true
@@ -139,6 +171,21 @@ ActiveRecord::Schema.define(version: 20180809154757) do
     t.boolean "long_range_scan", default: false
     t.integer "min_holds", default: 0, unsigned: true
     t.integer "max_shields", default: 0, unsigned: true
+    t.integer "basic_hold_cost", unsigned: true
+    t.integer "main_drive_cost", unsigned: true
+    t.integer "computer_cost", unsigned: true
+    t.integer "ship_hull_cost", unsigned: true
+    t.integer "ship_base_cost", unsigned: true
+    t.integer "offensive_odds", unsigned: true
+    t.integer "defensive_odds", unsigned: true
+    t.integer "mine_max"
+    t.integer "genesis_max"
+    t.integer "beacon_max"
+    t.boolean "long_range_scanner", default: false
+    t.boolean "planet_scanner", default: false
+    t.boolean "transwarp_drive", default: false
+    t.boolean "photon_missiles", default: false
+    t.integer "max_transporter_range", default: 0
     t.index ["id"], name: "index_ship_types_on_id"
   end
 
@@ -157,6 +204,14 @@ ActiveRecord::Schema.define(version: 20180809154757) do
     t.integer "fighters", default: 0, unsigned: true
     t.integer "shields", default: 0, unsigned: true
     t.boolean "primary", default: false
+    t.integer "ore_holds", default: 0, null: false
+    t.integer "organics_holds", default: 0, null: false
+    t.integer "equipment_holds", default: 0, null: false
+    t.integer "colonist_holds", default: 0, null: false
+    t.integer "genesis_torpedoes", default: 0, unsigned: true
+    t.integer "ether_probes", default: 0, unsigned: true
+    t.integer "limpet_mines", default: 0, unsigned: true
+    t.integer "armid_mines", default: 0, unsigned: true
     t.index ["player_id"], name: "index_ships_on_player_id"
     t.index ["ship_type_id"], name: "index_ships_on_ship_type_id"
   end
