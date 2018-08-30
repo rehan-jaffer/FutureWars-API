@@ -1,3 +1,5 @@
+require './lib/mixins/policy_object'
+
 class TradeWithPortPolicy
 
   include PolicyObject
