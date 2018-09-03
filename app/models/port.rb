@@ -9,6 +9,23 @@ class Port < ApplicationRecord
     %w[ore organics equipment]
   end
 
+  def accept(transaction)
+    player = transaction.player
+    amount = transaction.final_amount
+    port = transaction.port
+
+    case transaction.trade_type
+      when "buy"
+        player.primary_ship.load(transaction.commodity, transaction.qty)
+        player.credits -= amount
+        port.accumulated_trading_credits += amount
+      when "sell"
+        player.primary_ship.jettison_holds(transaction.commodity, transaction.qty)
+        player.credits += amount
+    end 
+    player.save && port.save
+  end
+
   def class_zero?
     class_zero == true
   end

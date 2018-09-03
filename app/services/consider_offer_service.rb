@@ -17,6 +17,8 @@ class ConsiderOfferService
       commodity: @transaction.commodity.to_sym,
       qty: @transaction.qty
     }
+    @port = Port.find(@offer_data[:port_id])
+    streams2 @player, @port
   end
 
   def call
@@ -38,28 +40,38 @@ class ConsiderOfferService
       end
 
       if @strategy.will_accept?(@offer_data)
-        @port = Port.find(@offer_data[:port_id])
-        @transaction.accept!
+          @port.accept(@transaction)
+          emit :trade_accepted, trade_event_params
+          return { transaction: @transaction.reload }
+      end
 
-        case @transaction.trade_type
-          when 'Buying'
-            @player.ship.load_hold(@request[:commodity], @request[:qty])
-            @player.credits -= @offer_data[:amount]
-            @port.accumulated_trading_credits += @offer_data[:amount]
-          when 'Selling'
-            @player.ship.jettison_holds(@request[:commodity], @request[:qty])
-            @player.credits += @offer_data[:amount]
-          end
-
-          return { transaction: @transaction }
-        end
-
-      { offer: Offer.create(transaction_id: @transaction.id, amount: @strategy.counter_offer(@offer_data)) }
+      create_player_offer
+      emit :trade_haggle, trade_event_params
+      create_port_offer
   end
 
   def handle_failure
+      emit :trade_rejected, trade_event_params
       errors.add(:errors, policy.error)
       return nil
+  end
+
+  def trade_event_params
+    {
+      player_id: @player.id, 
+      port_id: @port.id, 
+      qty: @offer_data[:qty], 
+      amount: @offer_data[:amount], 
+      commodity: @offer_data[:commodity]
+    }
+  end
+
+  def create_player_offer
+      Offer.create(transaction_id: @transaction.id, amount: @offer_data[:amount], actor_type: "player")
+  end
+
+  def create_port_offer
+      { offer: Offer.create(transaction_id: @transaction.id, amount: @strategy.counter_offer(@offer_data), actor_type: "port") }
   end
 
 end
