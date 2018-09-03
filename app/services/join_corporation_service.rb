@@ -11,18 +11,20 @@ class JoinCorporationService
   end
 
   def call
-
-    policy = JoinCorporationPolicy.new(@player, @corp_id)    
-
-    if policy.allowed?
-      @corp = Corporation.find(@corp_id)
-      @player.update_attribute(:corporation_id, @corp.id)
-      emit :player_joined_corporation, player_id: @player.id, corporation_id: @corp.id
-      return @corp
-    else
-      errors.add(:errors, policy.error)
-      return nil
-    end
-
+    @policy = JoinCorporationPolicy.new(@player, @corp_id)    
+    @policy.allowed? ? handle_success : handle_failure
   end
+
+  def handle_success
+    @corp = Corporation.find(@corp_id)
+    @player.update_attribute(:corporation_id, @corp.id)
+    emit :player_joined_corporation, player_id: @player.id, corporation_id: @corp.id
+    return @corp
+  end
+
+  def handle_failure
+    errors.add(:errors, @policy.error)
+    return nil
+  end
+
 end

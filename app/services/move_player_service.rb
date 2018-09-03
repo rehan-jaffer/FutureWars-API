@@ -12,20 +12,27 @@ class MovePlayerService
   end
 
   def call
-    policy = MovePlayerPolicy.new(@player, @dest)
-
-    if policy.allowed?
-      @player.update_sector(@dest)
-      @player.decrease_turns(@player.move_cost(1))
-      emit :player_moved, player_id: @player.id,
-                          origin_id: @origin,
-                          dest_id: @dest
-      return @player
-    end
-
-    if policy.denied?
-      errors.add(:errors, policy.error)
-      return nil
-    end
+    policy.allowed? ? handle_success : handle_failure
   end
+
+  private
+
+  def policy
+    @policy ||= MovePlayerPolicy.new(@player, @dest)
+  end
+
+  def handle_success
+    @player.update_sector(@dest)
+    @player.decrease_turns(@player.move_cost(1))
+    emit :player_moved, player_id: @player.id,
+                        origin_id: @origin,
+                        dest_id: @dest
+    return @player
+  end
+
+  def handle_failure
+    errors.add(:errors, policy.error)
+    nil
+  end
+
 end

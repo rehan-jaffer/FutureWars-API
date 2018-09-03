@@ -20,14 +20,17 @@ class ConsiderOfferService
   end
 
   def call
-    offer_policy = ConsiderOfferPolicy.new(@player, @transaction)
+    policy.allowed? ? handle_success : handle_failure
+  end
 
-    if offer_policy.denied?
-      errors.add(:errors, offer_policy.error)
-      return nil
-    end
+  private
+ 
+  def policy
+    @policy ||= ConsiderOfferPolicy.new(@player, @transaction)
+  end
 
-    if offer_policy.allowed?
+  def handle_success
+
       unless @strategy.will_negotiate?(@offer_data)
         @transaction.reject!
         errors.add(:errors, 'Transaction terminated.')
@@ -41,17 +44,22 @@ class ConsiderOfferService
         case @transaction.trade_type
           when 'Buying'
             @player.ship.load_hold(@request[:commodity], @request[:qty])
-            @player.decrease_credits(@offer_data[:amount])
+            @player.credits -= @offer_data[:amount]
             @port.accumulated_trading_credits += @offer_data[:amount]
           when 'Selling'
             @player.ship.jettison_holds(@request[:commodity], @request[:qty])
-            @player.increase_credits(@offer_data[:amount])
+            @player.credits += @offer_data[:amount]
           end
 
           return { transaction: @transaction }
         end
 
       { offer: Offer.create(transaction_id: @transaction.id, amount: @strategy.counter_offer(@offer_data)) }
-    end
   end
+
+  def handle_failure
+      errors.add(:errors, policy.error)
+      return nil
+  end
+
 end

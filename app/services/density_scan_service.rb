@@ -7,16 +7,18 @@ class DensityScanService
   end
 
   def call
-    policy = DensityScanPolicy.new(@current_user, @sector)
+    @policy = DensityScanPolicy.new(@current_user, @sector)
+    @policy.allowed? ? handle_success : handle_failure
+  end
 
-    if policy.denied?
-      errors.add(:errors, policy.error)
-      return nil
-    end
-
+  def handle_success
       @sector.warps
            .map { |warp| Sector.find(warp) }
            .map { |warp| { id: warp.id, density: warp.density, anom: true } }
-
   end
+
+  def handle_failure
+      errors.add(:errors, policy.error)
+  end
+
 end
