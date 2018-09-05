@@ -15,6 +15,14 @@ class Sector < ApplicationRecord
     planet_count + ship_count + nav_haz
   end
 
+  def has_fighters?
+    (fighters_deployed > 0)
+  end
+
+  def has_enemy_fighters?(id)
+    (fighters_deployed > 0 && fighters_player_id != id)
+  end
+
   def density
     Density.value(self)
   end
@@ -24,11 +32,11 @@ class Sector < ApplicationRecord
   end
 
   def self.path(origin, destination)
-    ActiveRecord::Base.connection.execute("select p.id from warp_graph fg join sectors p on (fg.linkid=p.id)where fg.latch = '1' and origid = #{origin} and destid = #{destination}").to_a.flatten
+    ActiveRecord::Base.connection.execute("select p.id from warp_graph fg join sectors p on (fg.linkid=p.id)where (fg.latch = '1' and origid = #{origin} and destid = #{destination})").to_a.flatten
   end
 
   def has_port?
-    !port.nil?
+    !port
   end
 
   def players_in_sector
