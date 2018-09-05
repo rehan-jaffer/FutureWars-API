@@ -26,14 +26,6 @@ class Player < ApplicationRecord
     Corporation.with_ceo(id).count > 0
   end
 
-  def distance
-    Projection::Player.distance(id)
-  end
-
-  def explored?(sector_id)
-    Projection::Player.explored_sectors(id).include?(sector_id)
-  end
-
   def in_a_corporation?
     !corporation.nil?
   end
@@ -42,24 +34,24 @@ class Player < ApplicationRecord
     corporation_id == id
   end
 
-  def new_messages?
-    received_messages.unread.count > 0
+  def distance
+    Projection::Player.distance(id)
   end
 
-  def has_events?
-    false
-  end
-
-  def can_express_warp?(dest)
-    move_cost(Warp.hops(current_sector, dest)) < turns
-  end
-
-  def can_trade_at_port?(_sector_id)
-    true
+  def explored?(sector_id)
+    Projection::Player.explored_sectors(id).include?(sector_id)
   end
 
   def explored
     @explored ||= Projection::Player.explored_sectors(id)
+  end
+
+  def new_messages?
+    received_messages.unread.count > 0
+  end
+
+  def can_express_warp?(dest)
+    move_cost(Warp.hops(current_sector, dest)) < turns
   end
 
   def primary_ship
@@ -76,14 +68,6 @@ class Player < ApplicationRecord
 
   def stream_id
     "player-#{id}"
-  end
-
-  def increase_credits(n)
-    update_attribute(:credits, credits + n)
-  end
-
-  def decrease_credits(n)
-    update_attribute(:credits, credits - n)
   end
 
   private
