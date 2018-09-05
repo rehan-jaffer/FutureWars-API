@@ -13,5 +13,7 @@ FactoryBot.define do
     after(:create) do |player|
       create(:default_ship, player_id: player.id)
     end
+    factory :player_with_cloak do
+    end
   end
 end

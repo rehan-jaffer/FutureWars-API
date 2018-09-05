@@ -1,7 +1,5 @@
 FactoryBot.define do
   factory :sector do
-    sequence :id do |n|
-      n
-    end
+    fighters_mode "defensive"
   end
 end

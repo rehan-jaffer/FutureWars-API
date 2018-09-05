@@ -8,18 +8,27 @@ RSpec.describe Corporation, type: :model do
 
     before :all do
       @corporation = FactoryBot.create(:corporation)
-      @p1 = FactoryBot.create(:player, corporation_id: @corporation.id)
-      @p2 = FactoryBot.create(:player, corporation_id: @corporation.id)
-      @p3 = FactoryBot.create(:player, corporation_id: @corporation.id)
+      @player_1 = FactoryBot.create(:player, corporation_id: @corporation.id)
+      @player_2 = FactoryBot.create(:player, corporation_id: @corporation.id)
+      @player_3 = FactoryBot.create(:player, corporation_id: @corporation.id)
     end
 
     after :all do
       @corporation.destroy
-      @p1.destroy && @p2.destroy && @p3.destroy
+      @player_1.destroy && @player_2.destroy && @player_3.destroy
     end
 
     it "should return the members of the corporation" do
-      expect(@corporation.members.map(&:id)).to eq [@p1.id, @p2.id, @p3.id]
+      expect(@corporation.members.map(&:id)).to eq [@player_1.id, @player_2.id, @player_3.id]
+    end
+
+  end
+
+  describe "stream_id" do
+   
+    it "provides its own stream ID" do
+      @corporation = FactoryBot.create(:corporation)
+      expect(@corporation.stream_id).to eq "corporation-#{@corporation.id}"
     end
 
   end
@@ -27,8 +36,8 @@ RSpec.describe Corporation, type: :model do
   describe "with_ceo" do
 
     before :all do
-      @player = FactoryBot.create(:player)
       @corporation = FactoryBot.create(:corporation)
+      @player = FactoryBot.create(:player)
       @corporation.ceo_id = @player.id
       @corporation.save
     end
