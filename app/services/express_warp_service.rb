@@ -22,8 +22,9 @@ class ExpressWarpService
       sector_id = @path.shift
       pp [sector_id, @player.current_sector]
       result = MovePlayerService.call(@player.id, sector_id)
+      sector_events = SectorEvents.new(Sector.find(sector_id), @player)
       if result.success?
-        if @player.has_events?
+        if sector_events.has_events?
           event = true
         else
           @player.update_sector(sector_id)
