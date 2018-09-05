@@ -1,3 +1,5 @@
+require './lib/sector/sector_events'
+
 class LaunchEtherProbeService
 
   prepend SimpleCommand
@@ -21,11 +23,16 @@ class LaunchEtherProbeService
     def handle_success
       ether_map = []
       warp_path.each do |sector_id|
-        ether_map << SectorSerializer.new(Sector.find(sector_id), scope: @player).to_json
+        sector = Sector.find(sector_id)
+        sector_events = SectorEvents.new(sector, @player)
+        if sector_events.has_events?(:probe)
+          event = sector_events.get_events(:probe)
+          break if event.run
+        else  
+          ether_map << SectorSerializer.new(sector, scope: @player).to_json
+        end
       end
       ether_map
-    rescue e
-      puts "some shit went down"
     end
 
     def handle_failure
