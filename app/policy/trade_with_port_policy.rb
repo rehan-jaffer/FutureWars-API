@@ -18,7 +18,6 @@ class TradeWithPortPolicy
       ['You do not have that many available holds', (@player.primary_ship.empty_holds >= @request[:qty].to_i)],
       ['We do not trade that commodity', @sector.port.trades?(@request[:trade_type], @request[:commodity])],
       ['We do not have that quantity', @sector.port.has_quantity?(@request[:commodity], @request[:qty])],
-      ['We do not want to trade with you', @player.can_trade_at_port?(@sector.id)]
     ]
   end
 end
