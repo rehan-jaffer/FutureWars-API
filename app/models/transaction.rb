@@ -1,6 +1,7 @@
 require './lib/generators/id_generator'
 
 class Transaction < ApplicationRecord
+
   belongs_to :player
   belongs_to :port
   has_many :offers, dependent: :destroy
@@ -11,16 +12,21 @@ class Transaction < ApplicationRecord
   validates :qty, presence: true, numericality: true
   validates_associated :port
 
+  def last_increase
+    offers[-1].amount - offers[-2].amount
+  end
+
+  def final_amount
+     initial_offer
+#    offers.last.amount
+  end
+
   def reject!
     update_attributes(status: "rejected")
   end
 
   def accept!
     update_attributes(status: "accepted")
-  end
-
-  def open?
-    status == 'open'
   end
 
   def set_uid
