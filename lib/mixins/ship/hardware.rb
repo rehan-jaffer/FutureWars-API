@@ -6,7 +6,7 @@ module Mixins
         true
       end
 
-      def has_equip?(item)
+      def has_equip?(item, qty=0)
         true
       end
 
