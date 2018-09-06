@@ -6,21 +6,30 @@ class ExpressWarpService
     @dest = dest
   end
 
-  def validates?
-    errors.add(:errors, 'Destination does not exist') unless Sector.exists?(@dest)
-    errors.add(:errors, 'You do not have enough turns') unless @player.can_express_warp?(@dest)
+  def call
+    @policy = ExpressWarpPolicy.new(@player, @dest)
+    @policy.allowed? ? handle_success : handle_failure
   end
 
-  def call
+  def handle_success
+
     event = false
     @path = Warp.path(@player.current_sector, @dest)
     @sectors = []
-
     @path.shift
+    express_warp
+
+  end
+
+  def handle_failure
+    errors.add(:errors, @policy.error)
+    return nil
+  end
+
+  def express_warp
 
     while @path.any? && !event
       sector_id = @path.shift
-      pp [sector_id, @player.current_sector]
       result = MovePlayerService.call(@player.id, sector_id)
       sector_events = SectorEvents.new(Sector.find(sector_id), @player)
       if result.success?
@@ -35,6 +44,7 @@ class ExpressWarpService
         errors.merge!(result.errors)
       end
     end
-    @sectors
+
   end
+
 end
