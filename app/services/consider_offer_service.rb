@@ -1,5 +1,6 @@
 require './lib/events/event_emitter'
 require './app/policy/consider_offer_policy'
+require './lib/ports/port_transaction'
 
 class ConsiderOfferService
   prepend SimpleCommand
@@ -40,7 +41,8 @@ class ConsiderOfferService
       end
 
       if @strategy.will_accept?(@offer_data)
-          @port.accept(@transaction)
+          trade = PortTransaction.new(@port, @player, @transaction, @offer_data[:amount])
+          trade.accept!
           emit :trade_accepted, trade_event_params
           return { transaction: @transaction.reload }
       end
